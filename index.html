@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChatX - دردشة</title>
     
     <!-- Iconify Icons -->
@@ -17,89 +17,76 @@
         }
 
         :root {
-            /* 🎨 نظام الألوان الرئيسي - التعديل اللي طلبته */
-            --primary: #8B5CF6;          /* بنفسجي أساسي */
-            --primary-light: #A78BFA;    /* بنفسجي فاتح */
-            --primary-dark: #7C3AED;     /* بنفسجي داكن */
-            --secondary: #EC4899;        /* وردي */
-            --accent: #10B981;          /* أخضر */
-            --danger: #EF4444;           /* أحمر */
-            --warning: #F59E0B;         /* برتقالي */
-            --success: #10B981;          /* أخضر */
-            --info: #3B82F6;            /* أزرق */
-            
-            /* 🎨 درجات الرمادي - تحسين */
-            --gray-50: #F9FAFB;
-            --gray-100: #F3F4F6;
-            --gray-200: #E5E7EB;
-            --gray-300: #D1D5DB;
-            --gray-400: #9CA3AF;
-            --gray-500: #6B7280;
-            --gray-600: #4B5563;
-            --gray-700: #374151;
-            --gray-800: #1F2937;
-            --gray-900: #111827;
+            /* 🎨 نظام الألوان الرئيسي - تم التحديث */
+            --primary: #8B5CF6;
+            --primary-light: #A78BFA;
+            --primary-dark: #7C3AED;
+            --secondary: #EC4899;
+            --accent: #10B981;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --success: #10B981;
+            --info: #3B82F6;
             
             /* خلفيات داكنة */
-            --dark: #111827;
-            --darker: #0F172A;
-            --dark-gray: #1F2937;
-            --medium-gray: #374151;
-            --light-gray: #6B7280;
-            --light: #F9FAFB;
-            --border: #374151;
-            --card-bg: #1F2937;
-            --message-bg: #374151;
-            --my-message-bg: #7C3AED;
-            --tab-active: #374151;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            --radius: 16px;
-            --radius-sm: 12px;
-            --radius-xs: 8px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --bg-primary: #111827;
+            --bg-secondary: #1F2937;
+            --bg-tertiary: #374151;
+            --bg-card: #1F2937;
+            --bg-input: #374151;
+            --bg-modal: rgba(31, 41, 55, 0.98);
+            
+            /* نص */
+            --text-primary: #F9FAFB;
+            --text-secondary: #D1D5DB;
+            --text-tertiary: #9CA3AF;
+            
+            /* حدود */
+            --border: #4B5563;
+            --border-light: #374151;
+            
+            /* ظلال */
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.7);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.8);
+            
+            /* زوايا */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-full: 9999px;
+            
+            /* أنيميشن */
+            --transition: all 0.2s ease;
         }
 
-        /* Light Mode Support */
+        /* Light Mode */
         @media (prefers-color-scheme: light) {
             :root {
-                --dark: #FFFFFF;
-                --darker: #F9FAFB;
-                --dark-gray: #F3F4F6;
-                --medium-gray: #E5E7EB;
-                --light-gray: #9CA3AF;
-                --light: #111827;
+                --bg-primary: #FFFFFF;
+                --bg-secondary: #F9FAFB;
+                --bg-tertiary: #F3F4F6;
+                --bg-card: #FFFFFF;
+                --bg-input: #F3F4F6;
+                --bg-modal: rgba(255, 255, 255, 0.98);
+                
+                --text-primary: #111827;
+                --text-secondary: #374151;
+                --text-tertiary: #6B7280;
+                
                 --border: #E5E7EB;
-                --card-bg: #FFFFFF;
-                --message-bg: #F3F4F6;
-                --my-message-bg: #8B5CF6;
-                --tab-active: #F3F4F6;
+                --border-light: #D1D5DB;
             }
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
-            background: var(--dark);
-            color: var(--light);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             height: 100vh;
-            width: 100vw;
             overflow: hidden;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        /* ===== RESPONSIVE BREAKPOINTS ===== */
-        @media (min-width: 768px) {
-            :root {
-                --radius: 20px;
-                --radius-sm: 16px;
-                --radius-xs: 12px;
-            }
-        }
-
-        @media (min-width: 1024px) {
-            :root {
-                --radius: 24px;
-            }
         }
 
         /* ===== MAIN LAYOUT ===== */
@@ -108,57 +95,32 @@
             flex-direction: column;
             height: 100vh;
             width: 100%;
-            margin: 0 auto;
             position: relative;
-            background: var(--darker);
-            overflow: hidden;
-        }
-
-        /* Tablet & Desktop Layout */
-        @media (min-width: 768px) {
-            .app-wrapper {
-                max-width: 800px;
-                margin: 20px auto;
-                height: calc(100vh - 40px);
-                border-radius: var(--radius);
-                overflow: hidden;
-                box-shadow: var(--shadow);
-                border: 1px solid var(--border);
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .app-wrapper {
-                max-width: 1000px;
-                margin: 40px auto;
-                height: calc(100vh - 80px);
-            }
         }
 
         /* ===== HEADER ===== */
         .app-header {
-            padding: clamp(16px, 3vw, 24px) clamp(16px, 4vw, 24px) clamp(12px, 2vw, 16px);
-            background: var(--card-bg);
+            padding: 16px 20px 12px;
+            background: var(--bg-card);
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(20px);
-            background: rgba(31, 41, 55, 0.9);
+            backdrop-filter: blur(10px);
         }
 
         .header-content {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: clamp(16px, 3vw, 24px);
-            gap: 16px;
+            margin-bottom: 16px;
+            gap: 12px;
         }
 
         .user-profile {
             display: flex;
             align-items: center;
-            gap: clamp(12px, 2vw, 16px);
+            gap: 12px;
             flex: 1;
             min-width: 0;
         }
@@ -169,35 +131,33 @@
         }
 
         .avatar {
-            width: clamp(48px, 8vw, 56px);
-            height: clamp(48px, 8vw, 56px);
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: 700;
-            font-size: clamp(18px, 3vw, 22px);
+            font-size: 18px;
             position: relative;
-            border: 3px solid var(--card-bg);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border: 3px solid var(--bg-card);
         }
 
         .status-indicator {
             position: absolute;
             bottom: 4px;
             right: 4px;
-            width: clamp(12px, 2vw, 16px);
-            height: clamp(12px, 2vw, 16px);
+            width: 12px;
+            height: 12px;
             background: var(--success);
             border-radius: 50%;
-            border: 3px solid var(--card-bg);
-            transition: var(--transition);
+            border: 2px solid var(--bg-card);
         }
 
         .status-indicator.offline {
-            background: var(--light-gray);
+            background: var(--text-tertiary);
         }
 
         .user-details {
@@ -206,51 +166,46 @@
         }
 
         .user-name {
-            font-size: clamp(16px, 3vw, 20px);
+            font-size: 16px;
             font-weight: 700;
             margin-bottom: 4px;
-            letter-spacing: -0.2px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         .user-status {
-            font-size: clamp(12px, 2vw, 14px);
+            font-size: 13px;
             color: var(--accent);
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-weight: 500;
-            white-space: nowrap;
+            gap: 4px;
         }
 
         .header-actions {
             display: flex;
-            gap: clamp(8px, 1.5vw, 12px);
+            gap: 8px;
             flex-shrink: 0;
         }
 
         .icon-button {
-            width: clamp(40px, 7vw, 44px);
-            height: clamp(40px, 7vw, 44px);
-            border-radius: var(--radius-xs);
-            border: none;
-            background: var(--medium-gray);
-            color: var(--light);
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background: var(--bg-input);
+            color: var(--text-primary);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: clamp(18px, 3vw, 22px);
+            font-size: 18px;
             transition: var(--transition);
-            position: relative;
-            flex-shrink: 0;
         }
 
         .icon-button:hover {
-            background: var(--light-gray);
-            transform: translateY(-1px);
+            background: var(--primary);
+            color: white;
         }
 
         .badge {
@@ -267,14 +222,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid var(--card-bg);
+            border: 2px solid var(--bg-card);
         }
 
-        /* ===== TABS NAVIGATION ===== */
+        /* ===== TABS ===== */
         .tabs-navigation {
             display: flex;
-            background: var(--dark-gray);
-            border-radius: var(--radius-sm);
+            background: var(--bg-input);
+            border-radius: var(--radius-md);
             padding: 4px;
             gap: 4px;
         }
@@ -285,44 +240,36 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: clamp(10px, 2vw, 14px) clamp(8px, 1.5vw, 12px);
+            padding: 12px 8px;
             border: none;
             background: transparent;
-            color: var(--light);
+            color: var(--text-tertiary);
             cursor: pointer;
-            border-radius: var(--radius-xs);
+            border-radius: var(--radius-sm);
             transition: var(--transition);
             gap: 4px;
-            position: relative;
-            min-height: clamp(64px, 10vw, 72px);
         }
 
         .tab-button:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .tab-button.active {
-            background: var(--tab-active);
+            background: rgba(139, 92, 246, 0.1);
             color: var(--primary);
         }
 
-        .tab-icon {
-            font-size: clamp(20px, 3.5vw, 24px);
-            margin-bottom: 2px;
-            transition: var(--transition);
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
         }
 
-        .tab-button.active .tab-icon {
-            transform: translateY(-2px);
+        .tab-icon {
+            font-size: 20px;
         }
 
         .tab-label {
-            font-size: clamp(11px, 1.8vw, 13px);
+            font-size: 12px;
             font-weight: 600;
-            letter-spacing: -0.1px;
         }
 
-        /* ===== CONTENT AREAS ===== */
+        /* ===== CONTENT ===== */
         .content-wrapper {
             flex: 1;
             overflow: hidden;
@@ -335,7 +282,7 @@
             right: 0;
             width: 100%;
             height: 100%;
-            padding: 0 clamp(16px, 4vw, 24px);
+            padding: 0 20px;
             overflow-y: auto;
             opacity: 0;
             transform: translateX(20px);
@@ -349,95 +296,90 @@
             pointer-events: all;
         }
 
-        /* ===== CHATS TAB ===== */
+        /* ===== CHATS ===== */
         .chats-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: clamp(20px, 4vw, 28px) 0 clamp(16px, 3vw, 20px);
+            padding: 24px 0 16px;
         }
 
         .section-title {
-            font-size: clamp(20px, 4vw, 28px);
+            font-size: 24px;
             font-weight: 800;
-            letter-spacing: -0.3px;
+            margin-bottom: 16px;
         }
 
         .search-box {
             position: relative;
-            margin-bottom: clamp(16px, 3vw, 24px);
+            margin-bottom: 16px;
         }
 
         .search-input {
             width: 100%;
-            padding: clamp(14px, 3vw, 18px) clamp(44px, 8vw, 52px) clamp(14px, 3vw, 18px) clamp(16px, 3vw, 20px);
-            background: var(--dark-gray);
-            border: 2px solid transparent;
-            border-radius: var(--radius-sm);
-            color: var(--light);
-            font-size: clamp(14px, 2.5vw, 16px);
+            padding: 12px 48px 12px 16px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 14px;
             transition: var(--transition);
         }
 
         .search-input:focus {
             outline: none;
             border-color: var(--primary);
-            background: var(--medium-gray);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
         }
 
         .search-icon {
             position: absolute;
-            left: clamp(16px, 3vw, 20px);
+            left: 16px;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--light-gray);
-            font-size: clamp(18px, 3vw, 20px);
+            color: var(--text-tertiary);
+            font-size: 20px;
         }
 
         .chats-list {
             display: flex;
             flex-direction: column;
-            gap: clamp(10px, 2vw, 14px);
-            padding-bottom: clamp(80px, 15vw, 120px);
+            gap: 8px;
+            padding-bottom: 80px;
         }
 
         .chat-card {
             display: flex;
             align-items: center;
-            padding: clamp(14px, 3vw, 18px);
-            background: var(--card-bg);
-            border-radius: var(--radius-sm);
+            padding: 12px;
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
             cursor: pointer;
             transition: var(--transition);
-            border: 2px solid transparent;
+            border: 1px solid transparent;
             position: relative;
         }
 
         .chat-card:hover {
-            background: var(--medium-gray);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
+            border-color: var(--primary);
+            transform: translateY(-1px);
         }
 
         .chat-card.active {
             border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05));
+            background: rgba(139, 92, 246, 0.1);
         }
 
         .chat-avatar {
-            width: clamp(48px, 8vw, 56px);
-            height: clamp(48px, 8vw, 56px);
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: linear-gradient(135deg, var(--accent), #059669);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: 700;
-            font-size: clamp(18px, 3vw, 20px);
-            margin-left: clamp(12px, 2vw, 16px);
+            font-size: 18px;
+            margin-left: 12px;
             flex-shrink: 0;
-            border: 3px solid var(--card-bg);
         }
 
         .chat-info {
@@ -449,22 +391,21 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             gap: 8px;
         }
 
         .chat-name {
-            font-size: clamp(15px, 2.5vw, 17px);
+            font-size: 15px;
             font-weight: 700;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            letter-spacing: -0.2px;
         }
 
         .chat-time {
-            font-size: clamp(11px, 2vw, 13px);
-            color: var(--light-gray);
+            font-size: 12px;
+            color: var(--text-tertiary);
             font-weight: 500;
             white-space: nowrap;
         }
@@ -476,29 +417,27 @@
         }
 
         .chat-message {
-            font-size: clamp(13px, 2.2vw, 15px);
-            color: var(--light-gray);
+            font-size: 13px;
+            color: var(--text-tertiary);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             flex: 1;
-            font-weight: 500;
         }
 
         .unread-count {
             background: var(--primary);
             color: white;
-            font-size: clamp(11px, 2vw, 12px);
+            font-size: 12px;
             font-weight: 700;
-            min-width: clamp(20px, 4vw, 24px);
-            height: clamp(20px, 4vw, 24px);
-            padding: 0 clamp(6px, 1.5vw, 8px);
-            border-radius: 12px;
+            min-width: 20px;
+            height: 20px;
+            padding: 0 6px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            animation: pulse 2s infinite;
         }
 
         /* ===== CHAT WINDOW ===== */
@@ -508,12 +447,12 @@
             right: 0;
             width: 100%;
             height: 100%;
-            background: var(--darker);
+            background: var(--bg-primary);
             z-index: 1000;
             display: none;
             flex-direction: column;
             transform: translateX(100%);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s ease;
         }
 
         .chat-window.active {
@@ -522,34 +461,32 @@
         }
 
         .chat-header {
-            padding: clamp(16px, 3vw, 20px) clamp(16px, 4vw, 24px);
-            background: var(--card-bg);
+            padding: 16px 20px;
+            background: var(--bg-card);
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             gap: 12px;
-            backdrop-filter: blur(20px);
-            background: rgba(31, 41, 55, 0.95);
         }
 
         .chat-back-btn {
-            width: clamp(40px, 7vw, 44px);
-            height: clamp(40px, 7vw, 44px);
-            border-radius: var(--radius-xs);
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
             border: none;
-            background: var(--medium-gray);
-            color: var(--light);
+            background: var(--bg-input);
+            color: var(--text-primary);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: clamp(18px, 3vw, 22px);
+            font-size: 20px;
             transition: var(--transition);
         }
 
         .chat-back-btn:hover {
-            background: var(--light-gray);
-            transform: translateX(-2px);
+            background: var(--primary);
+            color: white;
         }
 
         .chat-user-info {
@@ -560,16 +497,16 @@
         }
 
         .chat-user-avatar {
-            width: clamp(40px, 7vw, 44px);
-            height: clamp(40px, 7vw, 44px);
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: linear-gradient(135deg, var(--accent), #059669);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: 700;
-            font-size: clamp(16px, 2.5vw, 18px);
+            font-size: 16px;
         }
 
         .chat-user-details {
@@ -577,13 +514,13 @@
         }
 
         .chat-user-name {
-            font-size: clamp(15px, 2.5vw, 17px);
+            font-size: 16px;
             font-weight: 700;
             margin-bottom: 2px;
         }
 
         .chat-user-status {
-            font-size: clamp(11px, 2vw, 13px);
+            font-size: 12px;
             color: var(--accent);
             display: flex;
             align-items: center;
@@ -593,29 +530,30 @@
         .chat-messages {
             flex: 1;
             overflow-y: auto;
-            padding: clamp(16px, 3vw, 20px);
+            padding: 20px;
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
 
         .message {
-            max-width: 70%;
+            max-width: 75%;
             padding: 10px 14px;
-            border-radius: var(--radius-sm);
+            border-radius: var(--radius-md);
             position: relative;
-            animation: fadeInUp 0.3s ease;
+            animation: fadeIn 0.2s ease;
+            word-wrap: break-word;
         }
 
         .message.received {
             align-self: flex-start;
-            background: var(--message-bg);
+            background: var(--bg-input);
             border-bottom-right-radius: 4px;
         }
 
         .message.sent {
             align-self: flex-end;
-            background: var(--my-message-bg);
+            background: var(--primary);
             color: white;
             border-bottom-left-radius: 4px;
         }
@@ -623,7 +561,6 @@
         .message-text {
             font-size: 14px;
             line-height: 1.5;
-            word-wrap: break-word;
         }
 
         .message-time {
@@ -639,37 +576,35 @@
         }
 
         .chat-input-container {
-            padding: clamp(12px, 2vw, 16px) clamp(16px, 4vw, 24px);
+            padding: 16px 20px;
             border-top: 1px solid var(--border);
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            background: rgba(31, 41, 55, 0.95);
+            background: var(--bg-card);
         }
 
         .chat-input-wrapper {
             display: flex;
             gap: 12px;
-            align-items: center;
+            align-items: flex-end;
         }
 
         .chat-input {
             flex: 1;
             padding: 12px 16px;
-            background: var(--dark-gray);
+            background: var(--bg-input);
             border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            color: var(--light);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
             font-size: 14px;
             resize: none;
             min-height: 44px;
             max-height: 120px;
             transition: var(--transition);
+            font-family: inherit;
         }
 
         .chat-input:focus {
             outline: none;
             border-color: var(--primary);
-            background: var(--medium-gray);
         }
 
         .send-button {
@@ -685,6 +620,7 @@
             justify-content: center;
             font-size: 20px;
             transition: var(--transition);
+            flex-shrink: 0;
         }
 
         .send-button:hover {
@@ -692,32 +628,33 @@
             transform: scale(1.05);
         }
 
-        /* ===== SETTINGS TAB ===== */
+        /* ===== SETTINGS ===== */
         .settings-header {
-            margin: clamp(20px, 4vw, 28px) 0 clamp(16px, 3vw, 20px);
+            padding: 24px 0 16px;
         }
 
         .settings-list {
             display: flex;
             flex-direction: column;
-            gap: clamp(10px, 2vw, 14px);
-            padding-bottom: clamp(80px, 15vw, 120px);
+            gap: 8px;
+            padding-bottom: 80px;
         }
 
         .settings-group {
-            background: var(--card-bg);
-            border-radius: var(--radius-sm);
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
             overflow: hidden;
+            border: 1px solid var(--border);
         }
 
         .settings-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: clamp(16px, 3vw, 20px);
+            padding: 16px;
             cursor: pointer;
             transition: var(--transition);
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid var(--border-light);
         }
 
         .settings-item:last-child {
@@ -725,26 +662,26 @@
         }
 
         .settings-item:hover {
-            background: var(--medium-gray);
+            background: var(--bg-input);
         }
 
         .item-content {
             display: flex;
             align-items: center;
-            gap: clamp(12px, 2vw, 16px);
+            gap: 12px;
             flex: 1;
             min-width: 0;
         }
 
         .item-icon {
-            width: clamp(40px, 7vw, 44px);
-            height: clamp(40px, 7vw, 44px);
-            border-radius: var(--radius-xs);
-            background: var(--medium-gray);
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            background: var(--bg-input);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: clamp(20px, 3vw, 22px);
+            font-size: 20px;
             color: var(--primary);
             transition: var(--transition);
             flex-shrink: 0;
@@ -761,23 +698,20 @@
         }
 
         .item-details h4 {
-            font-size: clamp(15px, 2.5vw, 17px);
+            font-size: 15px;
             font-weight: 700;
             margin-bottom: 4px;
-            letter-spacing: -0.2px;
         }
 
         .item-details p {
-            font-size: clamp(13px, 2vw, 14px);
-            color: var(--light-gray);
-            font-weight: 500;
+            font-size: 13px;
+            color: var(--text-tertiary);
         }
 
         .item-arrow {
-            color: var(--light-gray);
-            font-size: clamp(18px, 3vw, 20px);
+            color: var(--text-tertiary);
+            font-size: 20px;
             transition: var(--transition);
-            flex-shrink: 0;
         }
 
         .settings-item:hover .item-arrow {
@@ -792,12 +726,13 @@
             right: 0;
             width: 100%;
             height: 100%;
-            background: var(--dark);
+            background: var(--bg-modal);
+            backdrop-filter: blur(10px);
             z-index: 1001;
             display: none;
             flex-direction: column;
             transform: translateX(100%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s ease;
         }
 
         .profile-modal.active {
@@ -806,70 +741,63 @@
         }
 
         .profile-header {
-            padding: clamp(20px, 4vw, 28px) clamp(16px, 4vw, 24px) clamp(16px, 3vw, 20px);
-            background: var(--card-bg);
+            padding: 20px;
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
-            gap: 16px;
-            backdrop-filter: blur(20px);
-            background: rgba(31, 41, 55, 0.95);
+            gap: 12px;
         }
 
         .profile-back-btn {
-            width: clamp(40px, 7vw, 44px);
-            height: clamp(40px, 7vw, 44px);
-            border-radius: var(--radius-xs);
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
             border: none;
-            background: var(--medium-gray);
-            color: var(--light);
+            background: var(--bg-input);
+            color: var(--text-primary);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: clamp(18px, 3vw, 22px);
+            font-size: 20px;
             transition: var(--transition);
-            flex-shrink: 0;
         }
 
         .profile-back-btn:hover {
-            background: var(--light-gray);
-            transform: translateX(-2px);
+            background: var(--primary);
+            color: white;
         }
 
         .profile-title {
-            font-size: clamp(20px, 4vw, 24px);
+            font-size: 20px;
             font-weight: 800;
-            letter-spacing: -0.3px;
             flex: 1;
         }
 
         .profile-content {
             flex: 1;
             overflow-y: auto;
-            padding: clamp(20px, 4vw, 28px) clamp(16px, 4vw, 24px);
+            padding: 20px;
         }
 
         .profile-avatar-section {
             text-align: center;
-            margin-bottom: clamp(24px, 5vw, 32px);
+            margin-bottom: 24px;
         }
 
         .profile-avatar-large {
-            width: clamp(100px, 20vw, 140px);
-            height: clamp(100px, 20vw, 140px);
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: clamp(40px, 8vw, 56px);
+            font-size: 40px;
             font-weight: 700;
-            margin: 0 auto clamp(12px, 2vw, 16px);
+            margin: 0 auto 12px;
             position: relative;
-            border: 4px solid var(--card-bg);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
             cursor: pointer;
             transition: var(--transition);
         }
@@ -881,44 +809,43 @@
         .profile-avatar-large.online::after {
             content: '';
             position: absolute;
-            bottom: 10px;
-            right: 10px;
-            width: clamp(20px, 4vw, 28px);
-            height: clamp(20px, 4vw, 28px);
+            bottom: 8px;
+            right: 8px;
+            width: 20px;
+            height: 20px;
             background: var(--success);
             border-radius: 50%;
-            border: 4px solid var(--card-bg);
+            border: 3px solid var(--bg-primary);
         }
 
         .profile-avatar-large.offline::after {
             content: '';
             position: absolute;
-            bottom: 10px;
-            right: 10px;
-            width: clamp(20px, 4vw, 28px);
-            height: clamp(20px, 4vw, 28px);
-            background: var(--light-gray);
+            bottom: 8px;
+            right: 8px;
+            width: 20px;
+            height: 20px;
+            background: var(--text-tertiary);
             border-radius: 50%;
-            border: 4px solid var(--card-bg);
+            border: 3px solid var(--bg-primary);
         }
 
         .profile-name-display {
-            font-size: clamp(24px, 5vw, 32px);
+            font-size: 24px;
             font-weight: 800;
             margin-bottom: 4px;
-            letter-spacing: -0.4px;
         }
 
         .profile-username-display {
-            font-size: clamp(16px, 3vw, 18px);
-            color: var(--light-gray);
+            font-size: 16px;
+            color: var(--text-tertiary);
             font-weight: 600;
         }
 
         .profile-form {
             display: flex;
             flex-direction: column;
-            gap: clamp(16px, 3vw, 20px);
+            gap: 16px;
         }
 
         .form-group {
@@ -928,9 +855,9 @@
         }
 
         .form-label {
-            font-size: clamp(14px, 2.5vw, 16px);
+            font-size: 14px;
             font-weight: 700;
-            color: var(--light);
+            color: var(--text-primary);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -938,25 +865,23 @@
 
         .form-input {
             width: 100%;
-            padding: clamp(14px, 3vw, 16px) clamp(16px, 3vw, 20px);
-            background: var(--dark-gray);
-            border: 2px solid var(--border);
-            border-radius: var(--radius-sm);
-            color: var(--light);
-            font-size: clamp(14px, 2.5vw, 16px);
+            padding: 12px 16px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 14px;
             transition: var(--transition);
-            font-weight: 500;
         }
 
         .form-input:focus {
             outline: none;
             border-color: var(--primary);
-            background: var(--medium-gray);
         }
 
         .form-input:disabled {
-            background: var(--medium-gray);
-            color: var(--light-gray);
+            background: var(--bg-tertiary);
+            color: var(--text-tertiary);
             cursor: not-allowed;
         }
 
@@ -964,16 +889,15 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: clamp(14px, 3vw, 16px) clamp(16px, 3vw, 20px);
-            background: var(--dark-gray);
-            border-radius: var(--radius-sm);
-            border: 2px solid var(--border);
+            padding: 12px 16px;
+            background: var(--bg-input);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
             cursor: pointer;
             transition: var(--transition);
         }
 
         .profile-status-toggle:hover {
-            background: var(--medium-gray);
             border-color: var(--primary);
         }
 
@@ -984,21 +908,20 @@
         }
 
         .status-toggle-label {
-            font-size: clamp(14px, 2.5vw, 16px);
+            font-size: 14px;
             font-weight: 700;
         }
 
         .status-toggle-value {
-            font-size: clamp(13px, 2vw, 14px);
-            color: var(--light-gray);
-            font-weight: 500;
+            font-size: 13px;
+            color: var(--text-tertiary);
         }
 
         .toggle-switch {
-            width: clamp(44px, 8vw, 52px);
-            height: clamp(24px, 4vw, 28px);
-            background: var(--light-gray);
-            border-radius: 14px;
+            width: 48px;
+            height: 24px;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
             position: relative;
             transition: var(--transition);
         }
@@ -1012,25 +935,26 @@
             position: absolute;
             top: 2px;
             right: 2px;
-            width: clamp(20px, 4vw, 24px);
-            height: clamp(20px, 4vw, 24px);
+            width: 20px;
+            height: 20px;
             background: white;
             border-radius: 50%;
             transition: var(--transition);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .toggle-switch.active::after {
-            right: calc(100% - 26px);
+            right: calc(100% - 22px);
         }
 
         .save-profile-btn {
             width: 100%;
-            padding: clamp(16px, 3vw, 20px);
+            padding: 14px;
             background: var(--primary);
             border: none;
-            border-radius: var(--radius-sm);
+            border-radius: var(--radius-md);
             color: white;
-            font-size: clamp(16px, 3vw, 18px);
+            font-size: 16px;
             font-weight: 700;
             cursor: pointer;
             transition: var(--transition);
@@ -1039,46 +963,37 @@
 
         .save-profile-btn:hover {
             background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+            transform: translateY(-1px);
         }
 
         .save-profile-btn:disabled {
-            background: var(--light-gray);
+            background: var(--bg-tertiary);
             cursor: not-allowed;
             transform: none;
-            box-shadow: none;
         }
 
-        /* ===== TOAST NOTIFICATIONS ===== */
+        /* ===== TOAST ===== */
         .toast-container {
             position: fixed;
-            bottom: 24px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 2000;
             width: calc(100% - 40px);
             max-width: 400px;
-            display: flex;
-            flex-direction: column-reverse;
-            gap: 8px;
-            align-items: center;
         }
 
         .toast {
-            background: var(--card-bg);
+            background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: clamp(14px, 2.5vw, 16px) clamp(16px, 3vw, 20px);
-            box-shadow: var(--shadow);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            box-shadow: var(--shadow-lg);
             display: flex;
             align-items: center;
-            gap: clamp(12px, 2vw, 14px);
-            animation: toastSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(20px);
-            background: rgba(31, 41, 55, 0.95);
-            width: 100%;
-            transform-origin: bottom center;
+            gap: 12px;
+            animation: slideUp 0.3s ease;
+            margin-top: 8px;
         }
 
         .toast.success {
@@ -1094,11 +1009,11 @@
         }
 
         .toast.info {
-            border-right: 4px solid var(--primary);
+            border-right: 4px solid var(--info);
         }
 
         .toast-icon {
-            font-size: clamp(20px, 3.5vw, 24px);
+            font-size: 20px;
             flex-shrink: 0;
         }
 
@@ -1115,78 +1030,68 @@
         }
 
         .toast.info .toast-icon {
-            color: var(--primary);
+            color: var(--info);
         }
 
         .toast-content {
             flex: 1;
-            font-size: clamp(14px, 2.5vw, 15px);
+            font-size: 14px;
             font-weight: 600;
             line-height: 1.4;
         }
 
-        /* ===== EMPTY STATES ===== */
-        .empty-state {
-            text-align: center;
-            padding: clamp(60px, 12vw, 80px) clamp(20px, 4vw, 24px);
-            color: var(--light-gray);
-        }
-
-        .empty-icon {
-            font-size: clamp(60px, 12vw, 72px);
-            margin-bottom: clamp(16px, 3vw, 24px);
-            opacity: 0.3;
-        }
-
-        .empty-title {
-            font-size: clamp(18px, 3.5vw, 20px);
-            font-weight: 800;
-            margin-bottom: clamp(8px, 2vw, 12px);
-            color: var(--light);
-            letter-spacing: -0.3px;
-        }
-
-        .empty-description {
-            font-size: clamp(14px, 2.5vw, 16px);
-            line-height: 1.5;
-            font-weight: 500;
-            max-width: 300px;
-            margin: 0 auto;
-        }
-
-        /* ===== LOADING ===== */
+        /* ===== STATES ===== */
         .loading-container {
-            text-align: center;
-            padding: clamp(40px, 8vw, 60px) clamp(20px, 4vw, 24px);
-            color: var(--light-gray);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            color: var(--text-tertiary);
         }
 
         .loading-spinner {
-            width: clamp(40px, 8vw, 48px);
-            height: clamp(40px, 8vw, 48px);
+            width: 40px;
+            height: 40px;
             border: 3px solid var(--border);
             border-top-color: var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto clamp(16px, 3vw, 20px);
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+            margin-bottom: 16px;
         }
 
         .loading-text {
-            font-size: clamp(14px, 2.5vw, 16px);
+            font-size: 14px;
             font-weight: 600;
         }
 
-        /* ===== ANIMATIONS ===== */
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-tertiary);
         }
 
-        @keyframes fadeInUp {
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        .empty-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .empty-description {
+            font-size: 14px;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
             from {
                 opacity: 0;
                 transform: translateY(10px);
@@ -1197,15 +1102,19 @@
             }
         }
 
-        @keyframes toastSlideUp {
+        @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(30px) scale(0.95);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: translateY(0);
             }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         /* ===== UTILITY ===== */
@@ -1213,13 +1122,53 @@
             display: none !important;
         }
 
-        .fade-in {
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .app-header {
+                padding: 12px 16px 8px;
+            }
+            
+            .header-content {
+                margin-bottom: 12px;
+            }
+            
+            .avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+            
+            .user-name {
+                font-size: 15px;
+            }
+            
+            .icon-button {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+            
+            .tab-content {
+                padding: 0 16px;
+            }
+            
+            .chats-header {
+                padding: 20px 0 12px;
+            }
+            
+            .section-title {
+                font-size: 20px;
+            }
+            
+            .chat-avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+            
+            .chat-card {
+                padding: 10px;
+            }
         }
     </style>
 </head>
@@ -1258,10 +1207,6 @@
                 <button class="tab-button active" data-tab="chats">
                     <iconify-icon icon="mdi:chat" class="tab-icon"></iconify-icon>
                     <span class="tab-label">المحادثات</span>
-                </button>
-                <button class="tab-button" data-tab="requests">
-                    <iconify-icon icon="mdi:account-plus" class="tab-icon"></iconify-icon>
-                    <span class="tab-label">الطلبات</span>
                 </button>
                 <button class="tab-button" data-tab="settings">
                     <iconify-icon icon="mdi:cog" class="tab-icon"></iconify-icon>
@@ -1306,7 +1251,89 @@
                                 </div>
                                 <div class="item-details">
                                     <h4>الملف الشخصي</h4>
-                                    <p>تعديل بياناتك وصورتك</p>
+                                    <p>تعديل بياناتك الشخصية</p>
+                                </div>
+                            </div>
+                            <iconify-icon icon="mdi:chevron-left" class="item-arrow"></iconify-icon>
+                        </div>
+                        
+                        <div class="settings-item" id="privacySettingsBtn">
+                            <div class="item-content">
+                                <div class="item-icon">
+                                    <iconify-icon icon="mdi:shield-account"></iconify-icon>
+                                </div>
+                                <div class="item-details">
+                                    <h4>الخصوصية والأمان</h4>
+                                    <p>إعدادات الخصوصية والحساب</p>
+                                </div>
+                            </div>
+                            <iconify-icon icon="mdi:chevron-left" class="item-arrow"></iconify-icon>
+                        </div>
+                        
+                        <div class="settings-item" id="notificationsSettingsBtn">
+                            <div class="item-content">
+                                <div class="item-icon">
+                                    <iconify-icon icon="mdi:bell"></iconify-icon>
+                                </div>
+                                <div class="item-details">
+                                    <h4>الإشعارات</h4>
+                                    <p>التحكم في الإشعارات</p>
+                                </div>
+                            </div>
+                            <iconify-icon icon="mdi:chevron-left" class="item-arrow"></iconify-icon>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <div class="settings-item" id="appearanceSettingsBtn">
+                            <div class="item-content">
+                                <div class="item-icon">
+                                    <iconify-icon icon="mdi:theme-light-dark"></iconify-icon>
+                                </div>
+                                <div class="item-details">
+                                    <h4>المظهر</h4>
+                                    <p>فاتح، داكن، أو تلقائي</p>
+                                </div>
+                            </div>
+                            <iconify-icon icon="mdi:chevron-left" class="item-arrow"></iconify-icon>
+                        </div>
+                        
+                        <div class="settings-item" id="languageSettingsBtn">
+                            <div class="item-content">
+                                <div class="item-icon">
+                                    <iconify-icon icon="mdi:translate"></iconify-icon>
+                                </div>
+                                <div class="item-details">
+                                    <h4>اللغة</h4>
+                                    <p>تغيير لغة التطبيق</p>
+                                </div>
+                            </div>
+                            <iconify-icon icon="mdi:chevron-left" class="item-arrow"></iconify-icon>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <div class="settings-item" id="helpSettingsBtn">
+                            <div class="item-content">
+                                <div class="item-icon">
+                                    <iconify-icon icon="mdi:help-circle"></iconify-icon>
+                                </div>
+                                <div class="item-details">
+                                    <h4>المساعدة والدعم</h4>
+                                    <p>الدعم الفني والأسئلة الشائعة</p>
+                                </div>
+                            </div>
+                            <iconify-icon icon="mdi:chevron-left" class="item-arrow"></iconify-icon>
+                        </div>
+                        
+                        <div class="settings-item" id="aboutSettingsBtn">
+                            <div class="item-content">
+                                <div class="item-icon">
+                                    <iconify-icon icon="mdi:information"></iconify-icon>
+                                </div>
+                                <div class="item-details">
+                                    <h4>عن التطبيق</h4>
+                                    <p>إصدار 1.0.0 - ChatX</p>
                                 </div>
                             </div>
                             <iconify-icon icon="mdi:chevron-left" class="item-arrow"></iconify-icon>
@@ -1366,7 +1393,7 @@
             </div>
         </div>
 
-        <!-- Profile Settings Modal -->
+        <!-- Profile Modal -->
         <div class="profile-modal" id="profileModal">
             <div class="profile-header">
                 <button class="profile-back-btn" id="profileBackBtn">
@@ -1416,7 +1443,7 @@
                                     <div class="status-toggle-value" id="profileStatusValue">متصل</div>
                                 </div>
                             </div>
-                            <div class="toggle-switch" id="profileStatusSwitch"></div>
+                            <div class="toggle-switch active" id="profileStatusSwitch"></div>
                         </div>
                     </div>
                     
@@ -1438,9 +1465,7 @@
         import { 
             onAuthStateChanged, 
             signOut,
-            updateProfile,
-            reauthenticateWithCredential,
-            EmailAuthProvider 
+            updateProfile
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         
         import {
@@ -1450,7 +1475,6 @@
             getDocs,
             setDoc,
             updateDoc,
-            deleteDoc,
             addDoc,
             query,
             where,
@@ -1470,15 +1494,21 @@
         const chatsContent = document.getElementById('chatsContent');
         const settingsContent = document.getElementById('settingsContent');
         
-        const notificationsBtn = document.getElementById('notificationsBtn');
         const newChatBtn = document.getElementById('newChatBtn');
-        
         const chatsSearch = document.getElementById('chatsSearch');
         const chatsList = document.getElementById('chatsList');
         
+        // Settings
         const profileSettingsBtn = document.getElementById('profileSettingsBtn');
+        const privacySettingsBtn = document.getElementById('privacySettingsBtn');
+        const notificationsSettingsBtn = document.getElementById('notificationsSettingsBtn');
+        const appearanceSettingsBtn = document.getElementById('appearanceSettingsBtn');
+        const languageSettingsBtn = document.getElementById('languageSettingsBtn');
+        const helpSettingsBtn = document.getElementById('helpSettingsBtn');
+        const aboutSettingsBtn = document.getElementById('aboutSettingsBtn');
         const logoutBtn = document.getElementById('logoutBtn');
         
+        // Profile Modal
         const profileModal = document.getElementById('profileModal');
         const profileBackBtn = document.getElementById('profileBackBtn');
         const profileAvatarLarge = document.getElementById('profileAvatarLarge');
@@ -1492,6 +1522,7 @@
         const profileStatusSwitch = document.getElementById('profileStatusSwitch');
         const saveProfileBtn = document.getElementById('saveProfileBtn');
         
+        // Chat Window
         const chatWindow = document.getElementById('chatWindow');
         const chatBackBtn = document.getElementById('chatBackBtn');
         const chatUserAvatar = document.getElementById('chatUserAvatar');
@@ -1506,7 +1537,6 @@
         // ===== STATE VARIABLES =====
         let currentUser = null;
         let currentUserData = null;
-        let currentChat = null;
         let currentChatId = null;
         let messageListener = null;
         let chatsListener = null;
@@ -1515,43 +1545,42 @@
 
         // ===== UTILITY FUNCTIONS =====
         
-        // Generate chat ID
         function getChatId(uid1, uid2) {
             return uid1 < uid2 ? `${uid1}_${uid2}` : `${uid2}_${uid1}`;
         }
 
-        // Format time
         function formatTime(timestamp) {
             if (!timestamp) return '';
             
-            let date;
-            if (timestamp.toDate) {
-                date = timestamp.toDate();
-            } else if (timestamp instanceof Date) {
-                date = timestamp;
-            } else {
+            try {
+                let date;
+                if (timestamp.toDate) {
+                    date = timestamp.toDate();
+                } else if (timestamp instanceof Date) {
+                    date = timestamp;
+                } else {
+                    return '';
+                }
+                
+                const now = new Date();
+                const diffMs = now - date;
+                const diffMins = Math.floor(diffMs / 60000);
+                const diffHours = Math.floor(diffMs / 3600000);
+                const diffDays = Math.floor(diffMs / 86400000);
+
+                if (diffMins < 1) return 'الآن';
+                if (diffMins < 60) return `${diffMins} د`;
+                if (diffHours < 24) return `${diffHours} س`;
+                if (diffDays === 1) return 'أمس';
+                if (diffDays < 7) return `${diffDays} يوم`;
+                
+                return date.toLocaleDateString('ar-EG');
+            } catch (error) {
+                console.error('Error formatting time:', error);
                 return '';
             }
-            
-            const now = new Date();
-            const diffMs = now - date;
-            const diffMins = Math.floor(diffMs / 60000);
-            const diffHours = Math.floor(diffMs / 3600000);
-            const diffDays = Math.floor(diffMs / 86400000);
-
-            if (diffMins < 1) return 'الآن';
-            if (diffMins < 60) return `${diffMins} د`;
-            if (diffHours < 24) return `${diffHours} س`;
-            if (diffDays === 1) return 'أمس';
-            if (diffDays < 7) return `${diffDays} يوم`;
-            
-            return date.toLocaleDateString('ar-EG', {
-                month: 'short',
-                day: 'numeric'
-            });
         }
 
-        // Show toast
         function showToast(message, type = 'info') {
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
@@ -1575,31 +1604,37 @@
 
         // ===== FIREBASE FUNCTIONS =====
         
-        // 🔥 Create user document if doesn't exist
         async function ensureUserDocument(user) {
             try {
                 const userRef = doc(db, "users", user.uid);
                 const userDoc = await getDoc(userRef);
                 
                 if (!userDoc.exists()) {
-                    // إنشاء مستند المستخدم مع البيانات الأساسية
+                    console.log('Creating new user document...');
+                    
+                    const username = user.email?.split('@')[0] || `user_${Date.now()}`;
+                    
                     await setDoc(userRef, {
                         uid: user.uid,
                         name: user.displayName || 'مستخدم جديد',
                         email: user.email,
-                        username: user.email?.split('@')[0] || 'user',
+                        username: username,
                         isOnline: true,
                         createdAt: serverTimestamp(),
-                        lastSeen: serverTimestamp()
+                        lastSeen: serverTimestamp(),
+                        avatarColor: '#8B5CF6'
                     });
                     
-                    // إنشاء username document
-                    const username = user.email?.split('@')[0];
+                    // Create username document
                     if (username) {
                         await setDoc(doc(db, "usernames", username), {
                             uid: user.uid
                         });
                     }
+                    
+                    console.log('User document created successfully');
+                } else {
+                    console.log('User document already exists');
                 }
                 
                 return true;
@@ -1610,13 +1645,13 @@
             }
         }
 
-        // Get user by ID
         async function getUserById(uid) {
             try {
                 const userDoc = await getDoc(doc(db, "users", uid));
                 if (userDoc.exists()) {
                     return userDoc.data();
                 }
+                console.log('User not found:', uid);
                 return null;
             } catch (error) {
                 console.error('Error getting user:', error);
@@ -1624,7 +1659,6 @@
             }
         }
 
-        // Update user online status
         async function updateOnlineStatus(uid, isOnline) {
             try {
                 const userRef = doc(db, "users", uid);
@@ -1639,55 +1673,18 @@
             }
         }
 
-        // Update user profile
-        async function updateUserProfile(uid, updates) {
-            try {
-                const userRef = doc(db, "users", uid);
-                await updateDoc(userRef, {
-                    ...updates,
-                    updatedAt: serverTimestamp()
-                });
-                
-                // إذا تم تحديث الاسم، قم بتحديث الـ Auth
-                if (updates.name) {
-                    await updateProfile(auth.currentUser, {
-                        displayName: updates.name
-                    });
-                }
-                
-                // إذا تم تحديث الـ username، قم بتحديث collection usernames
-                if (updates.username && currentUserData.username !== updates.username) {
-                    const batch = writeBatch(db);
-                    
-                    // حذف الـ username القديم
-                    if (currentUserData.username) {
-                        batch.delete(doc(db, "usernames", currentUserData.username));
-                    }
-                    
-                    // إضافة الـ username الجديد
-                    batch.set(doc(db, "usernames", updates.username), {
-                        uid: uid
-                    });
-                    
-                    await batch.commit();
-                }
-                
-                return true;
-            } catch (error) {
-                console.error('Error updating user profile:', error);
-                return false;
-            }
-        }
-
-        // Get user chats
         async function getUserChats(userId) {
             try {
+                console.log('Getting chats for user:', userId);
+                
                 const chatsQuery = query(
                     collection(db, "chats"),
                     where("members", "array-contains", userId)
                 );
                 
                 const chatsSnapshot = await getDocs(chatsQuery);
+                console.log('Found chats:', chatsSnapshot.size);
+                
                 const chats = [];
                 
                 for (const chatDoc of chatsSnapshot.docs) {
@@ -1715,14 +1712,15 @@
                     return timeB - timeA;
                 });
                 
+                console.log('Processed chats:', chats.length);
                 return chats;
             } catch (error) {
                 console.error('Error getting chats:', error);
+                showToast('خطأ في تحميل المحادثات', 'error');
                 return [];
             }
         }
 
-        // Create or get chat
         async function getOrCreateChat(user1Id, user2Id) {
             try {
                 const chatId = getChatId(user1Id, user2Id);
@@ -1737,6 +1735,9 @@
                         unreadCount: { [user1Id]: 0, [user2Id]: 0 },
                         createdAt: serverTimestamp()
                     });
+                    console.log('New chat created:', chatId);
+                } else {
+                    console.log('Existing chat found:', chatId);
                 }
                 
                 return chatId;
@@ -1747,13 +1748,11 @@
             }
         }
 
-        // Send message
         async function sendMessage(chatId, senderId, text) {
             try {
                 const messagesRef = collection(db, "chats", chatId, "messages");
                 const chatRef = doc(db, "chats", chatId);
                 
-                // Add message
                 await addDoc(messagesRef, {
                     text,
                     senderId,
@@ -1761,12 +1760,12 @@
                     read: false
                 });
                 
-                // Update chat last message
                 await updateDoc(chatRef, {
                     lastMessage: text,
                     lastMessageTime: serverTimestamp()
                 });
                 
+                console.log('Message sent successfully');
                 return true;
             } catch (error) {
                 console.error('Error sending message:', error);
@@ -1774,7 +1773,6 @@
             }
         }
 
-        // Get chat messages
         async function getChatMessages(chatId) {
             try {
                 const messagesQuery = query(
@@ -1792,6 +1790,7 @@
                     });
                 });
                 
+                console.log('Loaded messages:', messages.length);
                 return messages;
             } catch (error) {
                 console.error('Error getting messages:', error);
@@ -1799,9 +1798,44 @@
             }
         }
 
+        async function updateUserProfile(uid, updates) {
+            try {
+                const userRef = doc(db, "users", uid);
+                await updateDoc(userRef, {
+                    ...updates,
+                    updatedAt: serverTimestamp()
+                });
+                
+                if (updates.name) {
+                    await updateProfile(auth.currentUser, {
+                        displayName: updates.name
+                    });
+                }
+                
+                if (updates.username && currentUserData.username !== updates.username) {
+                    const batch = writeBatch(db);
+                    
+                    if (currentUserData.username) {
+                        batch.delete(doc(db, "usernames", currentUserData.username));
+                    }
+                    
+                    batch.set(doc(db, "usernames", updates.username), {
+                        uid: uid
+                    });
+                    
+                    await batch.commit();
+                }
+                
+                console.log('Profile updated successfully');
+                return true;
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                return false;
+            }
+        }
+
         // ===== UI FUNCTIONS =====
         
-        // Update user info in header
         function updateUserInfo(userData) {
             if (!userData) return;
             
@@ -1809,23 +1843,20 @@
             userAvatar.textContent = userData.name?.charAt(0) || 'م';
             
             const isOnline = userData.isOnline;
-            const statusText = isOnline ? 'متصل' : 'غير متصل';
-            
             userStatus.innerHTML = `
                 <iconify-icon icon="mdi:circle"></iconify-icon>
-                ${statusText}
+                ${isOnline ? 'متصل' : 'غير متصل'}
             `;
             
             if (isOnline) {
                 statusIndicator.classList.remove('offline');
-                userStatus.style.color = 'var(--success)';
+                userStatus.style.color = 'var(--accent)';
             } else {
                 statusIndicator.classList.add('offline');
-                userStatus.style.color = 'var(--light-gray)';
+                userStatus.style.color = 'var(--text-tertiary)';
             }
         }
 
-        // Update profile modal
         function updateProfileModal(userData) {
             if (!userData) return;
             
@@ -1851,24 +1882,17 @@
             }
         }
 
-        // Load chats
         async function loadChats() {
             if (!currentUser) return;
             
-            chatsList.innerHTML = `
-                <div class="loading-container">
-                    <div class="loading-spinner"></div>
-                    <p class="loading-text">جاري تحميل المحادثات...</p>
-                </div>
-            `;
-            
+            console.log('Loading chats...');
             const chats = await getUserChats(currentUser.uid);
             allChats = chats;
             
             if (chats.length > 0) {
                 renderChats(chats);
                 
-                // Setup real-time listener for chats
+                // Setup real-time listener
                 if (chatsListener) chatsListener();
                 
                 chatsListener = onSnapshot(
@@ -1893,9 +1917,19 @@
             }
         }
 
-        // Render chats
         function renderChats(chats) {
             chatsList.innerHTML = '';
+            
+            if (chats.length === 0) {
+                chatsList.innerHTML = `
+                    <div class="empty-state">
+                        <iconify-icon icon="mdi:chat-outline" class="empty-icon"></iconify-icon>
+                        <h3 class="empty-title">لا توجد محادثات</h3>
+                        <p class="empty-description">ابدأ محادثة جديدة بالنقر على زر +</p>
+                    </div>
+                `;
+                return;
+            }
             
             chats.forEach(chat => {
                 if (!chat.otherUser) return;
@@ -1930,21 +1964,17 @@
             });
         }
 
-        // Open chat window
         async function openChat(chatId, otherUser) {
             currentChatId = chatId;
-            currentChat = { id: chatId, otherUser };
             
-            // Update chat header
             chatUserAvatar.textContent = otherUser.name?.charAt(0) || 'م';
             chatUserName.textContent = otherUser.name || 'مستخدم';
             chatUserStatus.innerHTML = `
                 <iconify-icon icon="mdi:circle"></iconify-icon>
                 ${otherUser.isOnline ? 'متصل الآن' : 'غير متصل'}
             `;
-            chatUserStatus.style.color = otherUser.isOnline ? 'var(--accent)' : 'var(--light-gray)';
+            chatUserStatus.style.color = otherUser.isOnline ? 'var(--accent)' : 'var(--text-tertiary)';
             
-            // Show loading
             chatMessages.innerHTML = `
                 <div class="loading-container">
                     <div class="loading-spinner"></div>
@@ -1952,14 +1982,11 @@
                 </div>
             `;
             
-            // Load messages
             const messages = await getChatMessages(chatId);
             renderMessages(messages);
             
-            // Open chat window
             chatWindow.classList.add('active');
             
-            // Setup real-time listener for messages
             if (messageListener) messageListener();
             
             messageListener = onSnapshot(
@@ -1979,7 +2006,6 @@
                 }
             );
             
-            // Update active chat in list
             document.querySelectorAll('.chat-card').forEach(card => {
                 card.classList.remove('active');
                 if (card.dataset.chatId === chatId) {
@@ -1988,7 +2014,6 @@
             });
         }
 
-        // Render messages
         function renderMessages(messages) {
             chatMessages.innerHTML = '';
             
@@ -2008,7 +2033,7 @@
                 const messageElement = document.createElement('div');
                 messageElement.className = `message ${isSent ? 'sent' : 'received'}`;
                 
-                const time = message.timestamp?.toDate ? formatTime(message.timestamp) : '';
+                const time = formatTime(message.timestamp);
                 
                 messageElement.innerHTML = `
                     <div class="message-text">${message.text}</div>
@@ -2018,11 +2043,9 @@
                 chatMessages.appendChild(messageElement);
             });
             
-            // Scroll to bottom
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        // Handle new chat
         async function handleNewChat() {
             const username = prompt('أدخل اسم المستخدم للبحث:');
             if (!username) return;
@@ -2030,8 +2053,7 @@
             showToast('جاري البحث عن المستخدم...', 'info');
             
             try {
-                // Search for user
-                const usernameDoc = await getDoc(doc(db, "usernames", username));
+                const usernameDoc = await getDoc(doc(db, "usernames", username.trim().toLowerCase()));
                 
                 if (!usernameDoc.exists()) {
                     showToast('لم يتم العثور على المستخدم', 'error');
@@ -2045,7 +2067,6 @@
                     return;
                 }
                 
-                // Get user info
                 const otherUser = await getUserById(otherUserId);
                 
                 if (!otherUser) {
@@ -2053,7 +2074,6 @@
                     return;
                 }
                 
-                // Create or get chat
                 const chatId = await getOrCreateChat(currentUser.uid, otherUserId);
                 
                 if (chatId) {
@@ -2067,7 +2087,6 @@
             }
         }
 
-        // Handle send message
         async function handleSendMessage() {
             const text = chatInput.value.trim();
             if (!text || !currentChatId) return;
@@ -2078,7 +2097,6 @@
                 chatInput.value = '';
                 chatInput.style.height = 'auto';
                 
-                // Auto focus
                 setTimeout(() => {
                     chatInput.focus();
                 }, 10);
@@ -2087,10 +2105,9 @@
             }
         }
 
-        // Handle save profile
         async function handleSaveProfile() {
             const name = profileNameInput.value.trim();
-            const username = profileUsernameInput.value.trim();
+            const username = profileUsernameInput.value.trim().toLowerCase();
             
             if (!name) {
                 showToast('الاسم مطلوب', 'error');
@@ -2107,7 +2124,6 @@
                 return;
             }
             
-            // Check if username is available
             if (username !== currentUserData.username) {
                 try {
                     const usernameDoc = await getDoc(doc(db, "usernames", username));
@@ -2156,29 +2172,24 @@
 
         // ===== EVENT LISTENERS =====
         
-        // Authentication
         onAuthStateChanged(auth, async (user) => {
             if (user) {
+                console.log('User authenticated:', user.uid);
                 currentUser = user;
                 
                 try {
-                    // 🔥 تأكد من وجود مستند المستخدم
                     await ensureUserDocument(user);
                     
-                    // Get user data
                     const userData = await getUserById(user.uid);
                     
                     if (userData) {
                         currentUserData = userData;
                         updateUserInfo(userData);
                         
-                        // تحديث حالة الاتصال
                         await updateOnlineStatus(user.uid, true);
                         
-                        // تحميل المحادثات
                         await loadChats();
                         
-                        // Setup user listener
                         if (userListener) userListener();
                         
                         userListener = onSnapshot(doc(db, "users", user.uid), (doc) => {
@@ -2191,15 +2202,15 @@
                         
                         showToast(`مرحباً ${currentUserData.name}! 👋`, 'success');
                     } else {
-                        showToast('فشل تحميل بيانات المستخدم', 'error');
-                        console.error('User data not found for:', user.uid);
+                        console.error('User data is null for:', user.uid);
+                        showToast('خطأ في بيانات المستخدم', 'error');
                     }
                 } catch (error) {
                     console.error('Error in auth state change:', error);
                     showToast('حدث خطأ في التحميل', 'error');
                 }
             } else {
-                // Redirect to auth page
+                console.log('No user, redirecting to auth...');
                 window.location.href = "auth.html";
             }
         });
@@ -2207,14 +2218,13 @@
         // Tabs
         tabButtons.forEach(button => {
             button.addEventListener('click', () => {
-                tabButtons.forEach(btn => {
-                    btn.classList.remove('active');
-                    const tabId = btn.dataset.tab;
-                    document.getElementById(`${tabId}Content`)?.classList.remove('active');
-                });
-                
+                tabButtons.forEach(btn => btn.classList.remove('active'));
                 button.classList.add('active');
+                
                 const tabId = button.dataset.tab;
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
                 document.getElementById(`${tabId}Content`)?.classList.add('active');
             });
         });
@@ -2230,7 +2240,7 @@
             }
         });
 
-        // Back from profile modal
+        // Profile back
         profileBackBtn.addEventListener('click', () => {
             profileModal.classList.remove('active');
         });
@@ -2252,7 +2262,6 @@
                     await updateOnlineStatus(currentUser.uid, false);
                     await signOut(auth);
                     showToast('تم تسجيل الخروج', 'success');
-                    window.location.href = "auth.html";
                 } catch (error) {
                     showToast('فشل تسجيل الخروج', 'error');
                 }
@@ -2278,10 +2287,9 @@
             }
         });
 
-        // Auto resize textarea
         chatInput.addEventListener('input', function() {
             this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 96) + 'px';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
         });
 
         // Search chats
@@ -2292,6 +2300,22 @@
                 chat.otherUser?.username?.toLowerCase().includes(query)
             );
             renderChats(filteredChats);
+        });
+
+        // Settings items
+        const settingsItems = [
+            privacySettingsBtn,
+            notificationsSettingsBtn,
+            appearanceSettingsBtn,
+            languageSettingsBtn,
+            helpSettingsBtn,
+            aboutSettingsBtn
+        ];
+
+        settingsItems.forEach(item => {
+            item?.addEventListener('click', () => {
+                showToast('هذه الميزة قيد التطوير', 'info');
+            });
         });
 
         // Update online status on page close
