@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatX | منصة الدردشة العربية</title>
+    
+    <!-- مكتبة Iconify - أفضل مكتبة أيقونات حديثة -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    
+    <!-- خط Cairo العربي -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --background: #f8fafc;
+            --surface: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* تصميم صفحة Loading */
+        .loading-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-page.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-animation {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 30px;
+        }
+
+        .loading-animation::before,
+        .loading-animation::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .loading-animation::before {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.2);
+            animation-delay: 0s;
+        }
+
+        .loading-animation::after {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.3);
+            top: 10px;
+            left: 10px;
+            animation-delay: 0.2s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        .loading-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .loading-logo h1 {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .loading-logo-icon {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .loading-logo-icon iconify-icon {
+            font-size: 32px;
+            color: var(--primary);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 1.2rem;
+            opacity: 0.9;
+            animation: fadeInOut 2s ease-in-out infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* تصميم الحاوية الرئيسية */
+        .auth-container {
+            width: 100%;
+            max-width: 440px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: containerAppear 0.6s ease-out 0.3s forwards;
+        }
+
+        @keyframes containerAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-card {
+            background: var(--surface);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+        }
+
+        /* الهيدر */
+        .auth-header {
+            background: var(--gradient);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: moveBackground 20s linear infinite;
+        }
+
+        @keyframes moveBackground {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .brand-icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .brand-icon iconify-icon {
+            font-size: 28px;
+            color: var(--primary);
+        }
+
+        .brand h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: white;
+        }
+
+        .brand-tagline {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        /* التبويبات */
+        .auth-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 0 30px;
+            border-radius: 12px;
+            padding: 5px;
+            transform: translateY(15px);
+            z-index: 2;
+            position: relative;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 16px;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .auth-tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .auth-tab.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .auth-tab iconify-icon {
+            font-size: 20px;
+        }
+
+        /* محتوى النماذج */
+        .auth-content {
+            padding: 40px 30px 30px;
+        }
+
+        .auth-form {
+            display: none;
+            animation: formSlide 0.4s ease-out;
+        }
+
+        @keyframes formSlide {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        /* تصميم حقول الإدخال */
+        .input-field {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .input-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .input-label iconify-icon {
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper iconify-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 20px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 50px 16px 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 16px;
+            color: var(--text);
+            background: var(--background);
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-light);
+        }
+
+        .toggle-password {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 20px;
+            padding: 5px;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .toggle-password:hover {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--text);
+        }
+
+        /* زر الإرسال */
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.7s;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn iconify-icon {
+            font-size: 22px;
+        }
+
+        /* التنبيهات */
+        .alert {
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            display: none;
+            animation: alertSlide 0.3s ease-out;
+            border-right: 4px solid;
+        }
+
+        @keyframes alertSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert.show {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .alert.error {
+            background: #fef2f2;
+            color: #dc2626;
+            border-color: #f87171;
+        }
+
+        .alert.success {
+            background: #f0fdf4;
+            color: #16a34a;
+            border-color: #86efac;
+        }
+
+        .alert iconify-icon {
+            font-size: 24px;
+        }
+
+        /* النص الإضافي */
+        .auth-footer {
+            text-align: center;
+            margin-top: 30px;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .auth-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* مؤشر التحميل */
+        .form-loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .form-loading.show {
+            display: block;
+        }
+
+        .form-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(99, 102, 241, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* الاستجابة للشاشات الصغيرة */
+        @media (max-width: 480px) {
+            .auth-container {
+                max-width: 100%;
+            }
+            
+            .auth-header {
+                padding: 30px 20px;
+            }
+            
+            .auth-content {
+                padding: 30px 20px 20px;
+            }
+            
+            .brand h1 {
+                font-size: 1.8rem;
+            }
+            
+            .auth-tabs {
+                margin: 0 20px;
+            }
+        }
+
+        /* تأثيرات خاصة */
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: floatShape 20s infinite linear;
+        }
+
+        @keyframes floatShape {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-1000px) rotate(720deg); }
+        }
+
+        /* إنشاء أشكال عشوائية */
+        .shape:nth-child(1) { width: 80px; height: 80px; left: 10%; animation-delay: 0s; }
+        .shape:nth-child(2) { width: 60px; height: 60px; left: 20%; animation-delay: 2s; animation-duration: 22s; }
+        .shape:nth-child(3) { width: 100px; height: 100px; left: 35%; animation-delay: 4s; }
+        .shape:nth-child(4) { width: 70px; height: 70px; left: 50%; animation-delay: 0s; animation-duration: 18s; }
+        .shape:nth-child(5) { width: 90px; height: 90px; left: 65%; animation-delay: 6s; }
+        .shape:nth-child(6) { width: 50px; height: 50px; left: 80%; animation-delay: 8s; animation-duration: 24s; }
+        .shape:nth-child(7) { width: 120px; height: 120px; left: 90%; animation-delay: 10s; }
+    </style>
+</head>
+<body>
+    <!-- صفحة Loading -->
+    <div class="loading-page" id="loadingPage">
+        <div class="loading-animation"></div>
+        <div class="loading-logo">
+            <div class="loading-logo-icon">
+                <iconify-icon icon="mdi:chat-processing"></iconify-icon>
+            </div>
+            <h1>ChatX</h1>
+        </div>
+        <p class="loading-text">جاري تحميل المنصة...</p>
+    </div>
+
+    <!-- أشكال عائمة للخلفية -->
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <!-- الحاوية الرئيسية -->
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="brand">
+                    <div class="brand-icon">
+                        <iconify-icon icon="mdi:chat-processing"></iconify-icon>
+                    </div>
+                    <h1>ChatX</h1>
+                </div>
+                <p class="brand-tagline">منصة الدردشة العربية الأسرع والأكثر أماناً</p>
+            </div>
+
+            <div class="auth-tabs">
+                <div class="auth-tab active" onclick="switchTab('login')">
+                    <iconify-icon icon="mdi:login"></iconify-icon>
+                    تسجيل الدخول
+                </div>
+                <div class="auth-tab" onclick="switchTab('signup')">
+                    <iconify-icon icon="mdi:account-plus"></iconify-icon>
+                    إنشاء حساب
+                </div>
+            </div>
+
+            <div class="auth-content">
+                <div class="alert" id="alert"></div>
+                
+                <div class="form-loading" id="formLoading">
+                    <div class="form-spinner"></div>
+                    <p>جاري المعالجة...</p>
+                </div>
+
+                <!-- نموذج تسجيل الدخول -->
+                <form class="auth-form active" id="loginForm" onsubmit="login(event)">
+                    <div class="input-field">
+                        <label class="input-label">
+                            <iconify-icon icon="mdi:email"></iconify-icon>
+                            البريد الإلكتروني
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="email" class="form-input" id="loginEmail" 
+                                   placeholder="example@email.com" required>
+                            <iconify-icon icon="mdi:email-outline"></iconify-icon>
+                        </div>
+                    </div>
+
+                    <div class="input-field">
+                        <label class="input-label">
+                            <iconify-icon icon="mdi:lock"></iconify-icon>
+                            كلمة المرور
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="password" class="form-input" id="loginPassword" 
+                                   placeholder="أدخل كلمة المرور" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('loginPassword')">
+                                <iconify-icon icon="mdi:eye"></iconify-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <iconify-icon icon="mdi:login-variant"></iconify-icon>
+                        تسجيل الدخول
+                    </button>
+
+                    <div class="auth-footer">
+                        ليس لديك حساب؟ <a href="#" onclick="switchTab('signup')">أنشئ حساب جديد</a>
+                    </div>
+                </form>
+
+                <!-- نموذج إنشاء حساب -->
+                <form class="auth-form" id="signupForm" onsubmit="signup(event)">
+                    <div class="input-field">
+                        <label class="input-label">
+                            <iconify-icon icon="mdi:account"></iconify-icon>
+                            الاسم الكامل
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="text" class="form-input" id="signupName" 
+                                   placeholder="أحمد محمد" required>
+                            <iconify-icon icon="mdi:account-outline"></iconify-icon>
+                        </div>
+                    </div>
+
+                    <div class="input-field">
+                        <label class="input-label">
+                            <iconify-icon icon="mdi:at"></iconify-icon>
+                            اسم المستخدم
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="text" class="form-input" id="signupUsername" 
+                                   placeholder="ahmed123" required>
+                            <iconify-icon icon="mdi:identifier"></iconify-icon>
+                        </div>
+                    </div>
+
+                    <div class="input-field">
+                        <label class="input-label">
+                            <iconify-icon icon="mdi:email"></iconify-icon>
+                            البريد الإلكتروني
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="email" class="form-input" id="signupEmail" 
+                                   placeholder="example@email.com" required>
+                            <iconify-icon icon="mdi:email-outline"></iconify-icon>
+                        </div>
+                    </div>
+
+                    <div class="input-field">
+                        <label class="input-label">
+                            <iconify-icon icon="mdi:lock"></iconify-icon>
+                            كلمة المرور
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="password" class="form-input" id="signupPassword" 
+                                   placeholder="6 أحرف على الأقل" required minlength="6">
+                            <button type="button" class="toggle-password" onclick="togglePassword('signupPassword')">
+                                <iconify-icon icon="mdi:eye"></iconify-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <iconify-icon icon="mdi:account-plus"></iconify-icon>
+                        إنشاء حساب
+                    </button>
+
+                    <div class="auth-footer">
+                        لديك حساب بالفعل؟ <a href="#" onclick="switchTab('login')">سجل دخولك</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // ==================== استيراد Firebase ====================
+        import { auth, db } from "./firebase-config.js";
+        import { 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword,
+            onAuthStateChanged 
+        } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+        import { 
+            doc, 
+            setDoc, 
+            collection, 
+            query, 
+            where, 
+            getDocs 
+        } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+        // ==================== إخفاء صفحة Loading ====================
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingPage').classList.add('hidden');
+            }, 1500);
+        });
+
+        // ==================== دوال المساعدة ====================
+        function showAlert(message, type = 'error') {
+            const alertDiv = document.getElementById('alert');
+            alertDiv.innerHTML = `
+                <iconify-icon icon="${type === 'error' ? 'mdi:alert-circle' : 'mdi:check-circle'}"></iconify-icon>
+                <span>${message}</span>
+            `;
+            alertDiv.className = `alert ${type} show`;
+            
+            if (type === 'error') {
+                setTimeout(() => alertDiv.classList.remove('show'), 5000);
+            }
+        }
+
+        function hideAlert() {
+            document.getElementById('alert').classList.remove('show');
+        }
+
+        function showLoading() {
+            document.getElementById('formLoading').classList.add('show');
+        }
+
+        function hideLoading() {
+            document.getElementById('formLoading').classList.remove('show');
+        }
+
+        function switchTab(tabName) {
+            // تحديث التبويبات
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                if (tab.textContent.includes(tabName === 'login' ? 'تسجيل الدخول' : 'إنشاء حساب')) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            // تحديث النماذج
+            document.getElementById('loginForm').classList.remove('active');
+            document.getElementById('signupForm').classList.remove('active');
+            document.getElementById(tabName + 'Form').classList.add('active');
+            
+            hideAlert();
+        }
+
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const button = input.parentNode.querySelector('.toggle-password');
+            const icon = button.querySelector('iconify-icon');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.setAttribute('icon', 'mdi:eye-off');
+            } else {
+                input.type = 'password';
+                icon.setAttribute('icon', 'mdi:eye');
+            }
+        }
+
+        // ==================== التحقق من البريد الإلكتروني ====================
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // ==================== مراقبة حالة المصادقة ====================
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log('✅ المستخدم مسجل بالفعل:', user.uid);
+                window.location.href = 'index.html';
+            }
+        });
+
+        // ==================== تسجيل الدخول ====================
+        async function login(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                showAlert('❗ يرجى ملء جميع الحقول');
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                showAlert('📧 البريد الإلكتروني غير صالح');
+                return;
+            }
+            
+            showLoading();
+            
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                console.log('✅ تسجيل الدخول ناجح:', userCredential.user.uid);
+                
+                showAlert('🎉 تم تسجيل الدخول بنجاح!', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+                
+            } catch (error) {
+                hideLoading();
+                console.error('❌ خطأ في تسجيل الدخول:', error);
+                
+                switch(error.code) {
+                    case 'auth/user-not-found':
+                        showAlert('🔍 لا يوجد حساب بهذا البريد الإلكتروني');
+                        break;
+                    case 'auth/wrong-password':
+                        showAlert('🔐 كلمة المرور غير صحيحة');
+                        break;
+                    case 'auth/too-many-requests':
+                        showAlert('🛑 تم تجاوز عدد المحاولات، حاول لاحقاً');
+                        break;
+                    default:
+                        showAlert('❌ خطأ في تسجيل الدخول: ' + error.message);
+                }
+            }
+        }
+
+        // ==================== إنشاء حساب جديد ====================
+        async function signup(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('signupName').value.trim();
+            const username = document.getElementById('signupUsername').value.trim().toLowerCase();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            
+            // التحقق من المدخلات
+            if (!name || !username || !email || !password) {
+                showAlert('❗ يرجى ملء جميع الحقول');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showAlert('🔐 كلمة المرور يجب أن تكون 6 أحرف على الأقل');
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                showAlert('📧 البريد الإلكتروني غير صالح');
+                return;
+            }
+            
+            // التحقق من اسم المستخدم
+            const usernameRegex = /^[a-zA-Z0-9_]+$/;
+            if (!usernameRegex.test(username)) {
+                showAlert('👤 اسم المستخدم يجب أن يحتوي على حروف إنجليزية وأرقام و _ فقط');
+                return;
+            }
+            
+            showLoading();
+            
+            try {
+                console.log('🚀 بدء إنشاء الحساب...');
+                
+                // 1. التحقق من أن اسم المستخدم غير مستخدم
+                const usersRef = collection(db, "users");
+                const q = query(usersRef, where("username", "==", username));
+                const querySnapshot = await getDocs(q);
+                
+                if (!querySnapshot.empty) {
+                    hideLoading();
+                    showAlert('🥲 اسم المستخدم مستخدم بالفعل');
+                    return;
+                }
+                
+                // 2. إنشاء حساب في Firebase Auth
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                console.log('✅ تم إنشاء حساب Auth:', user.uid);
+                
+                // 3. إنشاء document في Firestore
+                const userData = {
+                    uid: user.uid,
+                    name: name,
+                    username: username,
+                    email: email,
+                    createdAt: new Date().toISOString(),
+                    lastLogin: new Date().toISOString(),
+                    lastSeen: new Date().toISOString(),
+                    isOnline: true,
+                    status: "active",
+                    stats: {
+                        totalMessages: 0,
+                        totalLogins: 1
+                    },
+                    settings: {
+                        theme: "light",
+                        notifications: true,
+                        language: "ar"
+                    }
+                };
+                
+                // ⭐⭐ هنا بيتنشأ الـ document في collection users ⭐⭐
+                await setDoc(doc(db, "users", user.uid), userData);
+                console.log('✅ تم إنشاء document في users');
+                
+                hideLoading();
+                showAlert('✅ تم إنشاء الحساب بنجاح! جاري التحويل...', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+                
+            } catch (error) {
+                hideLoading();
+                console.error('❌ خطأ في إنشاء الحساب:', error);
+                
+                switch(error.code) {
+                    case 'auth/email-already-in-use':
+                        showAlert('📧 البريد الإلكتروني مستخدم بالفعل');
+                        break;
+                    case 'auth/weak-password':
+                        showAlert('🔐 كلمة المرور ضعيفة جداً');
+                        break;
+                    case 'auth/invalid-email':
+                        showAlert('📧 البريد الإلكتروني غير صالح');
+                        break;
+                    case 'permission-denied':
+                        showAlert('🔒 خطأ في الأذونات. تأكد من إعدادات Firebase');
+                        break;
+                    default:
+                        showAlert('❌ خطأ في إنشاء الحساب: ' + error.message);
+                }
+            }
+        }
+
+        // ==================== جعل الدوال متاحة بشكل عام ====================
+        window.switchTab = switchTab;
+        window.togglePassword = togglePassword;
+        window.login = login;
+        window.signup = signup;
+
+        console.log('✅ ChatX - صفحة التسجيل جاهزة!');
+    </script>
+</body>
+</html>
