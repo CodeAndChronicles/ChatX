@@ -8,59 +8,6 @@
     <!-- Iconify Icons -->
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     
-    <!-- Firebase SDK -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { 
-            getAuth, 
-            onAuthStateChanged, 
-            signOut,
-            updateProfile,
-            updateEmail,
-            reauthenticateWithCredential,
-            EmailAuthProvider 
-        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { 
-            getFirestore,
-            collection,
-            doc,
-            getDoc,
-            getDocs,
-            setDoc,
-            updateDoc,
-            deleteDoc,
-            addDoc,
-            query,
-            where,
-            orderBy,
-            onSnapshot,
-            serverTimestamp,
-            writeBatch,
-            increment
-        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        // Export for use in main script
-        window.firebase = { auth, db, onAuthStateChanged, signOut, updateProfile, updateEmail, 
-                          reauthenticateWithCredential, EmailAuthProvider, collection, doc, 
-                          getDoc, getDocs, setDoc, updateDoc, deleteDoc, addDoc, query, 
-                          where, orderBy, onSnapshot, serverTimestamp, writeBatch, increment };
-    </script>
-    
     <style>
         /* ===== RESET & BASE ===== */
         * {
@@ -1478,14 +1425,32 @@
         <div class="toast-container" id="toastContainer"></div>
     </div>
 
-    <script>
-        // ===== FIREBASE FUNCTIONS =====
-        const {
-            auth, db, onAuthStateChanged, signOut, updateProfile, updateEmail,
-            reauthenticateWithCredential, EmailAuthProvider, collection, doc,
-            getDoc, getDocs, setDoc, updateDoc, deleteDoc, addDoc, query,
-            where, orderBy, onSnapshot, serverTimestamp, writeBatch, increment
-        } = window.firebase;
+    <!-- Import Firebase config -->
+    <script type="module">
+        import { auth, db } from "./firebase-config.js";
+        import { 
+            onAuthStateChanged, 
+            signOut,
+            updateProfile,
+            reauthenticateWithCredential,
+            EmailAuthProvider 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            collection,
+            doc,
+            getDoc,
+            getDocs,
+            setDoc,
+            updateDoc,
+            deleteDoc,
+            addDoc,
+            query,
+            where,
+            orderBy,
+            onSnapshot,
+            serverTimestamp,
+            writeBatch
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         // ===== DOM ELEMENTS =====
         const chatWindow = document.getElementById('chatWindow');
