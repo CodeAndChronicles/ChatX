@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>ChatX - دردشة متقدمة</title>
+    <title>ChatX - دردشة</title>
     
     <!-- Iconify Icons -->
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
@@ -17,17 +17,18 @@
         }
 
         :root {
-            /* 🎨 نظام الألوان الرئيسي - حسب طلبك */
+            /* 🎨 نظام الألوان الرئيسي - التعديل اللي طلبته */
             --primary: #8B5CF6;          /* بنفسجي أساسي */
-            --primary-dark: #7C3AED;     /* بنفسجي داكن */
             --primary-light: #A78BFA;    /* بنفسجي فاتح */
+            --primary-dark: #7C3AED;     /* بنفسجي داكن */
             --secondary: #EC4899;        /* وردي */
             --accent: #10B981;          /* أخضر */
+            --danger: #EF4444;           /* أحمر */
             --warning: #F59E0B;         /* برتقالي */
-            --error: #EF4444;           /* أحمر */
+            --success: #10B981;          /* أخضر */
             --info: #3B82F6;            /* أزرق */
             
-            /* 🎨 درجات الرمادي */
+            /* 🎨 درجات الرمادي - تحسين */
             --gray-50: #F9FAFB;
             --gray-100: #F3F4F6;
             --gray-200: #E5E7EB;
@@ -39,91 +40,66 @@
             --gray-800: #1F2937;
             --gray-900: #111827;
             
-            /* 🎨 خلفيات */
-            --bg-primary: #FFFFFF;
-            --bg-secondary: #F8FAFC;
-            --bg-tertiary: #F1F5F9;
-            --bg-dark: #0F172A;
-            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --bg-glass: rgba(255, 255, 255, 0.95);
-            --bg-dark-glass: rgba(15, 23, 42, 0.95);
-            
-            /* 🎨 نص */
-            --text-primary: #1F2937;
-            --text-secondary: #4B5563;
-            --text-light: #6B7280;
-            --text-on-dark: #FFFFFF;
-            --text-on-primary: #FFFFFF;
-            
-            /* 🎨 حدود */
-            --border-light: #E5E7EB;
-            --border-medium: #D1D5DB;
-            --border-dark: #9CA3AF;
-            
-            /* 🎨 ظلال */
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            
-            /* 🎨 زوايا */
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --radius-xl: 20px;
-            --radius-2xl: 24px;
-            --radius-full: 9999px;
-            
-            /* 🎨 أنيميشن */
-            --transition-fast: 200ms cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
-            
-            /* Mode-specific variables */
-            --app-bg: var(--bg-primary);
-            --app-card-bg: var(--bg-primary);
-            --app-border: var(--border-light);
-            --app-text: var(--text-primary);
-            --app-text-secondary: var(--text-secondary);
-            --message-bg: var(--gray-100);
-            --my-message-bg: var(--primary);
-            --my-message-text: var(--text-on-primary);
-            --tab-active-bg: var(--primary);
-            --tab-active-text: var(--text-on-primary);
-            --input-bg: var(--bg-secondary);
-            --header-bg: var(--bg-glass);
-            --modal-bg: var(--bg-glass);
+            /* خلفيات داكنة */
+            --dark: #111827;
+            --darker: #0F172A;
+            --dark-gray: #1F2937;
+            --medium-gray: #374151;
+            --light-gray: #6B7280;
+            --light: #F9FAFB;
+            --border: #374151;
+            --card-bg: #1F2937;
+            --message-bg: #374151;
+            --my-message-bg: #7C3AED;
+            --tab-active: #374151;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            --radius: 16px;
+            --radius-sm: 12px;
+            --radius-xs: 8px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Dark Mode */
-        @media (prefers-color-scheme: dark) {
+        /* Light Mode Support */
+        @media (prefers-color-scheme: light) {
             :root {
-                --app-bg: var(--gray-900);
-                --app-card-bg: var(--gray-800);
-                --app-border: var(--gray-700);
-                --app-text: var(--text-on-dark);
-                --app-text-secondary: var(--gray-400);
-                --message-bg: var(--gray-800);
-                --my-message-bg: var(--primary);
-                --my-message-text: var(--text-on-primary);
-                --tab-active-bg: var(--primary);
-                --tab-active-text: var(--text-on-primary);
-                --input-bg: var(--gray-800);
-                --header-bg: var(--bg-dark-glass);
-                --modal-bg: var(--bg-dark-glass);
+                --dark: #FFFFFF;
+                --darker: #F9FAFB;
+                --dark-gray: #F3F4F6;
+                --medium-gray: #E5E7EB;
+                --light-gray: #9CA3AF;
+                --light: #111827;
+                --border: #E5E7EB;
+                --card-bg: #FFFFFF;
+                --message-bg: #F3F4F6;
+                --my-message-bg: #8B5CF6;
+                --tab-active: #F3F4F6;
             }
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            background: var(--app-bg);
-            color: var(--app-text);
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
+            background: var(--dark);
+            color: var(--light);
             height: 100vh;
             width: 100vw;
             overflow: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ===== RESPONSIVE BREAKPOINTS ===== */
+        @media (min-width: 768px) {
+            :root {
+                --radius: 20px;
+                --radius-sm: 16px;
+                --radius-xs: 12px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            :root {
+                --radius: 24px;
+            }
         }
 
         /* ===== MAIN LAYOUT ===== */
@@ -134,7 +110,7 @@
             width: 100%;
             margin: 0 auto;
             position: relative;
-            background: var(--app-bg);
+            background: var(--darker);
             overflow: hidden;
         }
 
@@ -144,10 +120,10 @@
                 max-width: 800px;
                 margin: 20px auto;
                 height: calc(100vh - 40px);
-                border-radius: var(--radius-xl);
+                border-radius: var(--radius);
                 overflow: hidden;
-                box-shadow: var(--shadow-2xl);
-                border: 1px solid var(--app-border);
+                box-shadow: var(--shadow);
+                border: 1px solid var(--border);
             }
         }
 
@@ -161,27 +137,28 @@
 
         /* ===== HEADER ===== */
         .app-header {
-            padding: 1rem 1.25rem 0.5rem;
-            background: var(--header-bg);
-            border-bottom: 1px solid var(--app-border);
+            padding: clamp(16px, 3vw, 24px) clamp(16px, 4vw, 24px) clamp(12px, 2vw, 16px);
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
             z-index: 100;
             backdrop-filter: blur(20px);
+            background: rgba(31, 41, 55, 0.9);
         }
 
         .header-content {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 1rem;
-            gap: 1rem;
+            margin-bottom: clamp(16px, 3vw, 24px);
+            gap: 16px;
         }
 
         .user-profile {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: clamp(12px, 2vw, 16px);
             flex: 1;
             min-width: 0;
         }
@@ -192,40 +169,35 @@
         }
 
         .avatar {
-            width: 3rem;
-            height: 3rem;
-            border-radius: var(--radius-full);
-            background: var(--bg-gradient);
+            width: clamp(48px, 8vw, 56px);
+            height: clamp(48px, 8vw, 56px);
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: 700;
-            font-size: 1.25rem;
+            font-size: clamp(18px, 3vw, 22px);
             position: relative;
-            border: 3px solid var(--app-bg);
-            box-shadow: var(--shadow-md);
-            transition: var(--transition-base);
-        }
-
-        .avatar:hover {
-            transform: scale(1.05);
+            border: 3px solid var(--card-bg);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         .status-indicator {
             position: absolute;
             bottom: 4px;
             right: 4px;
-            width: 0.75rem;
-            height: 0.75rem;
-            background: var(--accent);
-            border-radius: var(--radius-full);
-            border: 2px solid var(--app-bg);
-            transition: var(--transition-fast);
+            width: clamp(12px, 2vw, 16px);
+            height: clamp(12px, 2vw, 16px);
+            background: var(--success);
+            border-radius: 50%;
+            border: 3px solid var(--card-bg);
+            transition: var(--transition);
         }
 
         .status-indicator.offline {
-            background: var(--gray-400);
+            background: var(--light-gray);
         }
 
         .user-details {
@@ -234,78 +206,77 @@
         }
 
         .user-name {
-            font-size: 1.125rem;
+            font-size: clamp(16px, 3vw, 20px);
             font-weight: 700;
-            margin-bottom: 0.25rem;
+            margin-bottom: 4px;
+            letter-spacing: -0.2px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         .user-status {
-            font-size: 0.875rem;
-            color: var(--app-text-secondary);
+            font-size: clamp(12px, 2vw, 14px);
+            color: var(--accent);
             display: flex;
             align-items: center;
-            gap: 0.375rem;
+            gap: 6px;
             font-weight: 500;
+            white-space: nowrap;
         }
 
         .header-actions {
             display: flex;
-            gap: 0.5rem;
+            gap: clamp(8px, 1.5vw, 12px);
             flex-shrink: 0;
         }
 
         .icon-button {
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--app-border);
-            background: var(--app-card-bg);
-            color: var(--app-text);
+            width: clamp(40px, 7vw, 44px);
+            height: clamp(40px, 7vw, 44px);
+            border-radius: var(--radius-xs);
+            border: none;
+            background: var(--medium-gray);
+            color: var(--light);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
-            transition: var(--transition-base);
+            font-size: clamp(18px, 3vw, 22px);
+            transition: var(--transition);
             position: relative;
             flex-shrink: 0;
         }
 
         .icon-button:hover {
-            background: var(--primary);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+            background: var(--light-gray);
+            transform: translateY(-1px);
         }
 
         .badge {
             position: absolute;
             top: -4px;
-            right: -4px;
+            left: -4px;
             background: var(--secondary);
             color: white;
-            font-size: 0.75rem;
+            font-size: 11px;
             font-weight: 700;
-            width: 1.25rem;
-            height: 1.25rem;
-            border-radius: var(--radius-full);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid var(--app-bg);
-            animation: pulse 2s infinite;
+            border: 2px solid var(--card-bg);
         }
 
         /* ===== TABS NAVIGATION ===== */
         .tabs-navigation {
             display: flex;
-            background: var(--input-bg);
-            border-radius: var(--radius-lg);
-            padding: 0.25rem;
-            gap: 0.25rem;
+            background: var(--dark-gray);
+            border-radius: var(--radius-sm);
+            padding: 4px;
+            gap: 4px;
         }
 
         .tab-button {
@@ -314,32 +285,31 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 0.75rem 0.5rem;
+            padding: clamp(10px, 2vw, 14px) clamp(8px, 1.5vw, 12px);
             border: none;
             background: transparent;
-            color: var(--app-text-secondary);
+            color: var(--light);
             cursor: pointer;
-            border-radius: var(--radius-md);
-            transition: var(--transition-base);
-            gap: 0.25rem;
-            min-height: 4rem;
+            border-radius: var(--radius-xs);
+            transition: var(--transition);
+            gap: 4px;
+            position: relative;
+            min-height: clamp(64px, 10vw, 72px);
         }
 
         .tab-button:hover {
-            background: rgba(139, 92, 246, 0.1);
-            color: var(--primary);
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .tab-button.active {
-            background: var(--tab-active-bg);
-            color: var(--tab-active-text);
-            box-shadow: var(--shadow-sm);
+            background: var(--tab-active);
+            color: var(--primary);
         }
 
         .tab-icon {
-            font-size: 1.25rem;
-            margin-bottom: 0.25rem;
-            transition: var(--transition-base);
+            font-size: clamp(20px, 3.5vw, 24px);
+            margin-bottom: 2px;
+            transition: var(--transition);
         }
 
         .tab-button.active .tab-icon {
@@ -347,8 +317,9 @@
         }
 
         .tab-label {
-            font-size: 0.75rem;
+            font-size: clamp(11px, 1.8vw, 13px);
             font-weight: 600;
+            letter-spacing: -0.1px;
         }
 
         /* ===== CONTENT AREAS ===== */
@@ -364,11 +335,11 @@
             right: 0;
             width: 100%;
             height: 100%;
-            padding: 0 1.25rem;
+            padding: 0 clamp(16px, 4vw, 24px);
             overflow-y: auto;
             opacity: 0;
             transform: translateX(20px);
-            transition: var(--transition-base);
+            transition: var(--transition);
             pointer-events: none;
         }
 
@@ -383,94 +354,90 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 1.5rem 0 1rem;
+            margin: clamp(20px, 4vw, 28px) 0 clamp(16px, 3vw, 20px);
         }
 
         .section-title {
-            font-size: 1.75rem;
+            font-size: clamp(20px, 4vw, 28px);
             font-weight: 800;
-            letter-spacing: -0.025em;
+            letter-spacing: -0.3px;
         }
 
         .search-box {
             position: relative;
-            margin-bottom: 1rem;
+            margin-bottom: clamp(16px, 3vw, 24px);
         }
 
         .search-input {
             width: 100%;
-            padding: 0.875rem 3rem 0.875rem 1rem;
-            background: var(--input-bg);
+            padding: clamp(14px, 3vw, 18px) clamp(44px, 8vw, 52px) clamp(14px, 3vw, 18px) clamp(16px, 3vw, 20px);
+            background: var(--dark-gray);
             border: 2px solid transparent;
-            border-radius: var(--radius-lg);
-            color: var(--app-text);
-            font-size: 0.9375rem;
-            transition: var(--transition-base);
-            box-shadow: var(--shadow-sm);
+            border-radius: var(--radius-sm);
+            color: var(--light);
+            font-size: clamp(14px, 2.5vw, 16px);
+            transition: var(--transition);
         }
 
         .search-input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+            background: var(--medium-gray);
         }
 
         .search-icon {
             position: absolute;
-            left: 1rem;
+            left: clamp(16px, 3vw, 20px);
             top: 50%;
             transform: translateY(-50%);
-            color: var(--gray-400);
-            font-size: 1.25rem;
+            color: var(--light-gray);
+            font-size: clamp(18px, 3vw, 20px);
         }
 
         .chats-list {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
-            padding-bottom: 5rem;
+            gap: clamp(10px, 2vw, 14px);
+            padding-bottom: clamp(80px, 15vw, 120px);
         }
 
         .chat-card {
             display: flex;
             align-items: center;
-            padding: 1rem;
-            background: var(--app-card-bg);
-            border-radius: var(--radius-lg);
+            padding: clamp(14px, 3vw, 18px);
+            background: var(--card-bg);
+            border-radius: var(--radius-sm);
             cursor: pointer;
-            transition: var(--transition-base);
+            transition: var(--transition);
             border: 2px solid transparent;
             position: relative;
-            box-shadow: var(--shadow-sm);
         }
 
         .chat-card:hover {
+            background: var(--medium-gray);
             transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--primary-light);
+            box-shadow: var(--shadow);
         }
 
         .chat-card.active {
             border-color: var(--primary);
             background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05));
-            box-shadow: var(--shadow-lg);
         }
 
         .chat-avatar {
-            width: 3rem;
-            height: 3rem;
-            border-radius: var(--radius-full);
+            width: clamp(48px, 8vw, 56px);
+            height: clamp(48px, 8vw, 56px);
+            border-radius: 50%;
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: 700;
-            font-size: 1.125rem;
-            margin-left: 0.75rem;
+            font-size: clamp(18px, 3vw, 20px);
+            margin-left: clamp(12px, 2vw, 16px);
             flex-shrink: 0;
-            border: 3px solid var(--app-bg);
-            box-shadow: var(--shadow-sm);
+            border: 3px solid var(--card-bg);
         }
 
         .chat-info {
@@ -482,21 +449,22 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.375rem;
-            gap: 0.5rem;
+            margin-bottom: 6px;
+            gap: 8px;
         }
 
         .chat-name {
-            font-size: 0.9375rem;
+            font-size: clamp(15px, 2.5vw, 17px);
             font-weight: 700;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            letter-spacing: -0.2px;
         }
 
         .chat-time {
-            font-size: 0.75rem;
-            color: var(--app-text-secondary);
+            font-size: clamp(11px, 2vw, 13px);
+            color: var(--light-gray);
             font-weight: 500;
             white-space: nowrap;
         }
@@ -504,12 +472,12 @@
         .chat-preview {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 8px;
         }
 
         .chat-message {
-            font-size: 0.875rem;
-            color: var(--app-text-secondary);
+            font-size: clamp(13px, 2.2vw, 15px);
+            color: var(--light-gray);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -520,17 +488,17 @@
         .unread-count {
             background: var(--primary);
             color: white;
-            font-size: 0.75rem;
+            font-size: clamp(11px, 2vw, 12px);
             font-weight: 700;
-            min-width: 1.25rem;
-            height: 1.25rem;
-            padding: 0 0.375rem;
-            border-radius: var(--radius-full);
+            min-width: clamp(20px, 4vw, 24px);
+            height: clamp(20px, 4vw, 24px);
+            padding: 0 clamp(6px, 1.5vw, 8px);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            box-shadow: var(--shadow-sm);
+            animation: pulse 2s infinite;
         }
 
         /* ===== CHAT WINDOW ===== */
@@ -540,7 +508,7 @@
             right: 0;
             width: 100%;
             height: 100%;
-            background: var(--app-bg);
+            background: var(--darker);
             z-index: 1000;
             display: none;
             flex-direction: column;
@@ -554,53 +522,54 @@
         }
 
         .chat-header {
-            padding: 1rem 1.25rem;
-            background: var(--header-bg);
-            border-bottom: 1px solid var(--app-border);
+            padding: clamp(16px, 3vw, 20px) clamp(16px, 4vw, 24px);
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 12px;
             backdrop-filter: blur(20px);
+            background: rgba(31, 41, 55, 0.95);
         }
 
         .chat-back-btn {
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: var(--radius-md);
+            width: clamp(40px, 7vw, 44px);
+            height: clamp(40px, 7vw, 44px);
+            border-radius: var(--radius-xs);
             border: none;
-            background: var(--input-bg);
-            color: var(--app-text);
+            background: var(--medium-gray);
+            color: var(--light);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
-            transition: var(--transition-base);
+            font-size: clamp(18px, 3vw, 22px);
+            transition: var(--transition);
         }
 
         .chat-back-btn:hover {
-            background: var(--primary);
-            color: white;
+            background: var(--light-gray);
+            transform: translateX(-2px);
         }
 
         .chat-user-info {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 12px;
             flex: 1;
         }
 
         .chat-user-avatar {
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: var(--radius-full);
+            width: clamp(40px, 7vw, 44px);
+            height: clamp(40px, 7vw, 44px);
+            border-radius: 50%;
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: clamp(16px, 2.5vw, 18px);
         }
 
         .chat-user-details {
@@ -608,65 +577,59 @@
         }
 
         .chat-user-name {
-            font-size: 1rem;
+            font-size: clamp(15px, 2.5vw, 17px);
             font-weight: 700;
-            margin-bottom: 0.125rem;
+            margin-bottom: 2px;
         }
 
         .chat-user-status {
-            font-size: 0.75rem;
+            font-size: clamp(11px, 2vw, 13px);
             color: var(--accent);
             display: flex;
             align-items: center;
-            gap: 0.25rem;
-        }
-
-        .chat-actions {
-            display: flex;
-            gap: 0.5rem;
+            gap: 4px;
         }
 
         .chat-messages {
             flex: 1;
             overflow-y: auto;
-            padding: 1.25rem;
+            padding: clamp(16px, 3vw, 20px);
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 12px;
         }
 
         .message {
             max-width: 70%;
-            padding: 0.75rem 1rem;
-            border-radius: var(--radius-lg);
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
             position: relative;
             animation: fadeInUp 0.3s ease;
-            box-shadow: var(--shadow-sm);
         }
 
         .message.received {
             align-self: flex-start;
             background: var(--message-bg);
-            border-bottom-right-radius: var(--radius-sm);
+            border-bottom-right-radius: 4px;
         }
 
         .message.sent {
             align-self: flex-end;
             background: var(--my-message-bg);
-            color: var(--my-message-text);
-            border-bottom-left-radius: var(--radius-sm);
+            color: white;
+            border-bottom-left-radius: 4px;
         }
 
         .message-text {
-            font-size: 0.9375rem;
+            font-size: 14px;
             line-height: 1.5;
             word-wrap: break-word;
         }
 
         .message-time {
-            font-size: 0.6875rem;
+            font-size: 11px;
             opacity: 0.7;
-            margin-top: 0.25rem;
+            margin-top: 4px;
             text-align: left;
         }
 
@@ -676,42 +639,43 @@
         }
 
         .chat-input-container {
-            padding: 1rem 1.25rem;
-            border-top: 1px solid var(--app-border);
-            background: var(--header-bg);
+            padding: clamp(12px, 2vw, 16px) clamp(16px, 4vw, 24px);
+            border-top: 1px solid var(--border);
+            background: var(--card-bg);
             backdrop-filter: blur(20px);
+            background: rgba(31, 41, 55, 0.95);
         }
 
         .chat-input-wrapper {
             display: flex;
-            gap: 0.75rem;
+            gap: 12px;
             align-items: center;
         }
 
         .chat-input {
             flex: 1;
-            padding: 0.75rem 1rem;
-            background: var(--input-bg);
-            border: 1px solid var(--app-border);
-            border-radius: var(--radius-lg);
-            color: var(--app-text);
-            font-size: 0.9375rem;
+            padding: 12px 16px;
+            background: var(--dark-gray);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--light);
+            font-size: 14px;
             resize: none;
-            min-height: 2.5rem;
-            max-height: 6rem;
-            transition: var(--transition-base);
+            min-height: 44px;
+            max-height: 120px;
+            transition: var(--transition);
         }
 
         .chat-input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+            background: var(--medium-gray);
         }
 
         .send-button {
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: var(--radius-full);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
             background: var(--primary);
             color: white;
             border: none;
@@ -719,40 +683,41 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
-            transition: var(--transition-base);
-            box-shadow: var(--shadow-md);
+            font-size: 20px;
+            transition: var(--transition);
         }
 
         .send-button:hover {
             background: var(--primary-dark);
-            transform: scale(1.1);
-            box-shadow: var(--shadow-lg);
+            transform: scale(1.05);
         }
 
         /* ===== SETTINGS TAB ===== */
+        .settings-header {
+            margin: clamp(20px, 4vw, 28px) 0 clamp(16px, 3vw, 20px);
+        }
+
         .settings-list {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
-            padding-bottom: 5rem;
+            gap: clamp(10px, 2vw, 14px);
+            padding-bottom: clamp(80px, 15vw, 120px);
         }
 
         .settings-group {
-            background: var(--app-card-bg);
-            border-radius: var(--radius-lg);
+            background: var(--card-bg);
+            border-radius: var(--radius-sm);
             overflow: hidden;
-            box-shadow: var(--shadow-sm);
         }
 
         .settings-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1rem;
+            padding: clamp(16px, 3vw, 20px);
             cursor: pointer;
-            transition: var(--transition-base);
-            border-bottom: 1px solid var(--app-border);
+            transition: var(--transition);
+            border-bottom: 1px solid var(--border);
         }
 
         .settings-item:last-child {
@@ -760,28 +725,34 @@
         }
 
         .settings-item:hover {
-            background: var(--input-bg);
+            background: var(--medium-gray);
         }
 
         .item-content {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: clamp(12px, 2vw, 16px);
             flex: 1;
             min-width: 0;
         }
 
         .item-icon {
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: var(--radius-md);
-            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            width: clamp(40px, 7vw, 44px);
+            height: clamp(40px, 7vw, 44px);
+            border-radius: var(--radius-xs);
+            background: var(--medium-gray);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
+            font-size: clamp(20px, 3vw, 22px);
+            color: var(--primary);
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .settings-item:hover .item-icon {
+            background: var(--primary);
             color: white;
-            transition: var(--transition-base);
         }
 
         .item-details {
@@ -790,21 +761,23 @@
         }
 
         .item-details h4 {
-            font-size: 0.9375rem;
+            font-size: clamp(15px, 2.5vw, 17px);
             font-weight: 700;
-            margin-bottom: 0.25rem;
+            margin-bottom: 4px;
+            letter-spacing: -0.2px;
         }
 
         .item-details p {
-            font-size: 0.8125rem;
-            color: var(--app-text-secondary);
+            font-size: clamp(13px, 2vw, 14px);
+            color: var(--light-gray);
             font-weight: 500;
         }
 
         .item-arrow {
-            color: var(--gray-400);
-            font-size: 1.25rem;
-            transition: var(--transition-base);
+            color: var(--light-gray);
+            font-size: clamp(18px, 3vw, 20px);
+            transition: var(--transition);
+            flex-shrink: 0;
         }
 
         .settings-item:hover .item-arrow {
@@ -819,12 +792,12 @@
             right: 0;
             width: 100%;
             height: 100%;
-            background: var(--app-bg);
+            background: var(--dark);
             z-index: 1001;
             display: none;
             flex-direction: column;
             transform: translateX(100%);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .profile-modal.active {
@@ -833,69 +806,72 @@
         }
 
         .profile-header {
-            padding: 1.25rem 1.25rem 1rem;
-            background: var(--header-bg);
-            border-bottom: 1px solid var(--app-border);
+            padding: clamp(20px, 4vw, 28px) clamp(16px, 4vw, 24px) clamp(16px, 3vw, 20px);
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 16px;
             backdrop-filter: blur(20px);
+            background: rgba(31, 41, 55, 0.95);
         }
 
         .profile-back-btn {
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: var(--radius-md);
+            width: clamp(40px, 7vw, 44px);
+            height: clamp(40px, 7vw, 44px);
+            border-radius: var(--radius-xs);
             border: none;
-            background: var(--input-bg);
-            color: var(--app-text);
+            background: var(--medium-gray);
+            color: var(--light);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
-            transition: var(--transition-base);
+            font-size: clamp(18px, 3vw, 22px);
+            transition: var(--transition);
+            flex-shrink: 0;
         }
 
         .profile-back-btn:hover {
-            background: var(--primary);
-            color: white;
+            background: var(--light-gray);
+            transform: translateX(-2px);
         }
 
         .profile-title {
-            font-size: 1.25rem;
+            font-size: clamp(20px, 4vw, 24px);
             font-weight: 800;
+            letter-spacing: -0.3px;
             flex: 1;
         }
 
         .profile-content {
             flex: 1;
             overflow-y: auto;
-            padding: 1.5rem 1.25rem;
+            padding: clamp(20px, 4vw, 28px) clamp(16px, 4vw, 24px);
         }
 
         .profile-avatar-section {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: clamp(24px, 5vw, 32px);
         }
 
         .profile-avatar-large {
-            width: 8rem;
-            height: 8rem;
-            border-radius: var(--radius-full);
-            background: var(--bg-gradient);
+            width: clamp(100px, 20vw, 140px);
+            height: clamp(100px, 20vw, 140px);
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 3rem;
+            font-size: clamp(40px, 8vw, 56px);
             font-weight: 700;
-            margin: 0 auto 1rem;
+            margin: 0 auto clamp(12px, 2vw, 16px);
             position: relative;
-            border: 4px solid var(--app-bg);
-            box-shadow: var(--shadow-xl);
+            border: 4px solid var(--card-bg);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
             cursor: pointer;
-            transition: var(--transition-base);
+            transition: var(--transition);
         }
 
         .profile-avatar-large:hover {
@@ -905,255 +881,233 @@
         .profile-avatar-large.online::after {
             content: '';
             position: absolute;
-            bottom: 0.75rem;
-            right: 0.75rem;
-            width: 1.5rem;
-            height: 1.5rem;
-            background: var(--accent);
-            border-radius: var(--radius-full);
-            border: 3px solid var(--app-bg);
+            bottom: 10px;
+            right: 10px;
+            width: clamp(20px, 4vw, 28px);
+            height: clamp(20px, 4vw, 28px);
+            background: var(--success);
+            border-radius: 50%;
+            border: 4px solid var(--card-bg);
+        }
+
+        .profile-avatar-large.offline::after {
+            content: '';
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: clamp(20px, 4vw, 28px);
+            height: clamp(20px, 4vw, 28px);
+            background: var(--light-gray);
+            border-radius: 50%;
+            border: 4px solid var(--card-bg);
         }
 
         .profile-name-display {
-            font-size: 2rem;
+            font-size: clamp(24px, 5vw, 32px);
             font-weight: 800;
-            margin-bottom: 0.25rem;
+            margin-bottom: 4px;
+            letter-spacing: -0.4px;
         }
 
         .profile-username-display {
-            font-size: 1rem;
-            color: var(--app-text-secondary);
+            font-size: clamp(16px, 3vw, 18px);
+            color: var(--light-gray);
             font-weight: 600;
         }
 
         .profile-form {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: clamp(16px, 3vw, 20px);
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 8px;
         }
 
         .form-label {
-            font-size: 0.875rem;
+            font-size: clamp(14px, 2.5vw, 16px);
             font-weight: 700;
-            color: var(--app-text);
+            color: var(--light);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 8px;
         }
 
         .form-input {
             width: 100%;
-            padding: 0.75rem 1rem;
-            background: var(--input-bg);
-            border: 1px solid var(--app-border);
-            border-radius: var(--radius-md);
-            color: var(--app-text);
-            font-size: 0.9375rem;
-            transition: var(--transition-base);
+            padding: clamp(14px, 3vw, 16px) clamp(16px, 3vw, 20px);
+            background: var(--dark-gray);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--light);
+            font-size: clamp(14px, 2.5vw, 16px);
+            transition: var(--transition);
+            font-weight: 500;
         }
 
         .form-input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+            background: var(--medium-gray);
+        }
+
+        .form-input:disabled {
+            background: var(--medium-gray);
+            color: var(--light-gray);
+            cursor: not-allowed;
         }
 
         .profile-status-toggle {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0.75rem 1rem;
-            background: var(--input-bg);
-            border-radius: var(--radius-md);
-            border: 1px solid var(--app-border);
+            padding: clamp(14px, 3vw, 16px) clamp(16px, 3vw, 20px);
+            background: var(--dark-gray);
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--border);
             cursor: pointer;
-            transition: var(--transition-base);
+            transition: var(--transition);
         }
 
         .profile-status-toggle:hover {
+            background: var(--medium-gray);
             border-color: var(--primary);
         }
 
         .status-toggle-content {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 12px;
         }
 
         .status-toggle-label {
-            font-size: 0.875rem;
+            font-size: clamp(14px, 2.5vw, 16px);
             font-weight: 700;
         }
 
         .status-toggle-value {
-            font-size: 0.8125rem;
-            color: var(--app-text-secondary);
+            font-size: clamp(13px, 2vw, 14px);
+            color: var(--light-gray);
+            font-weight: 500;
         }
 
         .toggle-switch {
-            width: 3rem;
-            height: 1.5rem;
-            background: var(--gray-300);
-            border-radius: 0.75rem;
+            width: clamp(44px, 8vw, 52px);
+            height: clamp(24px, 4vw, 28px);
+            background: var(--light-gray);
+            border-radius: 14px;
             position: relative;
-            transition: var(--transition-base);
+            transition: var(--transition);
         }
 
         .toggle-switch.active {
-            background: var(--accent);
+            background: var(--success);
         }
 
         .toggle-switch::after {
             content: '';
             position: absolute;
-            top: 0.125rem;
-            right: 0.125rem;
-            width: 1.25rem;
-            height: 1.25rem;
+            top: 2px;
+            right: 2px;
+            width: clamp(20px, 4vw, 24px);
+            height: clamp(20px, 4vw, 24px);
             background: white;
-            border-radius: var(--radius-full);
-            transition: var(--transition-base);
-            box-shadow: var(--shadow-sm);
+            border-radius: 50%;
+            transition: var(--transition);
         }
 
         .toggle-switch.active::after {
-            right: calc(100% - 1.375rem);
+            right: calc(100% - 26px);
         }
 
         .save-profile-btn {
             width: 100%;
-            padding: 0.875rem;
+            padding: clamp(16px, 3vw, 20px);
             background: var(--primary);
             border: none;
-            border-radius: var(--radius-lg);
+            border-radius: var(--radius-sm);
             color: white;
-            font-size: 1rem;
+            font-size: clamp(16px, 3vw, 18px);
             font-weight: 700;
             cursor: pointer;
-            transition: var(--transition-base);
-            margin-top: 1rem;
-            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            margin-top: 8px;
         }
 
         .save-profile-btn:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
         }
 
-        /* ===== LOADING STATES ===== */
-        .loading-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 3rem 1rem;
-            color: var(--app-text-secondary);
-        }
-
-        .loading-spinner {
-            width: 3rem;
-            height: 3rem;
-            border: 3px solid var(--border-light);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 1rem;
-        }
-
-        .loading-text {
-            font-size: 0.875rem;
-            font-weight: 600;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: var(--app-text-secondary);
-        }
-
-        .empty-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.3;
-        }
-
-        .empty-title {
-            font-size: 1.25rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-            color: var(--app-text);
-        }
-
-        .empty-description {
-            font-size: 0.875rem;
-            max-width: 20rem;
-            margin: 0 auto;
+        .save-profile-btn:disabled {
+            background: var(--light-gray);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
         /* ===== TOAST NOTIFICATIONS ===== */
         .toast-container {
             position: fixed;
-            bottom: 1.5rem;
+            bottom: 24px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 2000;
-            width: calc(100% - 2rem);
-            max-width: 24rem;
+            width: calc(100% - 40px);
+            max-width: 400px;
             display: flex;
             flex-direction: column-reverse;
-            gap: 0.5rem;
+            gap: 8px;
             align-items: center;
         }
 
         .toast {
-            background: var(--app-card-bg);
-            border: 1px solid var(--app-border);
-            border-radius: var(--radius-lg);
-            padding: 1rem;
-            box-shadow: var(--shadow-xl);
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: clamp(14px, 2.5vw, 16px) clamp(16px, 3vw, 20px);
+            box-shadow: var(--shadow);
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            animation: toastSlideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: clamp(12px, 2vw, 14px);
+            animation: toastSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             backdrop-filter: blur(20px);
+            background: rgba(31, 41, 55, 0.95);
             width: 100%;
-            border-right: 4px solid var(--primary);
+            transform-origin: bottom center;
         }
 
         .toast.success {
-            border-right-color: var(--accent);
+            border-right: 4px solid var(--success);
         }
 
         .toast.error {
-            border-right-color: var(--error);
+            border-right: 4px solid var(--danger);
         }
 
         .toast.warning {
-            border-right-color: var(--warning);
+            border-right: 4px solid var(--warning);
         }
 
         .toast.info {
-            border-right-color: var(--info);
+            border-right: 4px solid var(--primary);
         }
 
         .toast-icon {
-            font-size: 1.25rem;
+            font-size: clamp(20px, 3.5vw, 24px);
             flex-shrink: 0;
         }
 
         .toast.success .toast-icon {
-            color: var(--accent);
+            color: var(--success);
         }
 
         .toast.error .toast-icon {
-            color: var(--error);
+            color: var(--danger);
         }
 
         .toast.warning .toast-icon {
@@ -1161,20 +1115,75 @@
         }
 
         .toast.info .toast-icon {
-            color: var(--info);
+            color: var(--primary);
         }
 
         .toast-content {
             flex: 1;
-            font-size: 0.875rem;
+            font-size: clamp(14px, 2.5vw, 15px);
             font-weight: 600;
             line-height: 1.4;
+        }
+
+        /* ===== EMPTY STATES ===== */
+        .empty-state {
+            text-align: center;
+            padding: clamp(60px, 12vw, 80px) clamp(20px, 4vw, 24px);
+            color: var(--light-gray);
+        }
+
+        .empty-icon {
+            font-size: clamp(60px, 12vw, 72px);
+            margin-bottom: clamp(16px, 3vw, 24px);
+            opacity: 0.3;
+        }
+
+        .empty-title {
+            font-size: clamp(18px, 3.5vw, 20px);
+            font-weight: 800;
+            margin-bottom: clamp(8px, 2vw, 12px);
+            color: var(--light);
+            letter-spacing: -0.3px;
+        }
+
+        .empty-description {
+            font-size: clamp(14px, 2.5vw, 16px);
+            line-height: 1.5;
+            font-weight: 500;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        /* ===== LOADING ===== */
+        .loading-container {
+            text-align: center;
+            padding: clamp(40px, 8vw, 60px) clamp(20px, 4vw, 24px);
+            color: var(--light-gray);
+        }
+
+        .loading-spinner {
+            width: clamp(40px, 8vw, 48px);
+            height: clamp(40px, 8vw, 48px);
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto clamp(16px, 3vw, 20px);
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: clamp(14px, 2.5vw, 16px);
+            font-weight: 600;
         }
 
         /* ===== ANIMATIONS ===== */
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            50% { transform: scale(1.05); }
         }
 
         @keyframes fadeInUp {
@@ -1186,10 +1195,6 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
         }
 
         @keyframes toastSlideUp {
@@ -1206,6 +1211,15 @@
         /* ===== UTILITY ===== */
         .hidden {
             display: none !important;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
@@ -1279,7 +1293,7 @@
 
             <!-- Settings Tab -->
             <div class="tab-content" id="settingsContent">
-                <div class="chats-header">
+                <div class="settings-header">
                     <h2 class="section-title">الإعدادات</h2>
                 </div>
                 
@@ -1333,14 +1347,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="chat-actions">
-                    <button class="icon-button" id="callBtn">
-                        <iconify-icon icon="mdi:phone"></iconify-icon>
-                    </button>
-                    <button class="icon-button" id="videoBtn">
-                        <iconify-icon icon="mdi:video"></iconify-icon>
-                    </button>
-                </div>
             </div>
             
             <div class="chat-messages" id="chatMessages">
@@ -1360,7 +1366,7 @@
             </div>
         </div>
 
-        <!-- Profile Modal -->
+        <!-- Profile Settings Modal -->
         <div class="profile-modal" id="profileModal">
             <div class="profile-header">
                 <button class="profile-back-btn" id="profileBackBtn">
@@ -1398,7 +1404,7 @@
                             <iconify-icon icon="mdi:email"></iconify-icon>
                             البريد الإلكتروني
                         </label>
-                        <input type="email" class="form-input" id="profileEmailInput" placeholder="البريد الإلكتروني" readonly>
+                        <input type="email" class="form-input" id="profileEmailInput" placeholder="البريد الإلكتروني" disabled>
                     </div>
                     
                     <div class="form-group">
@@ -1410,7 +1416,7 @@
                                     <div class="status-toggle-value" id="profileStatusValue">متصل</div>
                                 </div>
                             </div>
-                            <div class="toggle-switch active" id="profileStatusSwitch"></div>
+                            <div class="toggle-switch" id="profileStatusSwitch"></div>
                         </div>
                     </div>
                     
@@ -1425,8 +1431,9 @@
         <div class="toast-container" id="toastContainer"></div>
     </div>
 
-    <!-- Import Firebase config -->
+    <!-- Firebase SDK -->
     <script type="module">
+        // ===== IMPORTS =====
         import { auth, db } from "./firebase-config.js";
         import { 
             onAuthStateChanged, 
@@ -1435,7 +1442,8 @@
             reauthenticateWithCredential,
             EmailAuthProvider 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { 
+        
+        import {
             collection,
             doc,
             getDoc,
@@ -1453,24 +1461,26 @@
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         // ===== DOM ELEMENTS =====
-        const chatWindow = document.getElementById('chatWindow');
-        const chatBackBtn = document.getElementById('chatBackBtn');
-        const chatUserAvatar = document.getElementById('chatUserAvatar');
-        const chatUserName = document.getElementById('chatUserName');
-        const chatUserStatus = document.getElementById('chatUserStatus');
-        const chatMessages = document.getElementById('chatMessages');
-        const chatInput = document.getElementById('chatInput');
-        const sendMessageBtn = document.getElementById('sendMessageBtn');
-        const chatsList = document.getElementById('chatsList');
+        const userAvatar = document.getElementById('userAvatar');
+        const userName = document.getElementById('userName');
+        const userStatus = document.getElementById('userStatus');
+        const statusIndicator = document.getElementById('statusIndicator');
+        
         const tabButtons = document.querySelectorAll('.tab-button');
         const chatsContent = document.getElementById('chatsContent');
         const settingsContent = document.getElementById('settingsContent');
+        
+        const notificationsBtn = document.getElementById('notificationsBtn');
+        const newChatBtn = document.getElementById('newChatBtn');
+        
+        const chatsSearch = document.getElementById('chatsSearch');
+        const chatsList = document.getElementById('chatsList');
+        
         const profileSettingsBtn = document.getElementById('profileSettingsBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        
         const profileModal = document.getElementById('profileModal');
         const profileBackBtn = document.getElementById('profileBackBtn');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const newChatBtn = document.getElementById('newChatBtn');
-        const chatsSearch = document.getElementById('chatsSearch');
         const profileAvatarLarge = document.getElementById('profileAvatarLarge');
         const profileNameDisplay = document.getElementById('profileNameDisplay');
         const profileUsernameDisplay = document.getElementById('profileUsernameDisplay');
@@ -1481,10 +1491,17 @@
         const profileStatusValue = document.getElementById('profileStatusValue');
         const profileStatusSwitch = document.getElementById('profileStatusSwitch');
         const saveProfileBtn = document.getElementById('saveProfileBtn');
-        const userAvatar = document.getElementById('userAvatar');
-        const userName = document.getElementById('userName');
-        const userStatus = document.getElementById('userStatus');
-        const statusIndicator = document.getElementById('statusIndicator');
+        
+        const chatWindow = document.getElementById('chatWindow');
+        const chatBackBtn = document.getElementById('chatBackBtn');
+        const chatUserAvatar = document.getElementById('chatUserAvatar');
+        const chatUserName = document.getElementById('chatUserName');
+        const chatUserStatus = document.getElementById('chatUserStatus');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+        
+        const toastContainer = document.getElementById('toastContainer');
 
         // ===== STATE VARIABLES =====
         let currentUser = null;
@@ -1510,6 +1527,8 @@
             let date;
             if (timestamp.toDate) {
                 date = timestamp.toDate();
+            } else if (timestamp instanceof Date) {
+                date = timestamp;
             } else {
                 return '';
             }
@@ -1534,7 +1553,6 @@
 
         // Show toast
         function showToast(message, type = 'info') {
-            const toastContainer = document.getElementById('toastContainer');
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
             
@@ -1555,15 +1573,16 @@
             }, 3000);
         }
 
-        // ===== FIREBASE OPERATIONS =====
+        // ===== FIREBASE FUNCTIONS =====
         
-        // Ensure user document exists
+        // 🔥 Create user document if doesn't exist
         async function ensureUserDocument(user) {
             try {
                 const userRef = doc(db, "users", user.uid);
                 const userDoc = await getDoc(userRef);
                 
                 if (!userDoc.exists()) {
+                    // إنشاء مستند المستخدم مع البيانات الأساسية
                     await setDoc(userRef, {
                         uid: user.uid,
                         name: user.displayName || 'مستخدم جديد',
@@ -1574,6 +1593,7 @@
                         lastSeen: serverTimestamp()
                     });
                     
+                    // إنشاء username document
                     const username = user.email?.split('@')[0];
                     if (username) {
                         await setDoc(doc(db, "usernames", username), {
@@ -1585,6 +1605,7 @@
                 return true;
             } catch (error) {
                 console.error('Error ensuring user document:', error);
+                showToast('خطأ في إنشاء ملف المستخدم', 'error');
                 return false;
             }
         }
@@ -1603,7 +1624,7 @@
             }
         }
 
-        // Update online status
+        // Update user online status
         async function updateOnlineStatus(uid, isOnline) {
             try {
                 const userRef = doc(db, "users", uid);
@@ -1614,6 +1635,46 @@
                 return true;
             } catch (error) {
                 console.error('Error updating online status:', error);
+                return false;
+            }
+        }
+
+        // Update user profile
+        async function updateUserProfile(uid, updates) {
+            try {
+                const userRef = doc(db, "users", uid);
+                await updateDoc(userRef, {
+                    ...updates,
+                    updatedAt: serverTimestamp()
+                });
+                
+                // إذا تم تحديث الاسم، قم بتحديث الـ Auth
+                if (updates.name) {
+                    await updateProfile(auth.currentUser, {
+                        displayName: updates.name
+                    });
+                }
+                
+                // إذا تم تحديث الـ username، قم بتحديث collection usernames
+                if (updates.username && currentUserData.username !== updates.username) {
+                    const batch = writeBatch(db);
+                    
+                    // حذف الـ username القديم
+                    if (currentUserData.username) {
+                        batch.delete(doc(db, "usernames", currentUserData.username));
+                    }
+                    
+                    // إضافة الـ username الجديد
+                    batch.set(doc(db, "usernames", updates.username), {
+                        uid: uid
+                    });
+                    
+                    await batch.commit();
+                }
+                
+                return true;
+            } catch (error) {
+                console.error('Error updating user profile:', error);
                 return false;
             }
         }
@@ -1681,6 +1742,7 @@
                 return chatId;
             } catch (error) {
                 console.error('Error creating chat:', error);
+                showToast('فشل بدء المحادثة', 'error');
                 return null;
             }
         }
@@ -1702,8 +1764,7 @@
                 // Update chat last message
                 await updateDoc(chatRef, {
                     lastMessage: text,
-                    lastMessageTime: serverTimestamp(),
-                    [`unreadCount.${senderId}`]: 0
+                    lastMessageTime: serverTimestamp()
                 });
                 
                 return true;
@@ -1738,46 +1799,12 @@
             }
         }
 
-        // Update user profile
-        async function updateUserProfile(uid, updates) {
-            try {
-                const userRef = doc(db, "users", uid);
-                await updateDoc(userRef, {
-                    ...updates,
-                    updatedAt: serverTimestamp()
-                });
-                
-                if (updates.name) {
-                    await updateProfile(auth.currentUser, {
-                        displayName: updates.name
-                    });
-                }
-                
-                if (updates.username && currentUserData.username !== updates.username) {
-                    const batch = writeBatch(db);
-                    
-                    if (currentUserData.username) {
-                        batch.delete(doc(db, "usernames", currentUserData.username));
-                    }
-                    
-                    batch.set(doc(db, "usernames", updates.username), {
-                        uid: uid
-                    });
-                    
-                    await batch.commit();
-                }
-                
-                return true;
-            } catch (error) {
-                console.error('Error updating profile:', error);
-                return false;
-            }
-        }
-
         // ===== UI FUNCTIONS =====
         
         // Update user info in header
         function updateUserInfo(userData) {
+            if (!userData) return;
+            
             userName.textContent = userData.name || 'مستخدم';
             userAvatar.textContent = userData.name?.charAt(0) || 'م';
             
@@ -1791,15 +1818,17 @@
             
             if (isOnline) {
                 statusIndicator.classList.remove('offline');
-                userStatus.style.color = 'var(--accent)';
+                userStatus.style.color = 'var(--success)';
             } else {
                 statusIndicator.classList.add('offline');
-                userStatus.style.color = 'var(--gray-400)';
+                userStatus.style.color = 'var(--light-gray)';
             }
         }
 
         // Update profile modal
         function updateProfileModal(userData) {
+            if (!userData) return;
+            
             profileAvatarLarge.textContent = userData.name?.charAt(0) || 'م';
             profileNameDisplay.textContent = userData.name || 'مستخدم';
             profileUsernameDisplay.textContent = `@${userData.username || 'user'}`;
@@ -1839,16 +1868,20 @@
             if (chats.length > 0) {
                 renderChats(chats);
                 
-                // Setup real-time listener
+                // Setup real-time listener for chats
                 if (chatsListener) chatsListener();
                 
-                chatsListener = onSnapshot(query(
-                    collection(db, "chats"),
-                    where("members", "array-contains", currentUser.uid)
-                ), async () => {
-                    const updatedChats = await getUserChats(currentUser.uid);
-                    renderChats(updatedChats);
-                });
+                chatsListener = onSnapshot(
+                    query(
+                        collection(db, "chats"),
+                        where("members", "array-contains", currentUser.uid)
+                    ),
+                    async () => {
+                        const updatedChats = await getUserChats(currentUser.uid);
+                        allChats = updatedChats;
+                        renderChats(updatedChats);
+                    }
+                );
             } else {
                 chatsList.innerHTML = `
                     <div class="empty-state">
@@ -1909,7 +1942,7 @@
                 <iconify-icon icon="mdi:circle"></iconify-icon>
                 ${otherUser.isOnline ? 'متصل الآن' : 'غير متصل'}
             `;
-            chatUserStatus.style.color = otherUser.isOnline ? 'var(--accent)' : 'var(--gray-400)';
+            chatUserStatus.style.color = otherUser.isOnline ? 'var(--accent)' : 'var(--light-gray)';
             
             // Show loading
             chatMessages.innerHTML = `
@@ -2123,40 +2156,47 @@
 
         // ===== EVENT LISTENERS =====
         
-        // Authentication state
+        // Authentication
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
                 
-                // Ensure user document exists
-                await ensureUserDocument(user);
-                
-                // Get user data
-                const userData = await getUserById(user.uid);
-                if (userData) {
-                    currentUserData = userData;
-                    updateUserInfo(userData);
+                try {
+                    // 🔥 تأكد من وجود مستند المستخدم
+                    await ensureUserDocument(user);
                     
-                    // Update online status
-                    await updateOnlineStatus(user.uid, true);
+                    // Get user data
+                    const userData = await getUserById(user.uid);
                     
-                    // Load chats
-                    await loadChats();
-                    
-                    // Setup user listener
-                    if (userListener) userListener();
-                    
-                    userListener = onSnapshot(doc(db, "users", user.uid), (doc) => {
-                        if (doc.exists()) {
-                            currentUserData = doc.data();
-                            updateUserInfo(currentUserData);
-                            updateProfileModal(currentUserData);
-                        }
-                    });
-                    
-                    showToast(`مرحباً ${currentUserData.name}! 👋`, 'success');
-                } else {
-                    showToast('فشل تحميل بيانات المستخدم', 'error');
+                    if (userData) {
+                        currentUserData = userData;
+                        updateUserInfo(userData);
+                        
+                        // تحديث حالة الاتصال
+                        await updateOnlineStatus(user.uid, true);
+                        
+                        // تحميل المحادثات
+                        await loadChats();
+                        
+                        // Setup user listener
+                        if (userListener) userListener();
+                        
+                        userListener = onSnapshot(doc(db, "users", user.uid), (doc) => {
+                            if (doc.exists()) {
+                                currentUserData = doc.data();
+                                updateUserInfo(currentUserData);
+                                updateProfileModal(currentUserData);
+                            }
+                        });
+                        
+                        showToast(`مرحباً ${currentUserData.name}! 👋`, 'success');
+                    } else {
+                        showToast('فشل تحميل بيانات المستخدم', 'error');
+                        console.error('User data not found for:', user.uid);
+                    }
+                } catch (error) {
+                    console.error('Error in auth state change:', error);
+                    showToast('حدث خطأ في التحميل', 'error');
                 }
             } else {
                 // Redirect to auth page
@@ -2177,6 +2217,46 @@
                 const tabId = button.dataset.tab;
                 document.getElementById(`${tabId}Content`)?.classList.add('active');
             });
+        });
+
+        // New chat
+        newChatBtn.addEventListener('click', handleNewChat);
+
+        // Profile settings
+        profileSettingsBtn.addEventListener('click', () => {
+            if (currentUserData) {
+                updateProfileModal(currentUserData);
+                profileModal.classList.add('active');
+            }
+        });
+
+        // Back from profile modal
+        profileBackBtn.addEventListener('click', () => {
+            profileModal.classList.remove('active');
+        });
+
+        // Profile status toggle
+        profileStatusToggle.addEventListener('click', () => {
+            profileStatusSwitch.classList.toggle('active');
+            const isOnline = profileStatusSwitch.classList.contains('active');
+            profileStatusValue.textContent = isOnline ? 'متصل' : 'غير متصل';
+        });
+
+        // Save profile
+        saveProfileBtn.addEventListener('click', handleSaveProfile);
+
+        // Logout
+        logoutBtn.addEventListener('click', async () => {
+            if (confirm('هل تريد تسجيل الخروج؟')) {
+                try {
+                    await updateOnlineStatus(currentUser.uid, false);
+                    await signOut(auth);
+                    showToast('تم تسجيل الخروج', 'success');
+                    window.location.href = "auth.html";
+                } catch (error) {
+                    showToast('فشل تسجيل الخروج', 'error');
+                }
+            }
         });
 
         // Chat window
@@ -2204,51 +2284,12 @@
             this.style.height = Math.min(this.scrollHeight, 96) + 'px';
         });
 
-        // New chat
-        newChatBtn.addEventListener('click', handleNewChat);
-
-        // Profile settings
-        profileSettingsBtn.addEventListener('click', () => {
-            if (currentUserData) {
-                updateProfileModal(currentUserData);
-                profileModal.classList.add('active');
-            }
-        });
-
-        // Profile back
-        profileBackBtn.addEventListener('click', () => {
-            profileModal.classList.remove('active');
-        });
-
-        // Profile status toggle
-        profileStatusToggle.addEventListener('click', () => {
-            profileStatusSwitch.classList.toggle('active');
-            const isOnline = profileStatusSwitch.classList.contains('active');
-            profileStatusValue.textContent = isOnline ? 'متصل' : 'غير متصل';
-        });
-
-        // Save profile
-        saveProfileBtn.addEventListener('click', handleSaveProfile);
-
-        // Logout
-        logoutBtn.addEventListener('click', async () => {
-            if (confirm('هل تريد تسجيل الخروج؟')) {
-                try {
-                    await updateOnlineStatus(currentUser.uid, false);
-                    await signOut(auth);
-                    showToast('تم تسجيل الخروج', 'success');
-                } catch (error) {
-                    showToast('فشل تسجيل الخروج', 'error');
-                }
-            }
-        });
-
         // Search chats
         chatsSearch.addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase();
             const filteredChats = allChats.filter(chat => 
-                chat.otherUser.name.toLowerCase().includes(query) ||
-                chat.otherUser.username.toLowerCase().includes(query)
+                chat.otherUser?.name?.toLowerCase().includes(query) ||
+                chat.otherUser?.username?.toLowerCase().includes(query)
             );
             renderChats(filteredChats);
         });
