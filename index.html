@@ -17,7 +17,7 @@
         }
 
         :root {
-            /* 🎨 نظام الألوان الرئيسي - تم التحديث */
+            /* نظام الألوان الداكن */
             --primary: #8B5CF6;
             --primary-light: #A78BFA;
             --primary-dark: #7C3AED;
@@ -29,32 +29,30 @@
             --info: #3B82F6;
             
             /* خلفيات داكنة */
-            --bg-primary: #111827;
-            --bg-secondary: #1F2937;
-            --bg-tertiary: #374151;
-            --bg-card: #1F2937;
-            --bg-input: #374151;
-            --bg-modal: rgba(31, 41, 55, 0.98);
+            --bg-primary: #0F172A;
+            --bg-secondary: #1E293B;
+            --bg-tertiary: #334155;
+            --bg-card: #1E293B;
+            --bg-input: #334155;
+            --bg-modal: rgba(30, 41, 59, 0.95);
             
             /* نص */
-            --text-primary: #F9FAFB;
-            --text-secondary: #D1D5DB;
-            --text-tertiary: #9CA3AF;
+            --text-primary: #F1F5F9;
+            --text-secondary: #CBD5E1;
+            --text-tertiary: #94A3B8;
             
             /* حدود */
-            --border: #4B5563;
-            --border-light: #374151;
+            --border: #475569;
+            --border-light: #334155;
             
             /* ظلال */
-            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.7);
-            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.8);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.7);
             
             /* زوايا */
             --radius-sm: 8px;
             --radius-md: 12px;
             --radius-lg: 16px;
-            --radius-xl: 20px;
             --radius-full: 9999px;
             
             /* أنيميشن */
@@ -62,22 +60,23 @@
         }
 
         /* Light Mode */
-        @media (prefers-color-scheme: light) {
-            :root {
-                --bg-primary: #FFFFFF;
-                --bg-secondary: #F9FAFB;
-                --bg-tertiary: #F3F4F6;
-                --bg-card: #FFFFFF;
-                --bg-input: #F3F4F6;
-                --bg-modal: rgba(255, 255, 255, 0.98);
-                
-                --text-primary: #111827;
-                --text-secondary: #374151;
-                --text-tertiary: #6B7280;
-                
-                --border: #E5E7EB;
-                --border-light: #D1D5DB;
-            }
+        body.light-mode {
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F8FAFC;
+            --bg-tertiary: #F1F5F9;
+            --bg-card: #FFFFFF;
+            --bg-input: #F1F5F9;
+            --bg-modal: rgba(255, 255, 255, 0.95);
+            
+            --text-primary: #1E293B;
+            --text-secondary: #475569;
+            --text-tertiary: #64748B;
+            
+            --border: #E2E8F0;
+            --border-light: #F1F5F9;
+            
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
 
         body {
@@ -86,7 +85,54 @@
             color: var(--text-primary);
             height: 100vh;
             overflow: hidden;
-            -webkit-font-smoothing: antialiased;
+            transition: var(--transition);
+        }
+
+        /* ===== LOADING SCREEN ===== */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-logo {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            font-size: 16px;
+            color: var(--text-tertiary);
+            font-weight: 600;
         }
 
         /* ===== MAIN LAYOUT ===== */
@@ -95,7 +141,6 @@
             flex-direction: column;
             height: 100vh;
             width: 100%;
-            position: relative;
         }
 
         /* ===== HEADER ===== */
@@ -107,6 +152,11 @@
             top: 0;
             z-index: 100;
             backdrop-filter: blur(10px);
+            background: rgba(30, 41, 59, 0.95);
+        }
+
+        body.light-mode .app-header {
+            background: rgba(255, 255, 255, 0.95);
         }
 
         .header-content {
@@ -141,8 +191,13 @@
             color: white;
             font-weight: 700;
             font-size: 18px;
-            position: relative;
             border: 3px solid var(--bg-card);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .avatar:hover {
+            transform: scale(1.05);
         }
 
         .status-indicator {
@@ -154,6 +209,7 @@
             background: var(--success);
             border-radius: 50%;
             border: 2px solid var(--bg-card);
+            transition: var(--transition);
         }
 
         .status-indicator.offline {
@@ -201,11 +257,13 @@
             justify-content: center;
             font-size: 18px;
             transition: var(--transition);
+            position: relative;
         }
 
         .icon-button:hover {
             background: var(--primary);
             color: white;
+            transform: translateY(-1px);
         }
 
         .badge {
@@ -354,7 +412,6 @@
             cursor: pointer;
             transition: var(--transition);
             border: 1px solid transparent;
-            position: relative;
         }
 
         .chat-card:hover {
@@ -533,29 +590,80 @@
             padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
         }
 
-        .message {
-            max-width: 75%;
+        .message-container {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            padding: 0 12px;
+            text-align: center;
+            margin: 8px 0;
+        }
+
+        .message-wrapper {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            max-width: 80%;
+        }
+
+        .message-wrapper.sent {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message-wrapper.received {
+            align-self: flex-start;
+        }
+
+        .message-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--bg-input);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .message-wrapper.sent .message-avatar {
+            background: var(--primary);
+        }
+
+        .message-wrapper.received .message-avatar {
+            background: var(--accent);
+        }
+
+        .message-bubble {
             padding: 10px 14px;
-            border-radius: var(--radius-md);
+            border-radius: var(--radius-lg);
+            max-width: 100%;
+            word-wrap: break-word;
             position: relative;
             animation: fadeIn 0.2s ease;
-            word-wrap: break-word;
         }
 
-        .message.received {
-            align-self: flex-start;
-            background: var(--bg-input);
-            border-bottom-right-radius: 4px;
-        }
-
-        .message.sent {
-            align-self: flex-end;
+        .message-wrapper.sent .message-bubble {
             background: var(--primary);
             color: white;
             border-bottom-left-radius: 4px;
+        }
+
+        .message-wrapper.received .message-bubble {
+            background: var(--bg-input);
+            color: var(--text-primary);
+            border-bottom-right-radius: 4px;
         }
 
         .message-text {
@@ -563,16 +671,23 @@
             line-height: 1.5;
         }
 
-        .message-time {
+        .message-status {
+            display: flex;
+            align-items: center;
+            gap: 4px;
             font-size: 11px;
-            opacity: 0.7;
             margin-top: 4px;
-            text-align: left;
+            opacity: 0.7;
         }
 
-        .message.sent .message-time {
-            text-align: right;
+        .message-wrapper.sent .message-status {
+            justify-content: flex-end;
             color: rgba(255, 255, 255, 0.9);
+        }
+
+        .message-wrapper.received .message-status {
+            justify-content: flex-start;
+            color: var(--text-tertiary);
         }
 
         .chat-input-container {
@@ -719,8 +834,8 @@
             transform: translateX(-4px);
         }
 
-        /* ===== PROFILE MODAL ===== */
-        .profile-modal {
+        /* ===== MODALS ===== */
+        .modal {
             position: fixed;
             top: 0;
             right: 0;
@@ -735,12 +850,12 @@
             transition: transform 0.3s ease;
         }
 
-        .profile-modal.active {
+        .modal.active {
             display: flex;
             transform: translateX(0);
         }
 
-        .profile-header {
+        .modal-header {
             padding: 20px;
             border-bottom: 1px solid var(--border);
             display: flex;
@@ -748,7 +863,7 @@
             gap: 12px;
         }
 
-        .profile-back-btn {
+        .modal-back-btn {
             width: 40px;
             height: 40px;
             border-radius: var(--radius-sm);
@@ -763,23 +878,24 @@
             transition: var(--transition);
         }
 
-        .profile-back-btn:hover {
+        .modal-back-btn:hover {
             background: var(--primary);
             color: white;
         }
 
-        .profile-title {
+        .modal-title {
             font-size: 20px;
             font-weight: 800;
             flex: 1;
         }
 
-        .profile-content {
+        .modal-content {
             flex: 1;
             overflow-y: auto;
             padding: 20px;
         }
 
+        /* ===== PROFILE MODAL ===== */
         .profile-avatar-section {
             text-align: center;
             margin-bottom: 24px;
@@ -885,7 +1001,7 @@
             cursor: not-allowed;
         }
 
-        .profile-status-toggle {
+        .toggle-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -897,22 +1013,22 @@
             transition: var(--transition);
         }
 
-        .profile-status-toggle:hover {
+        .toggle-item:hover {
             border-color: var(--primary);
         }
 
-        .status-toggle-content {
+        .toggle-content {
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        .status-toggle-label {
+        .toggle-label {
             font-size: 14px;
             font-weight: 700;
         }
 
-        .status-toggle-value {
+        .toggle-value {
             font-size: 13px;
             color: var(--text-tertiary);
         }
@@ -940,14 +1056,14 @@
             background: white;
             border-radius: 50%;
             transition: var(--transition);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow);
         }
 
         .toggle-switch.active::after {
             right: calc(100% - 22px);
         }
 
-        .save-profile-btn {
+        .save-btn {
             width: 100%;
             padding: 14px;
             background: var(--primary);
@@ -961,15 +1077,154 @@
             margin-top: 8px;
         }
 
-        .save-profile-btn:hover {
+        .save-btn:hover {
             background: var(--primary-dark);
             transform: translateY(-1px);
         }
 
-        .save-profile-btn:disabled {
+        .save-btn:disabled {
             background: var(--bg-tertiary);
             cursor: not-allowed;
             transform: none;
+        }
+
+        /* ===== PRIVACY MODAL ===== */
+        .privacy-section {
+            margin-bottom: 24px;
+        }
+
+        .privacy-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .privacy-description {
+            font-size: 14px;
+            color: var(--text-tertiary);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        /* ===== DELETE ACCOUNT MODAL ===== */
+        .delete-warning {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--danger);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .delete-warning-icon {
+            color: var(--danger);
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .delete-warning-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--danger);
+            margin-bottom: 8px;
+        }
+
+        .delete-warning-text {
+            font-size: 14px;
+            color: var(--text-tertiary);
+            line-height: 1.6;
+        }
+
+        .delete-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .danger-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--danger);
+            border: none;
+            border-radius: var(--radius-md);
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .danger-btn:hover {
+            background: #DC2626;
+            transform: translateY(-1px);
+        }
+
+        /* ===== NEW CHAT MODAL ===== */
+        .new-chat-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .search-results {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+        }
+
+        .search-result-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-item:hover {
+            background: var(--bg-input);
+        }
+
+        .search-result-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), #059669);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .search-result-info {
+            flex: 1;
+        }
+
+        .search-result-name {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .search-result-username {
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        .no-results {
+            padding: 32px 20px;
+            text-align: center;
+            color: var(--text-tertiary);
         }
 
         /* ===== TOAST ===== */
@@ -993,7 +1248,18 @@
             align-items: center;
             gap: 12px;
             animation: slideUp 0.3s ease;
-            margin-top: 8px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .toast.success {
@@ -1050,7 +1316,7 @@
             color: var(--text-tertiary);
         }
 
-        .loading-spinner {
+        .loading-spinner-small {
             width: 40px;
             height: 40px;
             border: 3px solid var(--border);
@@ -1058,11 +1324,6 @@
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 16px;
-        }
-
-        .loading-text {
-            font-size: 14px;
-            font-weight: 600;
         }
 
         .empty-state {
@@ -1169,12 +1430,23 @@
             .chat-card {
                 padding: 10px;
             }
+            
+            .message-wrapper {
+                max-width: 90%;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">ChatX</div>
+        <div class="loading-spinner"></div>
+        <div class="loading-text" id="loadingText">جاري التحميل...</div>
+    </div>
+
     <!-- Main App -->
-    <div class="app-wrapper">
+    <div class="app-wrapper hidden" id="appWrapper">
         <!-- Header -->
         <header class="app-header">
             <div class="header-content">
@@ -1192,11 +1464,10 @@
                     </div>
                 </div>
                 <div class="header-actions">
-                    <button class="icon-button" id="notificationsBtn">
-                        <iconify-icon icon="mdi:bell"></iconify-icon>
-                        <span class="badge hidden" id="notificationsBadge">3</span>
+                    <button class="icon-button" id="themeToggleBtn">
+                        <iconify-icon icon="mdi:theme-light-dark"></iconify-icon>
                     </button>
-                    <button class="icon-button" id="newChatBtn">
+                    <button class="icon-button" id="newChatModalBtn">
                         <iconify-icon icon="mdi:message-plus"></iconify-icon>
                     </button>
                 </div>
@@ -1230,7 +1501,7 @@
                 
                 <div class="chats-list" id="chatsList">
                     <div class="loading-container">
-                        <div class="loading-spinner"></div>
+                        <div class="loading-spinner-small"></div>
                         <p class="loading-text">جاري تحميل المحادثات...</p>
                     </div>
                 </div>
@@ -1244,7 +1515,7 @@
                 
                 <div class="settings-list" id="settingsList">
                     <div class="settings-group">
-                        <div class="settings-item" id="profileSettingsBtn">
+                        <div class="settings-item" id="profileModalBtn">
                             <div class="item-content">
                                 <div class="item-icon">
                                     <iconify-icon icon="mdi:account"></iconify-icon>
@@ -1257,7 +1528,7 @@
                             <iconify-icon icon="mdi:chevron-left" class="item-arrow"></iconify-icon>
                         </div>
                         
-                        <div class="settings-item" id="privacySettingsBtn">
+                        <div class="settings-item" id="privacyModalBtn">
                             <div class="item-content">
                                 <div class="item-icon">
                                     <iconify-icon icon="mdi:shield-account"></iconify-icon>
@@ -1265,19 +1536,6 @@
                                 <div class="item-details">
                                     <h4>الخصوصية والأمان</h4>
                                     <p>إعدادات الخصوصية والحساب</p>
-                                </div>
-                            </div>
-                            <iconify-icon icon="mdi:chevron-left" class="item-arrow"></iconify-icon>
-                        </div>
-                        
-                        <div class="settings-item" id="notificationsSettingsBtn">
-                            <div class="item-content">
-                                <div class="item-icon">
-                                    <iconify-icon icon="mdi:bell"></iconify-icon>
-                                </div>
-                                <div class="item-details">
-                                    <h4>الإشعارات</h4>
-                                    <p>التحكم في الإشعارات</p>
                                 </div>
                             </div>
                             <iconify-icon icon="mdi:chevron-left" class="item-arrow"></iconify-icon>
@@ -1297,47 +1555,6 @@
                             </div>
                             <iconify-icon icon="mdi:chevron-left" class="item-arrow"></iconify-icon>
                         </div>
-                        
-                        <div class="settings-item" id="languageSettingsBtn">
-                            <div class="item-content">
-                                <div class="item-icon">
-                                    <iconify-icon icon="mdi:translate"></iconify-icon>
-                                </div>
-                                <div class="item-details">
-                                    <h4>اللغة</h4>
-                                    <p>تغيير لغة التطبيق</p>
-                                </div>
-                            </div>
-                            <iconify-icon icon="mdi:chevron-left" class="item-arrow"></iconify-icon>
-                        </div>
-                    </div>
-                    
-                    <div class="settings-group">
-                        <div class="settings-item" id="helpSettingsBtn">
-                            <div class="item-content">
-                                <div class="item-icon">
-                                    <iconify-icon icon="mdi:help-circle"></iconify-icon>
-                                </div>
-                                <div class="item-details">
-                                    <h4>المساعدة والدعم</h4>
-                                    <p>الدعم الفني والأسئلة الشائعة</p>
-                                </div>
-                            </div>
-                            <iconify-icon icon="mdi:chevron-left" class="item-arrow"></iconify-icon>
-                        </div>
-                        
-                        <div class="settings-item" id="aboutSettingsBtn">
-                            <div class="item-content">
-                                <div class="item-icon">
-                                    <iconify-icon icon="mdi:information"></iconify-icon>
-                                </div>
-                                <div class="item-details">
-                                    <h4>عن التطبيق</h4>
-                                    <p>إصدار 1.0.0 - ChatX</p>
-                                </div>
-                            </div>
-                            <iconify-icon icon="mdi:chevron-left" class="item-arrow"></iconify-icon>
-                        </div>
                     </div>
                     
                     <div class="settings-group">
@@ -1349,6 +1566,19 @@
                                 <div class="item-details">
                                     <h4 style="color: var(--warning);">تسجيل الخروج</h4>
                                     <p>تسجيل الخروج من الحساب</p>
+                                </div>
+                            </div>
+                            <iconify-icon icon="mdi:chevron-left" class="item-arrow"></iconify-icon>
+                        </div>
+                        
+                        <div class="settings-item" id="deleteAccountModalBtn">
+                            <div class="item-content">
+                                <div class="item-icon">
+                                    <iconify-icon icon="mdi:delete"></iconify-icon>
+                                </div>
+                                <div class="item-details">
+                                    <h4 style="color: var(--danger);">حذف الحساب</h4>
+                                    <p>حذف الحساب بشكل نهائي</p>
                                 </div>
                             </div>
                             <iconify-icon icon="mdi:chevron-left" class="item-arrow"></iconify-icon>
@@ -1378,7 +1608,7 @@
             
             <div class="chat-messages" id="chatMessages">
                 <div class="loading-container">
-                    <div class="loading-spinner"></div>
+                    <div class="loading-spinner-small"></div>
                     <p class="loading-text">جاري تحميل الرسائل...</p>
                 </div>
             </div>
@@ -1394,15 +1624,15 @@
         </div>
 
         <!-- Profile Modal -->
-        <div class="profile-modal" id="profileModal">
-            <div class="profile-header">
-                <button class="profile-back-btn" id="profileBackBtn">
+        <div class="modal" id="profileModal">
+            <div class="modal-header">
+                <button class="modal-back-btn" id="profileBackBtn">
                     <iconify-icon icon="mdi:arrow-right"></iconify-icon>
                 </button>
-                <h2 class="profile-title">الملف الشخصي</h2>
+                <h2 class="modal-title">الملف الشخصي</h2>
             </div>
             
-            <div class="profile-content">
+            <div class="modal-content">
                 <div class="profile-avatar-section">
                     <div class="profile-avatar-large online" id="profileAvatarLarge">م</div>
                     <h2 class="profile-name-display" id="profileNameDisplay">محمد أحمد</h2>
@@ -1435,21 +1665,133 @@
                     </div>
                     
                     <div class="form-group">
-                        <div class="profile-status-toggle" id="profileStatusToggle">
-                            <div class="status-toggle-content">
+                        <div class="toggle-item" id="profileStatusToggle">
+                            <div class="toggle-content">
                                 <iconify-icon icon="mdi:account-circle"></iconify-icon>
                                 <div>
-                                    <div class="status-toggle-label">حالة الاتصال</div>
-                                    <div class="status-toggle-value" id="profileStatusValue">متصل</div>
+                                    <div class="toggle-label">حالة الاتصال</div>
+                                    <div class="toggle-value" id="profileStatusValue">متصل</div>
                                 </div>
                             </div>
                             <div class="toggle-switch active" id="profileStatusSwitch"></div>
                         </div>
                     </div>
                     
-                    <button class="save-profile-btn" id="saveProfileBtn">
+                    <button class="save-btn" id="saveProfileBtn">
                         حفظ التغييرات
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Privacy Modal -->
+        <div class="modal" id="privacyModal">
+            <div class="modal-header">
+                <button class="modal-back-btn" id="privacyBackBtn">
+                    <iconify-icon icon="mdi:arrow-right"></iconify-icon>
+                </button>
+                <h2 class="modal-title">الخصوصية والأمان</h2>
+            </div>
+            
+            <div class="modal-content">
+                <div class="privacy-section">
+                    <h3 class="privacy-title">إعدادات الظهور</h3>
+                    <p class="privacy-description">
+                        تحكم في المعلومات التي تظهر للمستخدمين الآخرين.
+                    </p>
+                    
+                    <div class="form-group">
+                        <div class="toggle-item" id="showOnlineStatusToggle">
+                            <div class="toggle-content">
+                                <iconify-icon icon="mdi:eye"></iconify-icon>
+                                <div>
+                                    <div class="toggle-label">إظهار حالة الاتصال</div>
+                                    <div class="toggle-value" id="showOnlineStatusValue">مفعل</div>
+                                </div>
+                            </div>
+                            <div class="toggle-switch active" id="showOnlineStatusSwitch"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="toggle-item" id="showLastSeenToggle">
+                            <div class="toggle-content">
+                                <iconify-icon icon="mdi:clock-outline"></iconify-icon>
+                                <div>
+                                    <div class="toggle-label">إظهار آخر ظهور</div>
+                                    <div class="toggle-value" id="showLastSeenValue">مفعل</div>
+                                </div>
+                            </div>
+                            <div class="toggle-switch active" id="showLastSeenSwitch"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="save-btn" id="savePrivacyBtn">
+                    حفظ الإعدادات
+                </button>
+            </div>
+        </div>
+
+        <!-- Delete Account Modal -->
+        <div class="modal" id="deleteAccountModal">
+            <div class="modal-header">
+                <button class="modal-back-btn" id="deleteAccountBackBtn">
+                    <iconify-icon icon="mdi:arrow-right"></iconify-icon>
+                </button>
+                <h2 class="modal-title">حذف الحساب</h2>
+            </div>
+            
+            <div class="modal-content">
+                <div class="delete-warning">
+                    <iconify-icon icon="mdi:alert-circle" class="delete-warning-icon"></iconify-icon>
+                    <h3 class="delete-warning-title">تحذير مهم!</h3>
+                    <p class="delete-warning-text">
+                        حذف الحساب إجراء دائم لا يمكن التراجع عنه. سيتم حذف جميع بياناتك بما في ذلك المحادثات والرسائل والملف الشخصي.
+                    </p>
+                </div>
+                
+                <div class="delete-form">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <iconify-icon icon="mdi:lock"></iconify-icon>
+                            كلمة المرور الحالية
+                        </label>
+                        <input type="password" class="form-input" id="deletePasswordInput" placeholder="أدخل كلمة المرور للتأكيد">
+                    </div>
+                    
+                    <button class="danger-btn" id="confirmDeleteBtn">
+                        حذف الحساب نهائياً
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Chat Modal -->
+        <div class="modal" id="newChatModal">
+            <div class="modal-header">
+                <button class="modal-back-btn" id="newChatBackBtn">
+                    <iconify-icon icon="mdi:arrow-right"></iconify-icon>
+                </button>
+                <h2 class="modal-title">محادثة جديدة</h2>
+            </div>
+            
+            <div class="modal-content">
+                <div class="new-chat-form">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <iconify-icon icon="mdi:magnify"></iconify-icon>
+                            ابحث عن مستخدم
+                        </label>
+                        <input type="text" class="form-input" id="userSearchInput" placeholder="اسم المستخدم أو الاسم">
+                    </div>
+                    
+                    <div class="search-results" id="searchResults">
+                        <div class="no-results" id="noResults">
+                            <iconify-icon icon="mdi:account-search" style="font-size: 48px; opacity: 0.3;"></iconify-icon>
+                            <p>اكتب للبحث عن مستخدمين</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1460,12 +1802,14 @@
 
     <!-- Firebase SDK -->
     <script type="module">
-        // ===== IMPORTS =====
         import { auth, db } from "./firebase-config.js";
         import { 
             onAuthStateChanged, 
             signOut,
-            updateProfile
+            updateProfile,
+            deleteUser,
+            reauthenticateWithCredential,
+            EmailAuthProvider
         } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
         
         import {
@@ -1476,15 +1820,21 @@
             setDoc,
             updateDoc,
             addDoc,
+            deleteDoc,
             query,
             where,
             orderBy,
             onSnapshot,
             serverTimestamp,
-            writeBatch
+            writeBatch,
+            limit
         } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
         // ===== DOM ELEMENTS =====
+        const loadingScreen = document.getElementById('loadingScreen');
+        const appWrapper = document.getElementById('appWrapper');
+        const loadingText = document.getElementById('loadingText');
+        
         const userAvatar = document.getElementById('userAvatar');
         const userName = document.getElementById('userName');
         const userStatus = document.getElementById('userStatus');
@@ -1494,21 +1844,17 @@
         const chatsContent = document.getElementById('chatsContent');
         const settingsContent = document.getElementById('settingsContent');
         
-        const newChatBtn = document.getElementById('newChatBtn');
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const newChatModalBtn = document.getElementById('newChatModalBtn');
         const chatsSearch = document.getElementById('chatsSearch');
         const chatsList = document.getElementById('chatsList');
         
-        // Settings
-        const profileSettingsBtn = document.getElementById('profileSettingsBtn');
-        const privacySettingsBtn = document.getElementById('privacySettingsBtn');
-        const notificationsSettingsBtn = document.getElementById('notificationsSettingsBtn');
+        const profileModalBtn = document.getElementById('profileModalBtn');
+        const privacyModalBtn = document.getElementById('privacyModalBtn');
         const appearanceSettingsBtn = document.getElementById('appearanceSettingsBtn');
-        const languageSettingsBtn = document.getElementById('languageSettingsBtn');
-        const helpSettingsBtn = document.getElementById('helpSettingsBtn');
-        const aboutSettingsBtn = document.getElementById('aboutSettingsBtn');
         const logoutBtn = document.getElementById('logoutBtn');
+        const deleteAccountModalBtn = document.getElementById('deleteAccountModalBtn');
         
-        // Profile Modal
         const profileModal = document.getElementById('profileModal');
         const profileBackBtn = document.getElementById('profileBackBtn');
         const profileAvatarLarge = document.getElementById('profileAvatarLarge');
@@ -1522,7 +1868,27 @@
         const profileStatusSwitch = document.getElementById('profileStatusSwitch');
         const saveProfileBtn = document.getElementById('saveProfileBtn');
         
-        // Chat Window
+        const privacyModal = document.getElementById('privacyModal');
+        const privacyBackBtn = document.getElementById('privacyBackBtn');
+        const showOnlineStatusToggle = document.getElementById('showOnlineStatusToggle');
+        const showOnlineStatusValue = document.getElementById('showOnlineStatusValue');
+        const showOnlineStatusSwitch = document.getElementById('showOnlineStatusSwitch');
+        const showLastSeenToggle = document.getElementById('showLastSeenToggle');
+        const showLastSeenValue = document.getElementById('showLastSeenValue');
+        const showLastSeenSwitch = document.getElementById('showLastSeenSwitch');
+        const savePrivacyBtn = document.getElementById('savePrivacyBtn');
+        
+        const deleteAccountModal = document.getElementById('deleteAccountModal');
+        const deleteAccountBackBtn = document.getElementById('deleteAccountBackBtn');
+        const deletePasswordInput = document.getElementById('deletePasswordInput');
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+        
+        const newChatModal = document.getElementById('newChatModal');
+        const newChatBackBtn = document.getElementById('newChatBackBtn');
+        const userSearchInput = document.getElementById('userSearchInput');
+        const searchResults = document.getElementById('searchResults');
+        const noResults = document.getElementById('noResults');
+        
         const chatWindow = document.getElementById('chatWindow');
         const chatBackBtn = document.getElementById('chatBackBtn');
         const chatUserAvatar = document.getElementById('chatUserAvatar');
@@ -1537,11 +1903,16 @@
         // ===== STATE VARIABLES =====
         let currentUser = null;
         let currentUserData = null;
+        let currentUserSettings = null;
         let currentChatId = null;
+        let currentChatUser = null;
         let messageListener = null;
         let chatsListener = null;
         let userListener = null;
+        let settingsListener = null;
         let allChats = [];
+        let currentToast = null;
+        let currentTheme = 'dark';
 
         // ===== UTILITY FUNCTIONS =====
         
@@ -1569,19 +1940,65 @@
                 const diffDays = Math.floor(diffMs / 86400000);
 
                 if (diffMins < 1) return 'الآن';
-                if (diffMins < 60) return `${diffMins} د`;
-                if (diffHours < 24) return `${diffHours} س`;
+                if (diffMins < 60) return `منذ ${diffMins} دقيقة`;
+                if (diffHours < 24) return `منذ ${diffHours} ساعة`;
                 if (diffDays === 1) return 'أمس';
-                if (diffDays < 7) return `${diffDays} يوم`;
+                if (diffDays < 7) return `منذ ${diffDays} يوم`;
+                if (diffDays < 30) return `منذ ${Math.floor(diffDays / 7)} أسبوع`;
                 
                 return date.toLocaleDateString('ar-EG');
             } catch (error) {
-                console.error('Error formatting time:', error);
                 return '';
             }
         }
 
-        function showToast(message, type = 'info') {
+        function formatLastSeen(timestamp, showExact = false) {
+            if (!timestamp) return 'غير متاح';
+            
+            try {
+                let date;
+                if (timestamp.toDate) {
+                    date = timestamp.toDate();
+                } else if (timestamp instanceof Date) {
+                    date = timestamp;
+                } else {
+                    return 'غير متاح';
+                }
+                
+                if (!showExact) {
+                    const now = new Date();
+                    const diffMs = now - date;
+                    const diffMins = Math.floor(diffMs / 60000);
+                    
+                    if (diffMins < 2) return 'الآن';
+                    if (diffMins < 60) return `منذ ${diffMins} دقيقة`;
+                    return date.toLocaleDateString('ar-EG', { 
+                        month: 'short', 
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                }
+                
+                return date.toLocaleDateString('ar-EG', { 
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            } catch (error) {
+                return 'غير متاح';
+            }
+        }
+
+        function showToast(message, type = 'info', duration = 3000) {
+            if (currentToast) {
+                currentToast.classList.remove('show');
+                currentToast.remove();
+            }
+            
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
             
@@ -1596,10 +2013,64 @@
             `;
             
             toastContainer.appendChild(toast);
+            currentToast = toast;
             
             setTimeout(() => {
-                toast.remove();
-            }, 3000);
+                toast.classList.add('show');
+            }, 10);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.remove();
+                    }
+                    if (currentToast === toast) {
+                        currentToast = null;
+                    }
+                }, 300);
+            }, duration);
+        }
+
+        function updateLoadingText(text) {
+            if (loadingText) {
+                loadingText.textContent = text;
+            }
+        }
+
+        // ===== THEME FUNCTIONS =====
+        
+        function initTheme() {
+            const savedTheme = localStorage.getItem('chatx-theme') || 'dark';
+            currentTheme = savedTheme;
+            
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+            } else if (savedTheme === 'dark') {
+                document.body.classList.remove('light-mode');
+            } else {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (prefersDark) {
+                    document.body.classList.remove('light-mode');
+                    currentTheme = 'dark';
+                } else {
+                    document.body.classList.add('light-mode');
+                    currentTheme = 'light';
+                }
+                localStorage.setItem('chatx-theme', currentTheme);
+            }
+        }
+
+        function toggleTheme() {
+            if (currentTheme === 'dark') {
+                document.body.classList.add('light-mode');
+                currentTheme = 'light';
+            } else {
+                document.body.classList.remove('light-mode');
+                currentTheme = 'dark';
+            }
+            localStorage.setItem('chatx-theme', currentTheme);
+            showToast(`تم التبديل إلى الوضع ${currentTheme === 'dark' ? 'الداكن' : 'الفاتح'}`, 'success');
         }
 
         // ===== FIREBASE FUNCTIONS =====
@@ -1610,8 +2081,6 @@
                 const userDoc = await getDoc(userRef);
                 
                 if (!userDoc.exists()) {
-                    console.log('Creating new user document...');
-                    
                     const username = user.email?.split('@')[0] || `user_${Date.now()}`;
                     
                     await setDoc(userRef, {
@@ -1620,27 +2089,27 @@
                         email: user.email,
                         username: username,
                         isOnline: true,
-                        createdAt: serverTimestamp(),
                         lastSeen: serverTimestamp(),
+                        createdAt: serverTimestamp(),
                         avatarColor: '#8B5CF6'
                     });
                     
-                    // Create username document
-                    if (username) {
-                        await setDoc(doc(db, "usernames", username), {
-                            uid: user.uid
-                        });
-                    }
+                    await setDoc(doc(db, "usernames", username), {
+                        uid: user.uid
+                    });
                     
-                    console.log('User document created successfully');
-                } else {
-                    console.log('User document already exists');
+                    await setDoc(doc(db, "settings", user.uid), {
+                        showOnlineStatus: true,
+                        showLastSeen: true,
+                        theme: 'auto'
+                    });
+                    
+                    console.log('User document created');
                 }
                 
                 return true;
             } catch (error) {
                 console.error('Error ensuring user document:', error);
-                showToast('خطأ في إنشاء ملف المستخدم', 'error');
                 return false;
             }
         }
@@ -1651,11 +2120,35 @@
                 if (userDoc.exists()) {
                     return userDoc.data();
                 }
-                console.log('User not found:', uid);
                 return null;
             } catch (error) {
                 console.error('Error getting user:', error);
                 return null;
+            }
+        }
+
+        async function getUserSettings(uid) {
+            try {
+                const settingsDoc = await getDoc(doc(db, "settings", uid));
+                if (settingsDoc.exists()) {
+                    return settingsDoc.data();
+                }
+                
+                const defaultSettings = {
+                    showOnlineStatus: true,
+                    showLastSeen: true,
+                    theme: 'auto'
+                };
+                
+                await setDoc(doc(db, "settings", uid), defaultSettings);
+                return defaultSettings;
+            } catch (error) {
+                console.error('Error getting user settings:', error);
+                return {
+                    showOnlineStatus: true,
+                    showLastSeen: true,
+                    theme: 'auto'
+                };
             }
         }
 
@@ -1670,131 +2163,6 @@
             } catch (error) {
                 console.error('Error updating online status:', error);
                 return false;
-            }
-        }
-
-        async function getUserChats(userId) {
-            try {
-                console.log('Getting chats for user:', userId);
-                
-                const chatsQuery = query(
-                    collection(db, "chats"),
-                    where("members", "array-contains", userId)
-                );
-                
-                const chatsSnapshot = await getDocs(chatsQuery);
-                console.log('Found chats:', chatsSnapshot.size);
-                
-                const chats = [];
-                
-                for (const chatDoc of chatsSnapshot.docs) {
-                    const chatData = chatDoc.data();
-                    const otherUserId = chatData.members.find(id => id !== userId);
-                    
-                    if (otherUserId) {
-                        const otherUser = await getUserById(otherUserId);
-                        
-                        if (otherUser) {
-                            chats.push({
-                                id: chatDoc.id,
-                                ...chatData,
-                                otherUser,
-                                unread: chatData.unreadCount?.[userId] || 0
-                            });
-                        }
-                    }
-                }
-                
-                // Sort by last message time
-                chats.sort((a, b) => {
-                    const timeA = a.lastMessageTime?.toDate?.() || a.createdAt?.toDate?.() || new Date(0);
-                    const timeB = b.lastMessageTime?.toDate?.() || b.createdAt?.toDate?.() || new Date(0);
-                    return timeB - timeA;
-                });
-                
-                console.log('Processed chats:', chats.length);
-                return chats;
-            } catch (error) {
-                console.error('Error getting chats:', error);
-                showToast('خطأ في تحميل المحادثات', 'error');
-                return [];
-            }
-        }
-
-        async function getOrCreateChat(user1Id, user2Id) {
-            try {
-                const chatId = getChatId(user1Id, user2Id);
-                const chatRef = doc(db, "chats", chatId);
-                const chatDoc = await getDoc(chatRef);
-                
-                if (!chatDoc.exists()) {
-                    await setDoc(chatRef, {
-                        members: [user1Id, user2Id],
-                        lastMessage: "",
-                        lastMessageTime: null,
-                        unreadCount: { [user1Id]: 0, [user2Id]: 0 },
-                        createdAt: serverTimestamp()
-                    });
-                    console.log('New chat created:', chatId);
-                } else {
-                    console.log('Existing chat found:', chatId);
-                }
-                
-                return chatId;
-            } catch (error) {
-                console.error('Error creating chat:', error);
-                showToast('فشل بدء المحادثة', 'error');
-                return null;
-            }
-        }
-
-        async function sendMessage(chatId, senderId, text) {
-            try {
-                const messagesRef = collection(db, "chats", chatId, "messages");
-                const chatRef = doc(db, "chats", chatId);
-                
-                await addDoc(messagesRef, {
-                    text,
-                    senderId,
-                    timestamp: serverTimestamp(),
-                    read: false
-                });
-                
-                await updateDoc(chatRef, {
-                    lastMessage: text,
-                    lastMessageTime: serverTimestamp()
-                });
-                
-                console.log('Message sent successfully');
-                return true;
-            } catch (error) {
-                console.error('Error sending message:', error);
-                return false;
-            }
-        }
-
-        async function getChatMessages(chatId) {
-            try {
-                const messagesQuery = query(
-                    collection(db, "chats", chatId, "messages"),
-                    orderBy("timestamp", "asc")
-                );
-                
-                const messagesSnapshot = await getDocs(messagesQuery);
-                const messages = [];
-                
-                messagesSnapshot.forEach(doc => {
-                    messages.push({
-                        id: doc.id,
-                        ...doc.data()
-                    });
-                });
-                
-                console.log('Loaded messages:', messages.length);
-                return messages;
-            } catch (error) {
-                console.error('Error getting messages:', error);
-                return [];
             }
         }
 
@@ -1826,7 +2194,6 @@
                     await batch.commit();
                 }
                 
-                console.log('Profile updated successfully');
                 return true;
             } catch (error) {
                 console.error('Error updating profile:', error);
@@ -1834,26 +2201,262 @@
             }
         }
 
+        async function updateUserSettings(uid, updates) {
+            try {
+                const settingsRef = doc(db, "settings", uid);
+                await updateDoc(settingsRef, updates);
+                return true;
+            } catch (error) {
+                console.error('Error updating settings:', error);
+                return false;
+            }
+        }
+
+        async function getUserChats(userId) {
+            try {
+                const chatsQuery = query(
+                    collection(db, "chats"),
+                    where("members", "array-contains", userId)
+                );
+                
+                const chatsSnapshot = await getDocs(chatsQuery);
+                const chats = [];
+                
+                for (const chatDoc of chatsSnapshot.docs) {
+                    const chatData = chatDoc.data();
+                    const otherUserId = chatData.members.find(id => id !== userId);
+                    
+                    if (otherUserId) {
+                        const otherUser = await getUserById(otherUserId);
+                        
+                        if (otherUser) {
+                            chats.push({
+                                id: chatDoc.id,
+                                ...chatData,
+                                otherUser,
+                                unread: chatData.unreadCount?.[userId] || 0
+                            });
+                        }
+                    }
+                }
+                
+                chats.sort((a, b) => {
+                    const timeA = a.lastMessageTime?.toDate?.() || a.createdAt?.toDate?.() || new Date(0);
+                    const timeB = b.lastMessageTime?.toDate?.() || b.createdAt?.toDate?.() || new Date(0);
+                    return timeB - timeA;
+                });
+                
+                return chats;
+            } catch (error) {
+                console.error('Error getting chats:', error);
+                return [];
+            }
+        }
+
+        async function searchUsers(query) {
+            try {
+                if (!query.trim()) return [];
+                
+                const usersQuery = query(
+                    collection(db, "users"),
+                    where("username", ">=", query.toLowerCase()),
+                    where("username", "<=", query.toLowerCase() + '\uf8ff'),
+                    limit(10)
+                );
+                
+                const usersSnapshot = await getDocs(usersQuery);
+                const users = [];
+                
+                usersSnapshot.forEach(doc => {
+                    const userData = doc.data();
+                    if (userData.uid !== currentUser.uid) {
+                        users.push(userData);
+                    }
+                });
+                
+                return users;
+            } catch (error) {
+                console.error('Error searching users:', error);
+                return [];
+            }
+        }
+
+        async function getOrCreateChat(user1Id, user2Id) {
+            try {
+                const chatId = getChatId(user1Id, user2Id);
+                const chatRef = doc(db, "chats", chatId);
+                const chatDoc = await getDoc(chatRef);
+                
+                if (!chatDoc.exists()) {
+                    await setDoc(chatRef, {
+                        members: [user1Id, user2Id],
+                        lastMessage: "",
+                        lastMessageTime: null,
+                        unreadCount: { [user1Id]: 0, [user2Id]: 0 },
+                        createdAt: serverTimestamp()
+                    });
+                }
+                
+                return chatId;
+            } catch (error) {
+                console.error('Error creating chat:', error);
+                throw error;
+            }
+        }
+
+        async function sendMessage(chatId, senderId, text) {
+            try {
+                const messagesRef = collection(db, "chats", chatId, "messages");
+                const chatRef = doc(db, "chats", chatId);
+                
+                const messageData = {
+                    text,
+                    senderId,
+                    timestamp: serverTimestamp(),
+                    read: false,
+                    status: 'sent'
+                };
+                
+                await addDoc(messagesRef, messageData);
+                
+                const otherUserId = currentChatUser?.uid;
+                if (otherUserId) {
+                    await updateDoc(chatRef, {
+                        lastMessage: text,
+                        lastMessageTime: serverTimestamp(),
+                        [`unreadCount.${otherUserId}`]: increment(1)
+                    });
+                }
+                
+                return true;
+            } catch (error) {
+                console.error('Error sending message:', error);
+                return false;
+            }
+        }
+
+        async function getChatMessages(chatId) {
+            try {
+                const messagesQuery = query(
+                    collection(db, "chats", chatId, "messages"),
+                    orderBy("timestamp", "asc")
+                );
+                
+                const messagesSnapshot = await getDocs(messagesQuery);
+                const messages = [];
+                
+                messagesSnapshot.forEach(doc => {
+                    messages.push({
+                        id: doc.id,
+                        ...doc.data()
+                    });
+                });
+                
+                return messages;
+            } catch (error) {
+                console.error('Error getting messages:', error);
+                return [];
+            }
+        }
+
+        async function markMessagesAsRead(chatId, userId) {
+            try {
+                const messagesQuery = query(
+                    collection(db, "chats", chatId, "messages"),
+                    where("senderId", "!=", userId),
+                    where("read", "==", false)
+                );
+                
+                const messagesSnapshot = await getDocs(messagesQuery);
+                const batch = writeBatch(db);
+                
+                messagesSnapshot.forEach(doc => {
+                    batch.update(doc.ref, { read: true, status: 'read' });
+                });
+                
+                if (!messagesSnapshot.empty) {
+                    await batch.commit();
+                }
+                
+                const chatRef = doc(db, "chats", chatId);
+                await updateDoc(chatRef, {
+                    [`unreadCount.${userId}`]: 0
+                });
+                
+                return true;
+            } catch (error) {
+                console.error('Error marking messages as read:', error);
+                return false;
+            }
+        }
+
+        async function deleteUserAccount(password) {
+            try {
+                const user = auth.currentUser;
+                const credential = EmailAuthProvider.credential(user.email, password);
+                
+                await reauthenticateWithCredential(user, credential);
+                
+                const batch = writeBatch(db);
+                
+                batch.delete(doc(db, "users", user.uid));
+                batch.delete(doc(db, "settings", user.uid));
+                
+                if (currentUserData.username) {
+                    batch.delete(doc(db, "usernames", currentUserData.username));
+                }
+                
+                const chatsQuery = query(
+                    collection(db, "chats"),
+                    where("members", "array-contains", user.uid)
+                );
+                
+                const chatsSnapshot = await getDocs(chatsQuery);
+                chatsSnapshot.forEach(doc => {
+                    batch.delete(doc.ref);
+                });
+                
+                await batch.commit();
+                await deleteUser(user);
+                
+                return true;
+            } catch (error) {
+                console.error('Error deleting account:', error);
+                throw error;
+            }
+        }
+
         // ===== UI FUNCTIONS =====
         
-        function updateUserInfo(userData) {
+        function updateUserInfo(userData, settings = null) {
             if (!userData) return;
             
             userName.textContent = userData.name || 'مستخدم';
             userAvatar.textContent = userData.name?.charAt(0) || 'م';
             
             const isOnline = userData.isOnline;
-            userStatus.innerHTML = `
-                <iconify-icon icon="mdi:circle"></iconify-icon>
-                ${isOnline ? 'متصل' : 'غير متصل'}
-            `;
+            const showOnline = settings ? settings.showOnlineStatus : true;
             
-            if (isOnline) {
-                statusIndicator.classList.remove('offline');
-                userStatus.style.color = 'var(--accent)';
+            if (showOnline) {
+                userStatus.innerHTML = `
+                    <iconify-icon icon="mdi:circle"></iconify-icon>
+                    ${isOnline ? 'متصل' : 'غير متصل'}
+                `;
+                
+                if (isOnline) {
+                    statusIndicator.classList.remove('offline');
+                    userStatus.style.color = 'var(--accent)';
+                } else {
+                    statusIndicator.classList.add('offline');
+                    userStatus.style.color = 'var(--text-tertiary)';
+                }
             } else {
-                statusIndicator.classList.add('offline');
+                userStatus.innerHTML = `
+                    <iconify-icon icon="mdi:clock-outline"></iconify-icon>
+                    ${formatLastSeen(userData.lastSeen, false)}
+                `;
                 userStatus.style.color = 'var(--text-tertiary)';
+                statusIndicator.classList.add('hidden');
             }
         }
 
@@ -1882,17 +2485,36 @@
             }
         }
 
+        function updatePrivacyModal(settings) {
+            if (!settings) return;
+            
+            showOnlineStatusValue.textContent = settings.showOnlineStatus ? 'مفعل' : 'معطل';
+            showLastSeenValue.textContent = settings.showLastSeen ? 'مفعل' : 'معطل';
+            
+            if (settings.showOnlineStatus) {
+                showOnlineStatusSwitch.classList.add('active');
+            } else {
+                showOnlineStatusSwitch.classList.remove('active');
+            }
+            
+            if (settings.showLastSeen) {
+                showLastSeenSwitch.classList.add('active');
+            } else {
+                showLastSeenSwitch.classList.remove('active');
+            }
+        }
+
         async function loadChats() {
             if (!currentUser) return;
             
-            console.log('Loading chats...');
+            updateLoadingText('جاري تحميل المحادثات...');
+            
             const chats = await getUserChats(currentUser.uid);
             allChats = chats;
             
             if (chats.length > 0) {
                 renderChats(chats);
                 
-                // Setup real-time listener
                 if (chatsListener) chatsListener();
                 
                 chatsListener = onSnapshot(
@@ -1964,23 +2586,90 @@
             });
         }
 
+        function renderSearchResults(users) {
+            searchResults.innerHTML = '';
+            
+            if (users.length === 0) {
+                searchResults.innerHTML = `
+                    <div class="no-results">
+                        <iconify-icon icon="mdi:account-search" style="font-size: 48px; opacity: 0.3;"></iconify-icon>
+                        <p>لم يتم العثور على مستخدمين</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            users.forEach(user => {
+                const resultItem = document.createElement('div');
+                resultItem.className = 'search-result-item';
+                resultItem.dataset.userId = user.uid;
+                
+                resultItem.innerHTML = `
+                    <div class="search-result-avatar">${user.name?.charAt(0) || 'م'}</div>
+                    <div class="search-result-info">
+                        <div class="search-result-name">${user.name || 'مستخدم'}</div>
+                        <div class="search-result-username">@${user.username || 'user'}</div>
+                    </div>
+                `;
+                
+                resultItem.addEventListener('click', async () => {
+                    try {
+                        newChatModal.classList.remove('active');
+                        showToast('جاري بدء المحادثة...', 'info');
+                        
+                        const chatId = await getOrCreateChat(currentUser.uid, user.uid);
+                        
+                        await loadChats();
+                        openChat(chatId, user);
+                        
+                        showToast(`بدأت محادثة مع ${user.name}`, 'success');
+                    } catch (error) {
+                        showToast('فشل بدء المحادثة', 'error');
+                    }
+                });
+                
+                searchResults.appendChild(resultItem);
+            });
+        }
+
         async function openChat(chatId, otherUser) {
             currentChatId = chatId;
+            currentChatUser = otherUser;
             
             chatUserAvatar.textContent = otherUser.name?.charAt(0) || 'م';
             chatUserName.textContent = otherUser.name || 'مستخدم';
-            chatUserStatus.innerHTML = `
-                <iconify-icon icon="mdi:circle"></iconify-icon>
-                ${otherUser.isOnline ? 'متصل الآن' : 'غير متصل'}
-            `;
-            chatUserStatus.style.color = otherUser.isOnline ? 'var(--accent)' : 'var(--text-tertiary)';
+            
+            const showOnline = currentUserSettings?.showOnlineStatus ?? true;
+            const showLastSeen = currentUserSettings?.showLastSeen ?? true;
+            
+            if (showOnline && otherUser.isOnline) {
+                chatUserStatus.innerHTML = `
+                    <iconify-icon icon="mdi:circle"></iconify-icon>
+                    متصل الآن
+                `;
+                chatUserStatus.style.color = 'var(--accent)';
+            } else if (showLastSeen) {
+                chatUserStatus.innerHTML = `
+                    <iconify-icon icon="mdi:clock-outline"></iconify-icon>
+                    ${formatLastSeen(otherUser.lastSeen, false)}
+                `;
+                chatUserStatus.style.color = 'var(--text-tertiary)';
+            } else {
+                chatUserStatus.innerHTML = `
+                    <iconify-icon icon="mdi:account"></iconify-icon>
+                    مستخدم
+                `;
+                chatUserStatus.style.color = 'var(--text-tertiary)';
+            }
             
             chatMessages.innerHTML = `
                 <div class="loading-container">
-                    <div class="loading-spinner"></div>
+                    <div class="loading-spinner-small"></div>
                     <p class="loading-text">جاري تحميل الرسائل...</p>
                 </div>
             `;
+            
+            await markMessagesAsRead(chatId, currentUser.uid);
             
             const messages = await getChatMessages(chatId);
             renderMessages(messages);
@@ -2003,6 +2692,12 @@
                         });
                     });
                     renderMessages(messages);
+                    
+                    snapshot.docChanges().forEach(change => {
+                        if (change.type === 'added' && change.doc.data().senderId !== currentUser.uid) {
+                            markMessagesAsRead(chatId, currentUser.uid);
+                        }
+                    });
                 }
             );
             
@@ -2028,63 +2723,62 @@
                 return;
             }
             
-            messages.forEach(message => {
+            let lastDate = null;
+            
+            messages.forEach((message, index) => {
+                const messageDate = message.timestamp?.toDate?.() || new Date();
+                const messageDay = messageDate.toDateString();
+                
+                if (messageDay !== lastDate) {
+                    const dateElement = document.createElement('div');
+                    dateElement.className = 'message-time';
+                    dateElement.textContent = formatTime(message.timestamp);
+                    chatMessages.appendChild(dateElement);
+                    lastDate = messageDay;
+                }
+                
                 const isSent = message.senderId === currentUser.uid;
                 const messageElement = document.createElement('div');
-                messageElement.className = `message ${isSent ? 'sent' : 'received'}`;
+                messageElement.className = `message-container`;
                 
-                const time = formatTime(message.timestamp);
+                const wrapper = document.createElement('div');
+                wrapper.className = `message-wrapper ${isSent ? 'sent' : 'received'}`;
                 
-                messageElement.innerHTML = `
-                    <div class="message-text">${message.text}</div>
-                    <div class="message-time">${time}</div>
-                `;
+                const avatar = document.createElement('div');
+                avatar.className = 'message-avatar';
+                avatar.textContent = isSent ? 
+                    (currentUserData?.name?.charAt(0) || 'م') : 
+                    (currentChatUser?.name?.charAt(0) || 'م');
                 
+                const bubble = document.createElement('div');
+                bubble.className = 'message-bubble';
+                
+                const text = document.createElement('div');
+                text.className = 'message-text';
+                text.textContent = message.text;
+                
+                const status = document.createElement('div');
+                status.className = 'message-status';
+                
+                const timeText = formatTime(message.timestamp);
+                if (isSent) {
+                    status.innerHTML = `
+                        <span>${timeText}</span>
+                        <iconify-icon icon="${message.status === 'read' ? 'mdi:check-all' : 'mdi:check'}"></iconify-icon>
+                    `;
+                } else {
+                    status.textContent = timeText;
+                }
+                
+                bubble.appendChild(text);
+                bubble.appendChild(status);
+                wrapper.appendChild(avatar);
+                wrapper.appendChild(bubble);
+                messageElement.appendChild(wrapper);
                 chatMessages.appendChild(messageElement);
             });
             
             chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        async function handleNewChat() {
-            const username = prompt('أدخل اسم المستخدم للبحث:');
-            if (!username) return;
-            
-            showToast('جاري البحث عن المستخدم...', 'info');
-            
-            try {
-                const usernameDoc = await getDoc(doc(db, "usernames", username.trim().toLowerCase()));
-                
-                if (!usernameDoc.exists()) {
-                    showToast('لم يتم العثور على المستخدم', 'error');
-                    return;
-                }
-                
-                const otherUserId = usernameDoc.data().uid;
-                
-                if (otherUserId === currentUser.uid) {
-                    showToast('لا يمكن بدء محادثة مع نفسك', 'warning');
-                    return;
-                }
-                
-                const otherUser = await getUserById(otherUserId);
-                
-                if (!otherUser) {
-                    showToast('خطأ في تحميل بيانات المستخدم', 'error');
-                    return;
-                }
-                
-                const chatId = await getOrCreateChat(currentUser.uid, otherUserId);
-                
-                if (chatId) {
-                    showToast(`بدأت محادثة مع ${otherUser.name}`, 'success');
-                    await loadChats();
-                    openChat(chatId, otherUser);
-                }
-            } catch (error) {
-                console.error('Error starting new chat:', error);
-                showToast('حدث خطأ أثناء بدء المحادثة', 'error');
-            }
         }
 
         async function handleSendMessage() {
@@ -2152,7 +2846,7 @@
                 
                 if (success) {
                     currentUserData = { ...currentUserData, ...updates };
-                    updateUserInfo(currentUserData);
+                    updateUserInfo(currentUserData, currentUserSettings);
                     showToast('تم حفظ التغييرات بنجاح', 'success');
                     
                     setTimeout(() => {
@@ -2170,24 +2864,97 @@
             }
         }
 
+        async function handleSavePrivacy() {
+            const showOnlineStatus = showOnlineStatusSwitch.classList.contains('active');
+            const showLastSeen = showLastSeenSwitch.classList.contains('active');
+            
+            savePrivacyBtn.disabled = true;
+            savePrivacyBtn.textContent = 'جاري الحفظ...';
+            
+            try {
+                const updates = {
+                    showOnlineStatus,
+                    showLastSeen
+                };
+                
+                const success = await updateUserSettings(currentUser.uid, updates);
+                
+                if (success) {
+                    currentUserSettings = { ...currentUserSettings, ...updates };
+                    updateUserInfo(currentUserData, currentUserSettings);
+                    showToast('تم حفظ إعدادات الخصوصية', 'success');
+                    
+                    setTimeout(() => {
+                        privacyModal.classList.remove('active');
+                    }, 1000);
+                } else {
+                    showToast('فشل حفظ الإعدادات', 'error');
+                }
+            } catch (error) {
+                console.error('Error saving privacy settings:', error);
+                showToast('حدث خطأ أثناء الحفظ', 'error');
+            } finally {
+                savePrivacyBtn.disabled = false;
+                savePrivacyBtn.textContent = 'حفظ الإعدادات';
+            }
+        }
+
+        async function handleDeleteAccount() {
+            const password = deletePasswordInput.value.trim();
+            
+            if (!password) {
+                showToast('يرجى إدخال كلمة المرور', 'error');
+                return;
+            }
+            
+            if (!confirm('هل أنت متأكد من حذف الحساب؟ هذا الإجراء لا يمكن التراجع عنه.')) {
+                return;
+            }
+            
+            confirmDeleteBtn.disabled = true;
+            confirmDeleteBtn.textContent = 'جاري الحذف...';
+            
+            try {
+                await deleteUserAccount(password);
+                showToast('تم حذف الحساب بنجاح', 'success');
+                setTimeout(() => {
+                    window.location.href = "auth.html";
+                }, 1500);
+            } catch (error) {
+                console.error('Error deleting account:', error);
+                
+                if (error.code === 'auth/wrong-password') {
+                    showToast('كلمة المرور غير صحيحة', 'error');
+                } else if (error.code === 'auth/requires-recent-login') {
+                    showToast('يجب تسجيل الدخول مرة أخرى', 'error');
+                } else {
+                    showToast('فشل حذف الحساب', 'error');
+                }
+                
+                confirmDeleteBtn.disabled = false;
+                confirmDeleteBtn.textContent = 'حذف الحساب نهائياً';
+            }
+        }
+
         // ===== EVENT LISTENERS =====
         
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                console.log('User authenticated:', user.uid);
                 currentUser = user;
                 
                 try {
+                    updateLoadingText('جاري تحميل بيانات المستخدم...');
                     await ensureUserDocument(user);
                     
-                    const userData = await getUserById(user.uid);
+                    currentUserData = await getUserById(user.uid);
+                    currentUserSettings = await getUserSettings(user.uid);
                     
-                    if (userData) {
-                        currentUserData = userData;
-                        updateUserInfo(userData);
+                    if (currentUserData) {
+                        updateUserInfo(currentUserData, currentUserSettings);
                         
                         await updateOnlineStatus(user.uid, true);
                         
+                        updateLoadingText('جاري تحميل المحادثات...');
                         await loadChats();
                         
                         if (userListener) userListener();
@@ -2195,14 +2962,27 @@
                         userListener = onSnapshot(doc(db, "users", user.uid), (doc) => {
                             if (doc.exists()) {
                                 currentUserData = doc.data();
-                                updateUserInfo(currentUserData);
+                                updateUserInfo(currentUserData, currentUserSettings);
                                 updateProfileModal(currentUserData);
                             }
                         });
                         
-                        showToast(`مرحباً ${currentUserData.name}! 👋`, 'success');
+                        if (settingsListener) settingsListener();
+                        
+                        settingsListener = onSnapshot(doc(db, "settings", user.uid), (doc) => {
+                            if (doc.exists()) {
+                                currentUserSettings = doc.data();
+                                updateUserInfo(currentUserData, currentUserSettings);
+                                updatePrivacyModal(currentUserSettings);
+                            }
+                        });
+                        
+                        setTimeout(() => {
+                            loadingScreen.classList.add('hidden');
+                            appWrapper.classList.remove('hidden');
+                            showToast(`مرحباً ${currentUserData.name}! 👋`, 'success');
+                        }, 500);
                     } else {
-                        console.error('User data is null for:', user.uid);
                         showToast('خطأ في بيانات المستخدم', 'error');
                     }
                 } catch (error) {
@@ -2210,12 +2990,10 @@
                     showToast('حدث خطأ في التحميل', 'error');
                 }
             } else {
-                console.log('No user, redirecting to auth...');
                 window.location.href = "auth.html";
             }
         });
 
-        // Tabs
         tabButtons.forEach(button => {
             button.addEventListener('click', () => {
                 tabButtons.forEach(btn => btn.classList.remove('active'));
@@ -2229,33 +3007,88 @@
             });
         });
 
-        // New chat
-        newChatBtn.addEventListener('click', handleNewChat);
+        themeToggleBtn.addEventListener('click', toggleTheme);
 
-        // Profile settings
-        profileSettingsBtn.addEventListener('click', () => {
+        newChatModalBtn.addEventListener('click', () => {
+            newChatModal.classList.add('active');
+            userSearchInput.focus();
+        });
+
+        userSearchInput.addEventListener('input', async (e) => {
+            const query = e.target.value.trim();
+            
+            if (query.length < 2) {
+                renderSearchResults([]);
+                return;
+            }
+            
+            const users = await searchUsers(query);
+            renderSearchResults(users);
+        });
+
+        profileModalBtn.addEventListener('click', () => {
             if (currentUserData) {
                 updateProfileModal(currentUserData);
                 profileModal.classList.add('active');
             }
         });
 
-        // Profile back
         profileBackBtn.addEventListener('click', () => {
             profileModal.classList.remove('active');
         });
 
-        // Profile status toggle
+        privacyModalBtn.addEventListener('click', () => {
+            if (currentUserSettings) {
+                updatePrivacyModal(currentUserSettings);
+                privacyModal.classList.add('active');
+            }
+        });
+
+        privacyBackBtn.addEventListener('click', () => {
+            privacyModal.classList.remove('active');
+        });
+
+        deleteAccountModalBtn.addEventListener('click', () => {
+            deleteAccountModal.classList.add('active');
+            deletePasswordInput.value = '';
+        });
+
+        deleteAccountBackBtn.addEventListener('click', () => {
+            deleteAccountModal.classList.remove('active');
+        });
+
+        newChatBackBtn.addEventListener('click', () => {
+            newChatModal.classList.remove('active');
+            userSearchInput.value = '';
+            renderSearchResults([]);
+        });
+
+        appearanceSettingsBtn.addEventListener('click', () => {
+            toggleTheme();
+        });
+
         profileStatusToggle.addEventListener('click', () => {
             profileStatusSwitch.classList.toggle('active');
             const isOnline = profileStatusSwitch.classList.contains('active');
             profileStatusValue.textContent = isOnline ? 'متصل' : 'غير متصل';
         });
 
-        // Save profile
-        saveProfileBtn.addEventListener('click', handleSaveProfile);
+        showOnlineStatusToggle.addEventListener('click', () => {
+            showOnlineStatusSwitch.classList.toggle('active');
+            const isActive = showOnlineStatusSwitch.classList.contains('active');
+            showOnlineStatusValue.textContent = isActive ? 'مفعل' : 'معطل';
+        });
 
-        // Logout
+        showLastSeenToggle.addEventListener('click', () => {
+            showLastSeenSwitch.classList.toggle('active');
+            const isActive = showLastSeenSwitch.classList.contains('active');
+            showLastSeenValue.textContent = isActive ? 'مفعل' : 'معطل';
+        });
+
+        saveProfileBtn.addEventListener('click', handleSaveProfile);
+        savePrivacyBtn.addEventListener('click', handleSavePrivacy);
+        confirmDeleteBtn.addEventListener('click', handleDeleteAccount);
+
         logoutBtn.addEventListener('click', async () => {
             if (confirm('هل تريد تسجيل الخروج؟')) {
                 try {
@@ -2268,16 +3101,16 @@
             }
         });
 
-        // Chat window
         chatBackBtn.addEventListener('click', () => {
             chatWindow.classList.remove('active');
             if (messageListener) {
                 messageListener();
                 messageListener = null;
             }
+            currentChatId = null;
+            currentChatUser = null;
         });
 
-        // Send message
         sendMessageBtn.addEventListener('click', handleSendMessage);
 
         chatInput.addEventListener('keypress', (e) => {
@@ -2292,7 +3125,6 @@
             this.style.height = Math.min(this.scrollHeight, 120) + 'px';
         });
 
-        // Search chats
         chatsSearch.addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase();
             const filteredChats = allChats.filter(chat => 
@@ -2302,28 +3134,13 @@
             renderChats(filteredChats);
         });
 
-        // Settings items
-        const settingsItems = [
-            privacySettingsBtn,
-            notificationsSettingsBtn,
-            appearanceSettingsBtn,
-            languageSettingsBtn,
-            helpSettingsBtn,
-            aboutSettingsBtn
-        ];
-
-        settingsItems.forEach(item => {
-            item?.addEventListener('click', () => {
-                showToast('هذه الميزة قيد التطوير', 'info');
-            });
-        });
-
-        // Update online status on page close
         window.addEventListener('beforeunload', async () => {
             if (currentUser) {
                 await updateOnlineStatus(currentUser.uid, false);
             }
         });
+
+        initTheme();
 
     </script>
 </body>
