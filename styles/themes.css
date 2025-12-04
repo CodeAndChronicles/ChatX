@@ -1,383 +1,258 @@
-/* ===== THEME SYSTEM ===== */
+/* ===== THEME STYLES ===== */
 
-/* Dark Theme (Default) */
-.theme-dark {
-    --bg-primary: #0F172A;
-    --bg-secondary: #1E293B;
-    --bg-tertiary: #334155;
-    --bg-card: #1E293B;
-    --bg-input: #334155;
-    --bg-hover: rgba(148, 163, 184, 0.1);
-    --bg-unread: rgba(139, 92, 246, 0.2);
-    --bg-modal: rgba(15, 23, 42, 0.95);
-    
-    --text-primary: #F1F5F9;
-    --text-secondary: #CBD5E1;
-    --text-tertiary: #94A3B8;
-    
-    --border: #475569;
-    --border-light: #334155;
-    
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.7);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.8);
-    
-    --scrollbar-thumb: #475569;
-    --scrollbar-thumb-hover: #64748B;
-    
-    --success: #10B981;
-    --success-dark: #059669;
-    --danger: #EF4444;
-    --danger-dark: #DC2626;
-    --warning: #F59E0B;
-    --warning-dark: #D97706;
-    --info: #3B82F6;
-    --info-dark: #2563EB;
-    
-    --primary-shadow: rgba(139, 92, 246, 0.25);
-}
-
-/* Light Theme */
-.theme-light {
-    --bg-primary: #FFFFFF;
-    --bg-secondary: #F8FAFC;
-    --bg-tertiary: #F1F5F9;
-    --bg-card: #FFFFFF;
-    --bg-input: #F1F5F9;
-    --bg-hover: rgba(148, 163, 184, 0.08);
-    --bg-unread: rgba(139, 92, 246, 0.1);
-    --bg-modal: rgba(255, 255, 255, 0.95);
-    
-    --text-primary: #1E293B;
-    --text-secondary: #475569;
-    --text-tertiary: #64748B;
-    
-    --border: #E2E8F0;
-    --border-light: #F1F5F9;
-    
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-    
-    --scrollbar-thumb: #CBD5E1;
-    --scrollbar-thumb-hover: #94A3B8;
-    
-    --success: #10B981;
-    --success-dark: #059669;
-    --danger: #EF4444;
-    --danger-dark: #DC2626;
-    --warning: #F59E0B;
-    --warning-dark: #D97706;
-    --info: #3B82F6;
-    --info-dark: #2563EB;
-    
-    --primary-shadow: rgba(139, 92, 246, 0.15);
-}
-
-/* Color Themes */
-.color-purple {
-    --primary: #8B5CF6;
-    --primary-dark: #7C3AED;
-    --profile-cover: linear-gradient(135deg, #8B5CF6, #7C3AED);
-}
-
-.color-blue {
-    --primary: #3B82F6;
-    --primary-dark: #2563EB;
-    --profile-cover: linear-gradient(135deg, #3B82F6, #2563EB);
-}
-
-.color-green {
-    --primary: #10B981;
-    --primary-dark: #059669;
-    --profile-cover: linear-gradient(135deg, #10B981, #059669);
-}
-
-.color-red {
-    --primary: #EF4444;
-    --primary-dark: #DC2626;
-    --profile-cover: linear-gradient(135deg, #EF4444, #DC2626);
-}
-
-.color-orange {
-    --primary: #F59E0B;
+/* Orange Theme */
+[data-color-theme="orange"] {
+    --primary-color: #F59E0B;
     --primary-dark: #D97706;
-    --profile-cover: linear-gradient(135deg, #F59E0B, #D97706);
+    --primary-light: #FBBF24;
 }
 
-.color-pink {
-    --primary: #EC4899;
+/* Pink Theme */
+[data-color-theme="pink"] {
+    --primary-color: #EC4899;
     --primary-dark: #DB2777;
-    --profile-cover: linear-gradient(135deg, #EC4899, #DB2777);
+    --primary-light: #F472B6;
 }
 
-/* Apply colors to elements */
-body.color-purple .theme-option.active,
-body.color-purple .color-option.active,
-body.color-purple .tab-btn.active,
-body.color-purple .request-tab-btn.active,
-body.color-purple .btn-primary,
-body.color-purple .send-btn,
-body.color-purple .theme-toggle-btn:hover,
-body.color-purple .status-indicator.typing {
-    background: var(--primary);
-    border-color: var(--primary);
+/* Red Theme */
+[data-color-theme="red"] {
+    --primary-color: #EF4444;
+    --primary-dark: #DC2626;
+    --primary-light: #F87171;
 }
 
-body.color-purple .theme-option.active,
-body.color-purple .tab-btn.active,
-body.color-purple .request-tab-btn.active,
-body.color-purple .btn-primary,
-body.color-purple .send-btn {
-    color: white;
-}
-
-/* Repeat for other colors */
-body.color-blue .theme-option.active,
-body.color-blue .color-option.active,
-body.color-blue .tab-btn.active,
-body.color-blue .request-tab-btn.active,
-body.color-blue .btn-primary,
-body.color-blue .send-btn,
-body.color-blue .theme-toggle-btn:hover,
-body.color-blue .status-indicator.typing {
-    background: var(--primary);
-    border-color: var(--primary);
-}
-
-body.color-green .theme-option.active,
-body.color-green .color-option.active,
-body.color-green .tab-btn.active,
-body.color-green .request-tab-btn.active,
-body.color-green .btn-primary,
-body.color-green .send-btn,
-body.color-green .theme-toggle-btn:hover,
-body.color-green .status-indicator.typing {
-    background: var(--primary);
-    border-color: var(--primary);
-}
-
-body.color-red .theme-option.active,
-body.color-red .color-option.active,
-body.color-red .tab-btn.active,
-body.color-red .request-tab-btn.active,
-body.color-red .btn-primary,
-body.color-red .send-btn,
-body.color-red .theme-toggle-btn:hover,
-body.color-red .status-indicator.typing {
-    background: var(--primary);
-    border-color: var(--primary);
-}
-
-body.color-orange .theme-option.active,
-body.color-orange .color-option.active,
-body.color-orange .tab-btn.active,
-body.color-orange .request-tab-btn.active,
-body.color-orange .btn-primary,
-body.color-orange .send-btn,
-body.color-orange .theme-toggle-btn:hover,
-body.color-orange .status-indicator.typing {
-    background: var(--primary);
-    border-color: var(--primary);
-}
-
-body.color-pink .theme-option.active,
-body.color-pink .color-option.active,
-body.color-pink .tab-btn.active,
-body.color-pink .request-tab-btn.active,
-body.color-pink .btn-primary,
-body.color-pink .send-btn,
-body.color-pink .theme-toggle-btn:hover,
-body.color-pink .status-indicator.typing {
-    background: var(--primary);
-    border-color: var(--primary);
-}
-
-/* Profile cover colors */
-body.color-purple .profile-cover {
+/* Gradient Backgrounds */
+.gradient-bg-purple {
     background: linear-gradient(135deg, #8B5CF6, #7C3AED);
 }
 
-body.color-blue .profile-cover {
+.gradient-bg-blue {
     background: linear-gradient(135deg, #3B82F6, #2563EB);
 }
 
-body.color-green .profile-cover {
+.gradient-bg-green {
     background: linear-gradient(135deg, #10B981, #059669);
 }
 
-body.color-red .profile-cover {
-    background: linear-gradient(135deg, #EF4444, #DC2626);
-}
-
-body.color-orange .profile-cover {
+.gradient-bg-orange {
     background: linear-gradient(135deg, #F59E0B, #D97706);
 }
 
-body.color-pink .profile-cover {
+.gradient-bg-pink {
     background: linear-gradient(135deg, #EC4899, #DB2777);
 }
 
-/* Message bubbles */
-body.color-purple .message-wrapper.sent .message-bubble {
-    background: var(--primary);
+.gradient-bg-red {
+    background: linear-gradient(135deg, #EF4444, #DC2626);
 }
 
-body.color-blue .message-wrapper.sent .message-bubble {
-    background: var(--primary);
+/* Theme Transition Effects */
+.theme-transition * {
+    transition: background-color 0.3s ease,
+                color 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
 }
 
-body.color-green .message-wrapper.sent .message-bubble {
-    background: var(--primary);
+/* Theme-specific Button Styles */
+[data-color-theme="orange"] .btn-primary {
+    background: linear-gradient(135deg, #F59E0B, #D97706);
 }
 
-body.color-red .message-wrapper.sent .message-bubble {
-    background: var(--primary);
+[data-color-theme="orange"] .btn-primary:hover {
+    background: linear-gradient(135deg, #D97706, #B45309);
 }
 
-body.color-orange .message-wrapper.sent .message-bubble {
-    background: var(--primary);
+[data-color-theme="pink"] .btn-primary {
+    background: linear-gradient(135deg, #EC4899, #DB2777);
 }
 
-body.color-pink .message-wrapper.sent .message-bubble {
-    background: var(--primary);
+[data-color-theme="pink"] .btn-primary:hover {
+    background: linear-gradient(135deg, #DB2777, #BE185D);
 }
 
-/* Active chat item */
-body.color-purple .chat-item.active {
-    background: var(--primary);
+[data-color-theme="red"] .btn-primary {
+    background: linear-gradient(135deg, #EF4444, #DC2626);
 }
 
-body.color-blue .chat-item.active {
-    background: var(--primary);
+[data-color-theme="red"] .btn-primary:hover {
+    background: linear-gradient(135deg, #DC2626, #B91C1C);
 }
 
-body.color-green .chat-item.active {
-    background: var(--primary);
+/* Theme-specific Message Bubbles */
+[data-color-theme="orange"] .message.sent .message-bubble {
+    background: linear-gradient(135deg, #F59E0B, #D97706);
 }
 
-body.color-red .chat-item.active {
-    background: var(--primary);
+[data-color-theme="pink"] .message.sent .message-bubble {
+    background: linear-gradient(135deg, #EC4899, #DB2777);
 }
 
-body.color-orange .chat-item.active {
-    background: var(--primary);
+[data-color-theme="red"] .message.sent .message-bubble {
+    background: linear-gradient(135deg, #EF4444, #DC2626);
 }
 
-body.color-pink .chat-item.active {
-    background: var(--primary);
+/* Theme-specific Status Indicators */
+[data-color-theme="orange"] .status-indicator.online {
+    background: #F59E0B;
 }
 
-/* Loading spinner */
-body.color-purple .loading-spinner {
-    border-top-color: var(--primary);
+[data-color-theme="pink"] .status-indicator.online {
+    background: #EC4899;
 }
 
-body.color-blue .loading-spinner {
-    border-top-color: var(--primary);
+[data-color-theme="red"] .status-indicator.online {
+    background: #EF4444;
 }
 
-body.color-green .loading-spinner {
-    border-top-color: var(--primary);
+/* Theme-specific Unread Badges */
+[data-color-theme="orange"] .unread-count {
+    background: #F59E0B;
 }
 
-body.color-red .loading-spinner {
-    border-top-color: var(--primary);
+[data-color-theme="pink"] .unread-count {
+    background: #EC4899;
 }
 
-body.color-orange .loading-spinner {
-    border-top-color: var(--primary);
+[data-color-theme="red"] .unread-count {
+    background: #EF4444;
 }
 
-body.color-pink .loading-spinner {
-    border-top-color: var(--primary);
+/* Theme-specific Active States */
+[data-color-theme="orange"] .nav-item.active {
+    background: linear-gradient(135deg, #F59E0B, #D97706);
 }
 
-/* Progress bar */
-body.color-purple .progress-fill {
-    background: var(--primary);
+[data-color-theme="pink"] .nav-item.active {
+    background: linear-gradient(135deg, #EC4899, #DB2777);
 }
 
-body.color-blue .progress-fill {
-    background: var(--primary);
+[data-color-theme="red"] .nav-item.active {
+    background: linear-gradient(135deg, #EF4444, #DC2626);
 }
 
-body.color-green .progress-fill {
-    background: var(--primary);
+[data-color-theme="orange"] .tab-btn.active {
+    background: linear-gradient(135deg, #F59E0B, #D97706);
 }
 
-body.color-red .progress-fill {
-    background: var(--primary);
+[data-color-theme="pink"] .tab-btn.active {
+    background: linear-gradient(135deg, #EC4899, #DB2777);
 }
 
-body.color-orange .progress-fill {
-    background: var(--primary);
+[data-color-theme="red"] .tab-btn.active {
+    background: linear-gradient(135deg, #EF4444, #DC2626);
 }
 
-body.color-pink .progress-fill {
-    background: var(--primary);
+/* Theme-specific Input Focus */
+[data-color-theme="orange"] .search-box:focus-within,
+[data-color-theme="orange"] .chat-input:focus {
+    border-color: #F59E0B;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
 }
 
-/* Unread badge */
-body.color-purple .unread-badge {
-    background: var(--primary);
+[data-color-theme="pink"] .search-box:focus-within,
+[data-color-theme="pink"] .chat-input:focus {
+    border-color: #EC4899;
+    box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
 }
 
-body.color-blue .unread-badge {
-    background: var(--primary);
+[data-color-theme="red"] .search-box:focus-within,
+[data-color-theme="red"] .chat-input:focus {
+    border-color: #EF4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
-body.color-green .unread-badge {
-    background: var(--primary);
+/* Theme-specific Toggle Switches */
+[data-color-theme="orange"] .toggle-switch input:checked + .slider {
+    background: #F59E0B;
 }
 
-body.color-red .unread-badge {
-    background: var(--primary);
+[data-color-theme="pink"] .toggle-switch input:checked + .slider {
+    background: #EC4899;
 }
 
-body.color-orange .unread-badge {
-    background: var(--primary);
+[data-color-theme="red"] .toggle-switch input:checked + .slider {
+    background: #EF4444;
 }
 
-body.color-pink .unread-badge {
-    background: var(--primary);
+/* Theme-specific Typing Indicators */
+[data-color-theme="orange"] .typing-indicator,
+[data-color-theme="orange"] .chat-typing {
+    color: #F59E0B;
 }
 
-/* Typing indicator */
-body.color-purple .chat-typing,
-body.color-purple .chat-typing-indicator,
-body.color-purple .user-typing-indicator {
-    color: var(--primary);
+[data-color-theme="orange"] .typing-dots span {
+    background: #F59E0B;
 }
 
-body.color-blue .chat-typing,
-body.color-blue .chat-typing-indicator,
-body.color-blue .user-typing-indicator {
-    color: var(--primary);
+[data-color-theme="pink"] .typing-indicator,
+[data-color-theme="pink"] .chat-typing {
+    color: #EC4899;
 }
 
-body.color-green .chat-typing,
-body.color-green .chat-typing-indicator,
-body.color-green .user-typing-indicator {
-    color: var(--primary);
+[data-color-theme="pink"] .typing-dots span {
+    background: #EC4899;
 }
 
-body.color-red .chat-typing,
-body.color-red .chat-typing-indicator,
-body.color-red .user-typing-indicator {
-    color: var(--primary);
+[data-color-theme="red"] .typing-indicator,
+[data-color-theme="red"] .chat-typing {
+    color: #EF4444;
 }
 
-body.color-orange .chat-typing,
-body.color-orange .chat-typing-indicator,
-body.color-orange .user-typing-indicator {
-    color: var(--primary);
+[data-color-theme="red"] .typing-dots span {
+    background: #EF4444;
 }
 
-body.color-pink .chat-typing,
-body.color-pink .chat-typing-indicator,
-body.color-pink .user-typing-indicator {
-    color: var(--primary);
+/* Theme-specific Hover Effects */
+[data-color-theme="orange"] .theme-btn:hover,
+[data-color-theme="orange"] .btn-icon:hover,
+[data-color-theme="orange"] .btn-back:hover {
+    background: #F59E0B;
+    border-color: #F59E0B;
+}
+
+[data-color-theme="pink"] .theme-btn:hover,
+[data-color-theme="pink"] .btn-icon:hover,
+[data-color-theme="pink"] .btn-back:hover {
+    background: #EC4899;
+    border-color: #EC4899;
+}
+
+[data-color-theme="red"] .theme-btn:hover,
+[data-color-theme="red"] .btn-icon:hover,
+[data-color-theme="red"] .btn-back:hover {
+    background: #EF4444;
+    border-color: #EF4444;
+}
+
+/* Theme-specific Active Chat Item */
+[data-color-theme="orange"] .chat-item.active {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: #F59E0B;
+}
+
+[data-color-theme="pink"] .chat-item.active {
+    background: rgba(236, 72, 153, 0.1);
+    border-color: #EC4899;
+}
+
+[data-color-theme="red"] .chat-item.active {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: #EF4444;
+}
+
+/* Theme-specific Pinned Chats */
+[data-color-theme="orange"] .chat-item.pinned {
+    background: rgba(245, 158, 11, 0.05);
+    border-left-color: #F59E0B;
+}
+
+[data-color-theme="pink"] .chat-item.pinned {
+    background: rgba(236, 72, 153, 0.05);
+    border-left-color: #EC4899;
+}
+
+[data-color-theme="red"] .chat-item.pinned {
+    background: rgba(239, 68, 68, 0.05);
+    border-left-color: #EF4444;
 }
