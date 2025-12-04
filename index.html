@@ -2,600 +2,516 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ChatX | دردشة ذكية</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatX - دردشة متطورة</title>
     
     <!-- Iconify Icons -->
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Styles -->
+    <!-- CSS Files -->
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/themes.css">
+    <link rel="stylesheet" href="styles/components.css">
     <link rel="stylesheet" href="styles/responsive.css">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="theme-dark color-purple">
+<body>
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-content">
             <div class="loading-logo">
-                <iconify-icon icon="mdi:chat-processing" class="logo-icon"></iconify-icon>
+                <iconify-icon icon="mdi:chat" class="logo-icon"></iconify-icon>
                 <span class="logo-text">ChatX</span>
             </div>
             <div class="loading-spinner"></div>
-            <div class="loading-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-                <div class="loading-text" id="loadingText">جاري التحميل...</div>
-            </div>
+            <p class="loading-message" id="loadingMessage">جاري التحميل...</p>
         </div>
     </div>
 
-    <!-- App Container -->
-    <div class="app-container hidden" id="appContainer">
+    <!-- Main App Container -->
+    <div class="app-container" id="appContainer">
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <!-- User Profile Header -->
             <div class="sidebar-header">
-                <div class="user-profile" id="userProfileBtn">
-                    <div class="avatar-container">
-                        <div class="avatar" id="userAvatar">
-                            <iconify-icon icon="mdi:account"></iconify-icon>
-                        </div>
-                        <div class="status-indicator online" id="statusIndicator"></div>
+                <div class="user-profile" id="userProfile">
+                    <div class="avatar-wrapper">
+                        <div class="avatar" id="userAvatar">م</div>
+                        <div class="status-indicator online" id="userStatusIndicator"></div>
                     </div>
                     <div class="user-info">
                         <h3 class="user-name" id="userName">جاري التحميل...</h3>
-                        <p class="user-status" id="userStatus">
-                            <iconify-icon icon="mdi:circle-small"></iconify-icon>
-                            <span>متصل</span>
-                        </p>
+                        <p class="user-status" id="userStatusText">متصل</p>
                     </div>
                 </div>
                 
-                <!-- Header Actions -->
-                <div class="header-actions">
-                    <button class="icon-btn theme-toggle-btn" id="themeToggleBtn" title="تغيير المظهر">
+                <!-- Theme Selector -->
+                <div class="theme-selector" id="themeSelector">
+                    <button class="theme-btn" id="themeBtn">
                         <iconify-icon icon="mdi:theme-light-dark"></iconify-icon>
                     </button>
-                    <button class="icon-btn new-chat-btn" id="newChatModalBtn" title="محادثة جديدة">
-                        <iconify-icon icon="mdi:message-plus"></iconify-icon>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Theme Submenu -->
-            <div class="theme-submenu hidden" id="themeSubmenu">
-                <div class="theme-options">
-                    <div class="theme-section">
-                        <h4 class="section-title">الوضع</h4>
-                        <div class="theme-grid">
-                            <button class="theme-option active" data-theme="dark">
-                                <iconify-icon icon="mdi:weather-night"></iconify-icon>
-                                <span>داكن</span>
-                            </button>
-                            <button class="theme-option" data-theme="light">
-                                <iconify-icon icon="mdi:weather-sunny"></iconify-icon>
-                                <span>فاتح</span>
-                            </button>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <div class="theme-option" data-theme="light">
+                            <iconify-icon icon="mdi:weather-sunny"></iconify-icon>
+                            <span>فاتح</span>
                         </div>
-                    </div>
-                    
-                    <div class="theme-section">
-                        <h4 class="section-title">لون التمييز</h4>
-                        <div class="color-grid">
-                            <button class="color-option active" data-color="purple">
-                                <div class="color-preview" style="background: #8B5CF6;"></div>
-                                <span>بنفسجي</span>
-                            </button>
-                            <button class="color-option" data-color="blue">
-                                <div class="color-preview" style="background: #3B82F6;"></div>
-                                <span>أزرق</span>
-                            </button>
-                            <button class="color-option" data-color="green">
-                                <div class="color-preview" style="background: #10B981;"></div>
-                                <span>أخضر</span>
-                            </button>
-                            <button class="color-option" data-color="red">
-                                <div class="color-preview" style="background: #EF4444;"></div>
-                                <span>أحمر</span>
-                            </button>
-                            <button class="color-option" data-color="orange">
-                                <div class="color-preview" style="background: #F59E0B;"></div>
-                                <span>برتقالي</span>
-                            </button>
-                            <button class="color-option" data-color="pink">
-                                <div class="color-preview" style="background: #EC4899;"></div>
-                                <span>وردي</span>
-                            </button>
+                        <div class="theme-option" data-theme="dark">
+                            <iconify-icon icon="mdi:weather-night"></iconify-icon>
+                            <span>داكن</span>
+                        </div>
+                        <div class="theme-colors">
+                            <div class="color-option" data-color="purple" style="background: #8B5CF6;"></div>
+                            <div class="color-option" data-color="blue" style="background: #3B82F6;"></div>
+                            <div class="color-option" data-color="green" style="background: #10B981;"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Search Bar -->
-            <div class="search-container">
-                <div class="search-box">
-                    <iconify-icon icon="mdi:magnify" class="search-icon"></iconify-icon>
-                    <input type="text" class="search-input" id="chatsSearch" placeholder="ابحث في المحادثات...">
-                    <button class="clear-search hidden" id="clearSearch">
-                        <iconify-icon icon="mdi:close"></iconify-icon>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Tabs Navigation -->
-            <nav class="tabs-navigation">
-                <button class="tab-btn active" data-tab="chats">
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-page="chats">
                     <iconify-icon icon="mdi:chat"></iconify-icon>
                     <span>المحادثات</span>
-                    <span class="badge hidden" id="chatsBadge">0</span>
-                </button>
-                <button class="tab-btn" data-tab="requests">
-                    <iconify-icon icon="mdi:account-clock"></iconify-icon>
-                    <span>الطلبات</span>
+                </a>
+                <a href="#" class="nav-item" data-page="requests">
+                    <iconify-icon icon="mdi:account-plus"></iconify-icon>
+                    <span>طلبات المحادثة</span>
                     <span class="badge hidden" id="requestsBadge">0</span>
-                </button>
-                <button class="tab-btn" data-tab="contacts">
+                </a>
+                <a href="#" class="nav-item" data-page="friends">
                     <iconify-icon icon="mdi:account-group"></iconify-icon>
                     <span>الأصدقاء</span>
-                </button>
-                <button class="tab-btn" data-tab="settings">
+                </a>
+                <a href="#" class="nav-item" data-page="settings">
                     <iconify-icon icon="mdi:cog"></iconify-icon>
                     <span>الإعدادات</span>
-                </button>
+                </a>
             </nav>
 
-            <!-- Tab Contents -->
-            <div class="tab-contents">
-                <!-- Chats Tab -->
-                <div class="tab-content active" id="chatsContent">
-                    <div class="chats-list" id="chatsList">
-                        <!-- Dynamic content -->
-                    </div>
+            <!-- Search Box -->
+            <div class="search-container">
+                <div class="search-box">
+                    <iconify-icon icon="mdi:magnify"></iconify-icon>
+                    <input type="text" id="globalSearch" placeholder="ابحث عن محادثة...">
                 </div>
+            </div>
 
-                <!-- Requests Tab -->
-                <div class="tab-content" id="requestsContent">
-                    <div class="requests-container">
-                        <div class="requests-tabs">
-                            <button class="request-tab-btn active" data-request-type="incoming">
-                                <iconify-icon icon="mdi:download"></iconify-icon>
-                                <span>الواردة</span>
-                                <span class="badge hidden" id="incomingRequestsBadge">0</span>
-                            </button>
-                            <button class="request-tab-btn" data-request-type="outgoing">
-                                <iconify-icon icon="mdi:upload"></iconify-icon>
-                                <span>الصادرة</span>
-                                <span class="badge hidden" id="outgoingRequestsBadge">0</span>
-                            </button>
-                        </div>
-                        
-                        <div class="requests-list" id="requestsList">
-                            <!-- Dynamic content -->
-                        </div>
-                    </div>
-                </div>
+            <!-- Chats List -->
+            <div class="chats-list" id="chatsList">
+                <!-- Will be populated dynamically -->
+            </div>
 
-                <!-- Contacts Tab -->
-                <div class="tab-content" id="contactsContent">
-                    <div class="contacts-list" id="contactsList">
-                        <!-- Dynamic content -->
-                    </div>
-                </div>
-
-                <!-- Settings Tab -->
-                <div class="tab-content" id="settingsContent">
-                    <div class="settings-list" id="settingsList">
-                        <!-- Dynamic content -->
-                    </div>
-                </div>
+            <!-- Bottom Actions -->
+            <div class="sidebar-footer">
+                <button class="btn-new-chat" id="newChatBtn">
+                    <iconify-icon icon="mdi:message-plus"></iconify-icon>
+                    <span>محادثة جديدة</span>
+                </button>
+                <button class="btn-logout" id="logoutBtn">
+                    <iconify-icon icon="mdi:logout"></iconify-icon>
+                </button>
             </div>
         </aside>
 
-        <!-- Main Chat Area -->
+        <!-- Main Content -->
         <main class="main-content" id="mainContent">
-            <!-- Default Chat View -->
-            <div class="chat-default-view" id="chatDefaultView">
-                <div class="default-content">
-                    <iconify-icon icon="mdi:chat-outline" class="default-icon"></iconify-icon>
-                    <h2 class="default-title">مرحبًا في ChatX</h2>
-                    <p class="default-description">اختر محادثة من القائمة لبدء الدردشة</p>
-                    <button class="btn-primary" id="startNewChatBtn">
-                        <iconify-icon icon="mdi:message-plus"></iconify-icon>
-                        بدء محادثة جديدة
-                    </button>
-                </div>
+            <!-- Default State -->
+            <div class="empty-state active" id="emptyState">
+                <iconify-icon icon="mdi:chat-outline" class="empty-icon"></iconify-icon>
+                <h2>مرحباً في ChatX</h2>
+                <p>اختر محادثة لتبدأ الدردشة، أو ابدأ محادثة جديدة</p>
+                <button class="btn-primary" id="startChatBtn">
+                    <iconify-icon icon="mdi:message-plus"></iconify-icon>
+                    بدء محادثة جديدة
+                </button>
             </div>
 
-            <!-- Active Chat View -->
-            <div class="chat-active-view hidden" id="chatActiveView">
+            <!-- Chat Window -->
+            <div class="chat-window" id="chatWindow">
                 <!-- Chat Header -->
                 <div class="chat-header">
-                    <button class="back-btn" id="chatBackBtn">
+                    <button class="btn-back" id="chatBackBtn">
                         <iconify-icon icon="mdi:arrow-right"></iconify-icon>
                     </button>
                     
                     <div class="chat-user-info" id="chatUserInfo">
-                        <div class="chat-user-avatar" id="chatUserAvatar">
-                            <iconify-icon icon="mdi:account"></iconify-icon>
+                        <div class="avatar-wrapper">
+                            <div class="avatar" id="chatUserAvatar">م</div>
+                            <div class="status-indicator" id="chatUserStatusIndicator"></div>
                         </div>
-                        <div class="chat-user-details">
-                            <h3 class="chat-user-name" id="chatUserName">اسم المستخدم</h3>
-                            <div class="chat-user-status" id="chatUserStatus">
-                                <iconify-icon icon="mdi:circle-small"></iconify-icon>
-                                <span>متصل الآن</span>
-                            </div>
-                            <div class="chat-typing-indicator hidden" id="chatTypingIndicator">
-                                <div class="typing-dots">
-                                    <div class="dot"></div>
-                                    <div class="dot"></div>
-                                    <div class="dot"></div>
-                                </div>
-                                <span>يكتب...</span>
-                            </div>
+                        <div class="user-details">
+                            <h3 id="chatUserName">محمد أحمد</h3>
+                            <p id="chatUserStatus">
+                                <span class="typing-indicator hidden" id="typingIndicator">
+                                    <span class="typing-dots">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </span>
+                                    <span>يكتب...</span>
+                                </span>
+                                <span class="status-text" id="statusText">متصل الآن</span>
+                            </p>
                         </div>
                     </div>
 
-                    <!-- Chat Header Actions -->
-                    <div class="chat-header-actions">
-                        <button class="icon-btn" id="chatSearchBtn" title="بحث في المحادثة">
+                    <div class="chat-actions">
+                        <button class="btn-icon" id="chatSearchBtn">
                             <iconify-icon icon="mdi:magnify"></iconify-icon>
                         </button>
-                        <button class="icon-btn" id="chatMenuBtn" title="المزيد">
+                        <button class="btn-icon" id="chatMenuBtn">
                             <iconify-icon icon="mdi:dots-vertical"></iconify-icon>
                         </button>
-                    </div>
-
-                    <!-- Chat Actions Menu -->
-                    <div class="chat-actions-menu hidden" id="chatActionsMenu">
-                        <button class="action-item" id="viewProfileBtn">
-                            <iconify-icon icon="mdi:account-eye"></iconify-icon>
-                            <span>عرض الملف الشخصي</span>
-                        </button>
-                        <button class="action-item" id="muteChatBtn">
-                            <iconify-icon icon="mdi:volume-off"></iconify-icon>
-                            <span>كتم المحادثة</span>
-                        </button>
-                        <button class="action-item" id="pinChatBtn">
-                            <iconify-icon icon="mdi:pin"></iconify-icon>
-                            <span>تثبيت المحادثة</span>
-                        </button>
-                        <button class="action-item" id="blockUserBtn">
-                            <iconify-icon icon="mdi:block-helper"></iconify-icon>
-                            <span>حظر المستخدم</span>
-                        </button>
-                        <div class="divider"></div>
-                        <button class="action-item danger" id="clearChatBtn">
-                            <iconify-icon icon="mdi:delete-sweep"></iconify-icon>
-                            <span>مسح المحادثة</span>
-                        </button>
-                        <button class="action-item danger" id="reportUserBtn">
-                            <iconify-icon icon="mdi:flag"></iconify-icon>
-                            <span>الإبلاغ</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Chat Search Bar -->
-                <div class="chat-search-container hidden" id="chatSearchContainer">
-                    <div class="search-box">
-                        <iconify-icon icon="mdi:magnify" class="search-icon"></iconify-icon>
-                        <input type="text" class="search-input" id="chatSearchInput" placeholder="ابحث في الرسائل...">
-                        <button class="clear-search" id="clearChatSearch">
-                            <iconify-icon icon="mdi:close"></iconify-icon>
-                        </button>
-                    </div>
-                    <div class="search-results-info hidden" id="searchResultsInfo">
-                        <span id="searchResultsCount">0 نتيجة</span>
-                        <div class="search-navigation">
-                            <button class="icon-btn" id="prevResultBtn" title="السابق">
-                                <iconify-icon icon="mdi:chevron-up"></iconify-icon>
+                        
+                        <!-- Chat Actions Dropdown -->
+                        <div class="dropdown-menu chat-dropdown" id="chatDropdown">
+                            <button class="dropdown-item" id="viewProfileBtn">
+                                <iconify-icon icon="mdi:account"></iconify-icon>
+                                <span>الملف الشخصي</span>
                             </button>
-                            <button class="icon-btn" id="nextResultBtn" title="التالي">
-                                <iconify-icon icon="mdi:chevron-down"></iconify-icon>
+                            <button class="dropdown-item" id="muteChatBtn">
+                                <iconify-icon icon="mdi:volume-off"></iconify-icon>
+                                <span>كتم المحادثة</span>
+                            </button>
+                            <button class="dropdown-item" id="pinChatBtn">
+                                <iconify-icon icon="mdi:pin"></iconify-icon>
+                                <span>تثبيت المحادثة</span>
+                            </button>
+                            <button class="dropdown-item" id="searchInChatBtn">
+                                <iconify-icon icon="mdi:magnify"></iconify-icon>
+                                <span>بحث في المحادثة</span>
+                            </button>
+                            <button class="dropdown-item danger" id="blockUserBtn">
+                                <iconify-icon icon="mdi:block-helper"></iconify-icon>
+                                <span>حظر المستخدم</span>
+                            </button>
+                            <button class="dropdown-item danger" id="clearChatBtn">
+                                <iconify-icon icon="mdi:delete"></iconify-icon>
+                                <span>مسح المحادثة</span>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Messages Container -->
-                <div class="messages-container" id="messagesContainer">
-                    <div class="messages-list" id="messagesList">
-                        <!-- Dynamic messages -->
-                    </div>
-                    
-                    <!-- Date Separators will be inserted here -->
+                <!-- Chat Messages -->
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Messages will be loaded here -->
                 </div>
 
-                <!-- Message Input -->
-                <div class="message-input-container">
-                    <div class="input-wrapper">
-                        <button class="icon-btn emoji-btn" id="emojiBtn" title="إيموجي">
-                            <iconify-icon icon="mdi:emoticon-happy"></iconify-icon>
-                        </button>
-                        
-                        <div class="message-input-wrapper">
-                            <textarea 
-                                class="message-input" 
-                                id="messageInput" 
-                                placeholder="اكتب رسالتك..." 
-                                rows="1"
-                                maxlength="1000"
-                            ></textarea>
-                            <div class="input-actions">
-                                <button class="icon-btn attach-btn" id="attachBtn" title="إرفاق ملف">
-                                    <iconify-icon icon="mdi:paperclip"></iconify-icon>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <button class="send-btn" id="sendMessageBtn" title="إرسال">
+                <!-- Chat Input -->
+                <div class="chat-input-container">
+                    <div class="chat-input-wrapper">
+                        <textarea 
+                            class="chat-input" 
+                            id="chatInput" 
+                            placeholder="اكتب رسالتك..."
+                            rows="1"
+                        ></textarea>
+                        <button class="btn-send" id="sendMessageBtn">
                             <iconify-icon icon="mdi:send"></iconify-icon>
                         </button>
                     </div>
-                    
-                    <!-- Typing Indicator -->
-                    <div class="user-typing-indicator hidden" id="userTypingIndicator">
-                        <div class="typing-dots">
-                            <div class="dot"></div>
-                            <div class="dot"></div>
-                            <div class="dot"></div>
+                </div>
+            </div>
+
+            <!-- Pages Content -->
+            <div class="pages-container">
+                <!-- Requests Page -->
+                <div class="page" id="requestsPage">
+                    <div class="page-header">
+                        <h2>طلبات المحادثة</h2>
+                        <div class="tabs">
+                            <button class="tab-btn active" data-tab="incoming">الواردة</button>
+                            <button class="tab-btn" data-tab="outgoing">الصادرة</button>
                         </div>
-                        <span>أنت تكتب...</span>
+                    </div>
+                    
+                    <div class="requests-content">
+                        <div class="requests-tab active" id="incomingRequests">
+                            <!-- Incoming requests will be loaded here -->
+                        </div>
+                        <div class="requests-tab" id="outgoingRequests">
+                            <!-- Outgoing requests will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Friends Page -->
+                <div class="page" id="friendsPage">
+                    <div class="page-header">
+                        <h2>الأصدقاء</h2>
+                        <button class="btn-primary" id="addFriendBtn">
+                            <iconify-icon icon="mdi:account-plus"></iconify-icon>
+                            إضافة صديق
+                        </button>
+                    </div>
+                    
+                    <div class="friends-list" id="friendsList">
+                        <!-- Friends will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Settings Page -->
+                <div class="page" id="settingsPage">
+                    <div class="page-header">
+                        <h2>الإعدادات</h2>
+                    </div>
+                    
+                    <div class="settings-content">
+                        <!-- Profile Settings -->
+                        <div class="settings-section">
+                            <h3>الملف الشخصي</h3>
+                            <div class="settings-group">
+                                <div class="setting-item">
+                                    <label>الاسم الكامل</label>
+                                    <input type="text" id="settingsName" placeholder="أدخل اسمك">
+                                </div>
+                                <div class="setting-item">
+                                    <label>البايو</label>
+                                    <textarea id="settingsBio" placeholder="أدخل وصفاً عنك"></textarea>
+                                </div>
+                                <div class="setting-item">
+                                    <label>لون الصورة</label>
+                                    <div class="color-picker-small">
+                                        <div class="color-option active" data-color="#8B5CF6"></div>
+                                        <div class="color-option" data-color="#3B82F6"></div>
+                                        <div class="color-option" data-color="#10B981"></div>
+                                        <div class="color-option" data-color="#EF4444"></div>
+                                        <div class="color-option" data-color="#F59E0B"></div>
+                                        <div class="color-option" data-color="#EC4899"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Privacy Settings -->
+                        <div class="settings-section">
+                            <h3>الخصوصية</h3>
+                            <div class="settings-group">
+                                <div class="setting-toggle">
+                                    <div>
+                                        <label>إظهار حالة الاتصال</label>
+                                        <p class="setting-description">يظهر للمستخدمين الآخرين إذا كنت متصلاً</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="showOnlineStatus" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-toggle">
+                                    <div>
+                                        <label>إظهار آخر ظهور</label>
+                                        <p class="setting-description">يظهر وقت آخر ظهور لك</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="showLastSeen" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-toggle">
+                                    <div>
+                                        <label>إشعارات القراءة</label>
+                                        <p class="setting-description">إظهار علامة القراءة على الرسائل</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="readReceipts" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Online Status -->
+                        <div class="settings-section">
+                            <h3>حالة الاتصال</h3>
+                            <div class="status-options">
+                                <label class="status-option">
+                                    <input type="radio" name="onlineStatus" value="auto" checked>
+                                    <div class="status-content">
+                                        <iconify-icon icon="mdi:auto-mode"></iconify-icon>
+                                        <div>
+                                            <span>تلقائي</span>
+                                            <small>يتم تحديث حالتك تلقائياً</small>
+                                        </div>
+                                    </div>
+                                </label>
+                                <label class="status-option">
+                                    <input type="radio" name="onlineStatus" value="online">
+                                    <div class="status-content">
+                                        <iconify-icon icon="mdi:circle"></iconify-icon>
+                                        <div>
+                                            <span>متصل</span>
+                                            <small>تظهر دائماً كمتصل</small>
+                                        </div>
+                                    </div>
+                                </label>
+                                <label class="status-option">
+                                    <input type="radio" name="onlineStatus" value="offline">
+                                    <div class="status-content">
+                                        <iconify-icon icon="mdi:circle-off-outline"></iconify-icon>
+                                        <div>
+                                            <span>غير متصل</span>
+                                            <small>تظهر دائماً كغير متصل</small>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Security -->
+                        <div class="settings-section">
+                            <h3>الأمان</h3>
+                            <div class="settings-group">
+                                <button class="btn-secondary" id="changePasswordBtn">
+                                    <iconify-icon icon="mdi:lock-reset"></iconify-icon>
+                                    تغيير كلمة المرور
+                                </button>
+                                <button class="btn-danger" id="deleteAccountBtn">
+                                    <iconify-icon icon="mdi:delete"></iconify-icon>
+                                    حذف الحساب
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
 
-        <!-- Profile Modal -->
-        <div class="modal profile-modal hidden" id="profileModal">
-            <div class="modal-overlay"></div>
+        <!-- Modals -->
+        
+        <!-- New Chat Modal -->
+        <div class="modal" id="newChatModal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="modal-title">الملف الشخصي</h2>
-                    <button class="modal-close" id="profileModalClose">
+                    <h3>بدء محادثة جديدة</h3>
+                    <button class="btn-close" id="closeNewChatModal">
                         <iconify-icon icon="mdi:close"></iconify-icon>
                     </button>
                 </div>
-                
                 <div class="modal-body">
-                    <div class="profile-cover" id="profileCover">
-                        <button class="change-cover-btn" id="changeCoverBtn">
-                            <iconify-icon icon="mdi:camera"></iconify-icon>
-                        </button>
-                    </div>
-                    
-                    <div class="profile-avatar-section">
-                        <div class="profile-avatar" id="profileAvatar">
-                            <iconify-icon icon="mdi:account"></iconify-icon>
-                            <button class="change-avatar-btn" id="changeAvatarBtn">
-                                <iconify-icon icon="mdi:camera"></iconify-icon>
-                            </button>
-                        </div>
-                        
-                        <div class="profile-info">
-                            <h2 class="profile-name" id="profileName">محمد أحمد</h2>
-                            <p class="profile-username" id="profileUsername">@mohamed</p>
-                            <p class="profile-bio" id="profileBio">📍 مشغول الآن</p>
+                    <div class="search-section">
+                        <div class="search-box full">
+                            <iconify-icon icon="mdi:magnify"></iconify-icon>
+                            <input type="text" id="userSearchInput" placeholder="ابحث باسم المستخدم...">
                         </div>
                     </div>
-                    
-                    <div class="profile-form">
-                        <div class="form-group">
-                            <label class="form-label">
-                                <iconify-icon icon="mdi:account"></iconify-icon>
-                                الاسم الكامل
-                            </label>
-                            <input type="text" class="form-input" id="profileNameInput" placeholder="أدخل اسمك الكامل">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">
-                                <iconify-icon icon="mdi:at"></iconify-icon>
-                                اسم المستخدم
-                            </label>
-                            <input type="text" class="form-input" id="profileUsernameInput" placeholder="اسم المستخدم">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">
-                                <iconify-icon icon="mdi:message-text"></iconify-icon>
-                                السيرة الذاتية
-                            </label>
-                            <textarea class="form-input bio-input" id="profileBioInput" placeholder="أدخل سيرتك الذاتية..." rows="3"></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">
-                                <iconify-icon icon="mdi:palette"></iconify-icon>
-                                لون الصورة الشخصية
-                            </label>
-                            <div class="color-picker-grid">
-                                <button class="color-option" data-color="#8B5CF6" style="background: #8B5CF6;"></button>
-                                <button class="color-option" data-color="#3B82F6" style="background: #3B82F6;"></button>
-                                <button class="color-option" data-color="#10B981" style="background: #10B981;"></button>
-                                <button class="color-option" data-color="#EF4444" style="background: #EF4444;"></button>
-                                <button class="color-option" data-color="#F59E0B" style="background: #F59E0B;"></button>
-                                <button class="color-option" data-color="#EC4899" style="background: #EC4899;"></button>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">
-                                <iconify-icon icon="mdi:email"></iconify-icon>
-                                البريد الإلكتروني
-                            </label>
-                            <input type="email" class="form-input" id="profileEmailInput" placeholder="البريد الإلكتروني" disabled>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">
-                                <iconify-icon icon="mdi:calendar"></iconify-icon>
-                                تاريخ الانضمام
-                            </label>
-                            <input type="text" class="form-input" id="profileJoinDate" disabled>
-                        </div>
+                    <div class="search-results" id="searchResults">
+                        <!-- Search results will appear here -->
                     </div>
-                </div>
-                
-                <div class="modal-footer">
-                    <button class="btn-secondary" id="profileCancelBtn">إلغاء</button>
-                    <button class="btn-primary" id="profileSaveBtn">حفظ التغييرات</button>
                 </div>
             </div>
         </div>
 
-        <!-- New Chat Modal -->
-        <div class="modal new-chat-modal hidden" id="newChatModal">
-            <div class="modal-overlay"></div>
+        <!-- User Profile Modal -->
+        <div class="modal" id="userProfileModal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="modal-title">محادثة جديدة</h2>
-                    <button class="modal-close" id="newChatModalClose">
+                    <h3 id="profileModalTitle">الملف الشخصي</h3>
+                    <button class="btn-close" id="closeProfileModal">
                         <iconify-icon icon="mdi:close"></iconify-icon>
                     </button>
                 </div>
-                
                 <div class="modal-body">
-                    <div class="search-container">
-                        <div class="search-box">
-                            <iconify-icon icon="mdi:magnify" class="search-icon"></iconify-icon>
-                            <input type="text" class="search-input" id="userSearchInput" placeholder="ابحث باسم المستخدم...">
-                            <button class="clear-search hidden" id="clearUserSearch">
-                                <iconify-icon icon="mdi:close"></iconify-icon>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="users-list" id="usersList">
-                        <div class="empty-state">
-                            <iconify-icon icon="mdi:account-search" class="empty-icon"></iconify-icon>
-                            <p class="empty-text">ابحث عن مستخدمين لبدء محادثة</p>
-                        </div>
+                    <div class="profile-view" id="profileView">
+                        <!-- Profile content will be loaded here -->
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Delete Message Modal -->
-        <div class="modal delete-modal hidden" id="deleteMessageModal">
-            <div class="modal-overlay"></div>
-            <div class="modal-content">
+        <div class="modal" id="deleteMessageModal">
+            <div class="modal-content small">
                 <div class="modal-header">
-                    <h2 class="modal-title">حذف الرسالة</h2>
-                    <button class="modal-close" id="deleteModalClose">
-                        <iconify-icon icon="mdi:close"></iconify-icon>
-                    </button>
+                    <h3>حذف الرسالة</h3>
                 </div>
-                
                 <div class="modal-body">
-                    <div class="delete-options" id="deleteOptions">
-                        <!-- Dynamic options based on message ownership -->
+                    <p>اختر خيار الحذف:</p>
+                    <div class="delete-options">
+                        <button class="delete-option" id="deleteForMe">
+                            حذف عندي فقط
+                        </button>
+                        <button class="delete-option danger" id="deleteForEveryone">
+                            حذف للجميع
+                        </button>
                     </div>
                 </div>
-                
                 <div class="modal-footer">
-                    <button class="btn-secondary" id="deleteCancelBtn">إلغاء</button>
+                    <button class="btn-secondary" id="cancelDelete">إلغاء</button>
                 </div>
             </div>
         </div>
 
-        <!-- Block User Modal -->
-        <div class="modal block-modal hidden" id="blockUserModal">
-            <div class="modal-overlay"></div>
+        <!-- Change Password Modal -->
+        <div class="modal" id="changePasswordModal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="modal-title">حظر المستخدم</h2>
-                    <button class="modal-close" id="blockModalClose">
+                    <h3>تغيير كلمة المرور</h3>
+                    <button class="btn-close" id="closePasswordModal">
                         <iconify-icon icon="mdi:close"></iconify-icon>
                     </button>
                 </div>
-                
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>كلمة المرور الحالية</label>
+                        <input type="password" id="currentPassword" placeholder="أدخل كلمة المرور الحالية">
+                    </div>
+                    <div class="form-group">
+                        <label>كلمة المرور الجديدة</label>
+                        <input type="password" id="newPassword" placeholder="أدخل كلمة المرور الجديدة">
+                    </div>
+                    <div class="form-group">
+                        <label>تأكيد كلمة المرور الجديدة</label>
+                        <input type="password" id="confirmPassword" placeholder="أعد إدخال كلمة المرور الجديدة">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="cancelPasswordChange">إلغاء</button>
+                    <button class="btn-primary" id="confirmPasswordChange">تغيير</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Account Modal -->
+        <div class="modal" id="deleteAccountModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>حذف الحساب</h3>
+                    <button class="btn-close" id="closeDeleteAccountModal">
+                        <iconify-icon icon="mdi:close"></iconify-icon>
+                    </button>
+                </div>
                 <div class="modal-body">
                     <div class="warning-message">
                         <iconify-icon icon="mdi:alert-circle" class="warning-icon"></iconify-icon>
-                        <p>هل أنت متأكد من حظر <span id="blockUserName">هذا المستخدم</span>؟</p>
+                        <h4>تحذير!</h4>
+                        <p>هذا الإجراء لا يمكن التراجع عنه. سيتم حذف جميع بياناتك بما في ذلك المحادثات والرسائل.</p>
                     </div>
-                    
-                    <div class="block-consequences">
-                        <h4>سيؤدي الحظر إلى:</h4>
-                        <ul>
-                            <li>عدم استقبال رسائل جديدة منه</li>
-                            <li>إخفاء حالة اتصاله عنك</li>
-                            <li>منعه من رؤية حالة اتصالك</li>
-                            <li>منعه من بدء محادثات جديدة معك</li>
-                        </ul>
-                    </div>
-                    
                     <div class="form-group">
-                        <label class="form-label">سبب الحظر (اختياري)</label>
-                        <textarea class="form-input" id="blockReasonInput" placeholder="أدخل سبب الحظر..." rows="3"></textarea>
+                        <label>أدخل كلمة المرور للتأكيد</label>
+                        <input type="password" id="deleteAccountPassword" placeholder="كلمة المرور">
                     </div>
                 </div>
-                
                 <div class="modal-footer">
-                    <button class="btn-secondary" id="blockCancelBtn">إلغاء</button>
-                    <button class="btn-danger" id="blockConfirmBtn">تأكيد الحظر</button>
+                    <button class="btn-secondary" id="cancelDeleteAccount">إلغاء</button>
+                    <button class="btn-danger" id="confirmDeleteAccount">حذف الحساب</button>
                 </div>
             </div>
         </div>
 
-        <!-- Settings Modal -->
-        <div class="modal settings-modal hidden" id="settingsModal">
-            <div class="modal-overlay"></div>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title">الإعدادات</h2>
-                    <button class="modal-close" id="settingsModalClose">
-                        <iconify-icon icon="mdi:close"></iconify-icon>
-                    </button>
-                </div>
-                
-                <div class="modal-body">
-                    <div class="settings-sections" id="settingsSections">
-                        <!-- Dynamic settings content -->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Toast Container -->
+        <!-- Toast Notifications -->
         <div class="toast-container" id="toastContainer"></div>
-
-        <!-- Emoji Picker -->
-        <div class="emoji-picker hidden" id="emojiPicker">
-            <div class="emoji-categories">
-                <button class="emoji-category active" data-category="smileys">
-                    <iconify-icon icon="mdi:emoticon-happy"></iconify-icon>
-                </button>
-                <button class="emoji-category" data-category="people">
-                    <iconify-icon icon="mdi:account"></iconify-icon>
-                </button>
-                <button class="emoji-category" data-category="nature">
-                    <iconify-icon icon="mdi:leaf"></iconify-icon>
-                </button>
-                <button class="emoji-category" data-category="food">
-                    <iconify-icon icon="mdi:food-apple"></iconify-icon>
-                </button>
-                <button class="emoji-category" data-category="activities">
-                    <iconify-icon icon="mdi:soccer"></iconify-icon>
-                </button>
-                <button class="emoji-category" data-category="objects">
-                    <iconify-icon icon="mdi:lightbulb"></iconify-icon>
-                </button>
-            </div>
-            
-            <div class="emoji-list" id="emojiList">
-                <!-- Dynamic emojis -->
-            </div>
-        </div>
     </div>
 
-    <!-- Firebase SDK -->
+    <!-- JavaScript Files -->
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/firebase.js"></script>
+    <script type="module" src="js/realtime.js"></script>
+    <script type="module" src="js/chat.js"></script>
+    <script type="module" src="js/ui.js"></script>
     <script type="module" src="js/app.js"></script>
 </body>
 </html>
