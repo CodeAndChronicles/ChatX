@@ -1,0 +1,383 @@
+/* ===== THEME SYSTEM ===== */
+
+/* Dark Theme (Default) */
+.theme-dark {
+    --bg-primary: #0F172A;
+    --bg-secondary: #1E293B;
+    --bg-tertiary: #334155;
+    --bg-card: #1E293B;
+    --bg-input: #334155;
+    --bg-hover: rgba(148, 163, 184, 0.1);
+    --bg-unread: rgba(139, 92, 246, 0.2);
+    --bg-modal: rgba(15, 23, 42, 0.95);
+    
+    --text-primary: #F1F5F9;
+    --text-secondary: #CBD5E1;
+    --text-tertiary: #94A3B8;
+    
+    --border: #475569;
+    --border-light: #334155;
+    
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.7);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.8);
+    
+    --scrollbar-thumb: #475569;
+    --scrollbar-thumb-hover: #64748B;
+    
+    --success: #10B981;
+    --success-dark: #059669;
+    --danger: #EF4444;
+    --danger-dark: #DC2626;
+    --warning: #F59E0B;
+    --warning-dark: #D97706;
+    --info: #3B82F6;
+    --info-dark: #2563EB;
+    
+    --primary-shadow: rgba(139, 92, 246, 0.25);
+}
+
+/* Light Theme */
+.theme-light {
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F8FAFC;
+    --bg-tertiary: #F1F5F9;
+    --bg-card: #FFFFFF;
+    --bg-input: #F1F5F9;
+    --bg-hover: rgba(148, 163, 184, 0.08);
+    --bg-unread: rgba(139, 92, 246, 0.1);
+    --bg-modal: rgba(255, 255, 255, 0.95);
+    
+    --text-primary: #1E293B;
+    --text-secondary: #475569;
+    --text-tertiary: #64748B;
+    
+    --border: #E2E8F0;
+    --border-light: #F1F5F9;
+    
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    
+    --scrollbar-thumb: #CBD5E1;
+    --scrollbar-thumb-hover: #94A3B8;
+    
+    --success: #10B981;
+    --success-dark: #059669;
+    --danger: #EF4444;
+    --danger-dark: #DC2626;
+    --warning: #F59E0B;
+    --warning-dark: #D97706;
+    --info: #3B82F6;
+    --info-dark: #2563EB;
+    
+    --primary-shadow: rgba(139, 92, 246, 0.15);
+}
+
+/* Color Themes */
+.color-purple {
+    --primary: #8B5CF6;
+    --primary-dark: #7C3AED;
+    --profile-cover: linear-gradient(135deg, #8B5CF6, #7C3AED);
+}
+
+.color-blue {
+    --primary: #3B82F6;
+    --primary-dark: #2563EB;
+    --profile-cover: linear-gradient(135deg, #3B82F6, #2563EB);
+}
+
+.color-green {
+    --primary: #10B981;
+    --primary-dark: #059669;
+    --profile-cover: linear-gradient(135deg, #10B981, #059669);
+}
+
+.color-red {
+    --primary: #EF4444;
+    --primary-dark: #DC2626;
+    --profile-cover: linear-gradient(135deg, #EF4444, #DC2626);
+}
+
+.color-orange {
+    --primary: #F59E0B;
+    --primary-dark: #D97706;
+    --profile-cover: linear-gradient(135deg, #F59E0B, #D97706);
+}
+
+.color-pink {
+    --primary: #EC4899;
+    --primary-dark: #DB2777;
+    --profile-cover: linear-gradient(135deg, #EC4899, #DB2777);
+}
+
+/* Apply colors to elements */
+body.color-purple .theme-option.active,
+body.color-purple .color-option.active,
+body.color-purple .tab-btn.active,
+body.color-purple .request-tab-btn.active,
+body.color-purple .btn-primary,
+body.color-purple .send-btn,
+body.color-purple .theme-toggle-btn:hover,
+body.color-purple .status-indicator.typing {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+body.color-purple .theme-option.active,
+body.color-purple .tab-btn.active,
+body.color-purple .request-tab-btn.active,
+body.color-purple .btn-primary,
+body.color-purple .send-btn {
+    color: white;
+}
+
+/* Repeat for other colors */
+body.color-blue .theme-option.active,
+body.color-blue .color-option.active,
+body.color-blue .tab-btn.active,
+body.color-blue .request-tab-btn.active,
+body.color-blue .btn-primary,
+body.color-blue .send-btn,
+body.color-blue .theme-toggle-btn:hover,
+body.color-blue .status-indicator.typing {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+body.color-green .theme-option.active,
+body.color-green .color-option.active,
+body.color-green .tab-btn.active,
+body.color-green .request-tab-btn.active,
+body.color-green .btn-primary,
+body.color-green .send-btn,
+body.color-green .theme-toggle-btn:hover,
+body.color-green .status-indicator.typing {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+body.color-red .theme-option.active,
+body.color-red .color-option.active,
+body.color-red .tab-btn.active,
+body.color-red .request-tab-btn.active,
+body.color-red .btn-primary,
+body.color-red .send-btn,
+body.color-red .theme-toggle-btn:hover,
+body.color-red .status-indicator.typing {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+body.color-orange .theme-option.active,
+body.color-orange .color-option.active,
+body.color-orange .tab-btn.active,
+body.color-orange .request-tab-btn.active,
+body.color-orange .btn-primary,
+body.color-orange .send-btn,
+body.color-orange .theme-toggle-btn:hover,
+body.color-orange .status-indicator.typing {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+body.color-pink .theme-option.active,
+body.color-pink .color-option.active,
+body.color-pink .tab-btn.active,
+body.color-pink .request-tab-btn.active,
+body.color-pink .btn-primary,
+body.color-pink .send-btn,
+body.color-pink .theme-toggle-btn:hover,
+body.color-pink .status-indicator.typing {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+/* Profile cover colors */
+body.color-purple .profile-cover {
+    background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+}
+
+body.color-blue .profile-cover {
+    background: linear-gradient(135deg, #3B82F6, #2563EB);
+}
+
+body.color-green .profile-cover {
+    background: linear-gradient(135deg, #10B981, #059669);
+}
+
+body.color-red .profile-cover {
+    background: linear-gradient(135deg, #EF4444, #DC2626);
+}
+
+body.color-orange .profile-cover {
+    background: linear-gradient(135deg, #F59E0B, #D97706);
+}
+
+body.color-pink .profile-cover {
+    background: linear-gradient(135deg, #EC4899, #DB2777);
+}
+
+/* Message bubbles */
+body.color-purple .message-wrapper.sent .message-bubble {
+    background: var(--primary);
+}
+
+body.color-blue .message-wrapper.sent .message-bubble {
+    background: var(--primary);
+}
+
+body.color-green .message-wrapper.sent .message-bubble {
+    background: var(--primary);
+}
+
+body.color-red .message-wrapper.sent .message-bubble {
+    background: var(--primary);
+}
+
+body.color-orange .message-wrapper.sent .message-bubble {
+    background: var(--primary);
+}
+
+body.color-pink .message-wrapper.sent .message-bubble {
+    background: var(--primary);
+}
+
+/* Active chat item */
+body.color-purple .chat-item.active {
+    background: var(--primary);
+}
+
+body.color-blue .chat-item.active {
+    background: var(--primary);
+}
+
+body.color-green .chat-item.active {
+    background: var(--primary);
+}
+
+body.color-red .chat-item.active {
+    background: var(--primary);
+}
+
+body.color-orange .chat-item.active {
+    background: var(--primary);
+}
+
+body.color-pink .chat-item.active {
+    background: var(--primary);
+}
+
+/* Loading spinner */
+body.color-purple .loading-spinner {
+    border-top-color: var(--primary);
+}
+
+body.color-blue .loading-spinner {
+    border-top-color: var(--primary);
+}
+
+body.color-green .loading-spinner {
+    border-top-color: var(--primary);
+}
+
+body.color-red .loading-spinner {
+    border-top-color: var(--primary);
+}
+
+body.color-orange .loading-spinner {
+    border-top-color: var(--primary);
+}
+
+body.color-pink .loading-spinner {
+    border-top-color: var(--primary);
+}
+
+/* Progress bar */
+body.color-purple .progress-fill {
+    background: var(--primary);
+}
+
+body.color-blue .progress-fill {
+    background: var(--primary);
+}
+
+body.color-green .progress-fill {
+    background: var(--primary);
+}
+
+body.color-red .progress-fill {
+    background: var(--primary);
+}
+
+body.color-orange .progress-fill {
+    background: var(--primary);
+}
+
+body.color-pink .progress-fill {
+    background: var(--primary);
+}
+
+/* Unread badge */
+body.color-purple .unread-badge {
+    background: var(--primary);
+}
+
+body.color-blue .unread-badge {
+    background: var(--primary);
+}
+
+body.color-green .unread-badge {
+    background: var(--primary);
+}
+
+body.color-red .unread-badge {
+    background: var(--primary);
+}
+
+body.color-orange .unread-badge {
+    background: var(--primary);
+}
+
+body.color-pink .unread-badge {
+    background: var(--primary);
+}
+
+/* Typing indicator */
+body.color-purple .chat-typing,
+body.color-purple .chat-typing-indicator,
+body.color-purple .user-typing-indicator {
+    color: var(--primary);
+}
+
+body.color-blue .chat-typing,
+body.color-blue .chat-typing-indicator,
+body.color-blue .user-typing-indicator {
+    color: var(--primary);
+}
+
+body.color-green .chat-typing,
+body.color-green .chat-typing-indicator,
+body.color-green .user-typing-indicator {
+    color: var(--primary);
+}
+
+body.color-red .chat-typing,
+body.color-red .chat-typing-indicator,
+body.color-red .user-typing-indicator {
+    color: var(--primary);
+}
+
+body.color-orange .chat-typing,
+body.color-orange .chat-typing-indicator,
+body.color-orange .user-typing-indicator {
+    color: var(--primary);
+}
+
+body.color-pink .chat-typing,
+body.color-pink .chat-typing-indicator,
+body.color-pink .user-typing-indicator {
+    color: var(--primary);
+}
