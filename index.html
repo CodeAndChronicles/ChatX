@@ -14,6 +14,10 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
         :root {
@@ -139,6 +143,16 @@
             height: 100vh;
             overflow: hidden;
             transition: var(--transition);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: pan-y;
+        }
+
+        /* تعطيل التحديد */
+        ::selection {
+            background: transparent;
+        }
+        ::-moz-selection {
+            background: transparent;
         }
 
         /* ===== LOADING SCREEN ===== */
@@ -677,6 +691,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            position: relative;
         }
 
         .chat-back-btn {
@@ -813,6 +828,7 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
+            -webkit-overflow-scrolling: touch;
         }
 
         .message-container {
@@ -868,6 +884,8 @@
             animation: fadeIn 0.2s ease;
             transition: var(--transition);
             cursor: pointer;
+            -webkit-user-select: text;
+            user-select: text;
         }
 
         .message-wrapper.sent .message-bubble {
@@ -913,7 +931,6 @@
         .message-text {
             font-size: 14px;
             line-height: 1.5;
-            user-select: text;
         }
 
         .message-status {
@@ -1002,6 +1019,12 @@
         }
 
         .message-menu-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .message-menu-btn.delete-btn:hover {
             background: var(--danger);
             color: white;
             border-color: var(--danger);
@@ -1045,6 +1068,8 @@
             max-height: 120px;
             transition: var(--transition);
             font-family: inherit;
+            -webkit-user-select: text;
+            user-select: text;
         }
 
         .chat-input:focus {
@@ -1105,6 +1130,94 @@
             background: rgba(255, 255, 0, 0.3);
             padding: 0 2px;
             border-radius: 2px;
+        }
+
+        /* ===== DELETE MESSAGE MODAL ===== */
+        .delete-message-modal {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-modal);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .delete-message-modal.active {
+            display: flex;
+        }
+
+        .delete-message-content {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            width: 90%;
+            max-width: 400px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .delete-message-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: var(--danger);
+        }
+
+        .delete-message-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .delete-option {
+            padding: 16px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .delete-option:hover {
+            border-color: var(--primary);
+            background: var(--bg-hover);
+        }
+
+        .delete-option.danger {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        .delete-option.danger:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .delete-message-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .delete-cancel-btn {
+            flex: 1;
+            padding: 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .delete-cancel-btn:hover {
+            background: var(--bg-tertiary);
         }
 
         /* ===== SETTINGS ===== */
@@ -1564,336 +1677,6 @@
             transform: none;
         }
 
-        /* ===== PRIVACY MODAL ===== */
-        .privacy-section {
-            margin-bottom: 24px;
-        }
-
-        .privacy-title {
-            font-size: 18px;
-            font-weight: 800;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-        }
-
-        .privacy-description {
-            font-size: 14px;
-            color: var(--text-tertiary);
-            margin-bottom: 16px;
-            line-height: 1.6;
-        }
-
-        /* ===== CHANGE PASSWORD MODAL ===== */
-        .password-form {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        /* ===== DELETE ACCOUNT MODAL ===== */
-        .delete-warning {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid var(--danger);
-            border-radius: var(--radius-md);
-            padding: 16px;
-            margin-bottom: 20px;
-        }
-
-        .delete-warning-icon {
-            color: var(--danger);
-            font-size: 24px;
-            margin-bottom: 12px;
-        }
-
-        .delete-warning-title {
-            font-size: 16px;
-            font-weight: 800;
-            color: var(--danger);
-            margin-bottom: 8px;
-        }
-
-        .delete-warning-text {
-            font-size: 14px;
-            color: var(--text-tertiary);
-            line-height: 1.6;
-        }
-
-        .delete-form {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .danger-btn {
-            width: 100%;
-            padding: 14px;
-            background: var(--danger);
-            border: none;
-            border-radius: var(--radius-md);
-            color: white;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .danger-btn:hover {
-            background: #DC2626;
-            transform: translateY(-1px);
-        }
-
-        /* ===== SESSIONS MODAL ===== */
-        .sessions-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .session-item {
-            background: var(--bg-input);
-            border-radius: var(--radius-md);
-            padding: 16px;
-            border: 1px solid var(--border);
-        }
-
-        .session-info {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .session-device {
-            font-weight: 700;
-            font-size: 14px;
-        }
-
-        .session-location {
-            font-size: 12px;
-            color: var(--text-tertiary);
-        }
-
-        .session-time {
-            font-size: 12px;
-            color: var(--text-tertiary);
-        }
-
-        .session-current {
-            background: var(--bg-hover);
-            border-color: var(--primary);
-        }
-
-        /* ===== NEW CHAT MODAL ===== */
-        .new-chat-form {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .search-results {
-            max-height: 300px;
-            overflow-y: auto;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            background: var(--bg-card);
-        }
-
-        .search-result-item {
-            padding: 12px 16px;
-            cursor: pointer;
-            transition: var(--transition);
-            border-bottom: 1px solid var(--border-light);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .search-result-item:last-child {
-            border-bottom: none;
-        }
-
-        .search-result-item:hover {
-            background: var(--bg-input);
-        }
-
-        .search-result-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-
-        .search-result-info {
-            flex: 1;
-        }
-
-        .search-result-name {
-            font-size: 15px;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-
-        .search-result-username {
-            font-size: 13px;
-            color: var(--text-tertiary);
-        }
-
-        .no-results {
-            padding: 32px 20px;
-            text-align: center;
-            color: var(--text-tertiary);
-        }
-
-        /* ===== APPEARANCE MODAL ===== */
-        .appearance-options {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .appearance-section {
-            margin-bottom: 24px;
-        }
-
-        .appearance-title {
-            font-size: 18px;
-            font-weight: 800;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-        }
-
-        .theme-options {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        .theme-option {
-            padding: 16px;
-            border: 2px solid var(--border);
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            transition: var(--transition);
-            text-align: center;
-        }
-
-        .theme-option:hover {
-            border-color: var(--primary);
-        }
-
-        .theme-option.active {
-            border-color: var(--primary);
-            background: var(--bg-hover);
-        }
-
-        .theme-icon {
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-
-        .theme-name {
-            font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 4px;
-        }
-
-        .theme-description {
-            font-size: 12px;
-            color: var(--text-tertiary);
-        }
-
-        .color-themes {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-        }
-
-        .color-theme {
-            aspect-ratio: 1;
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition);
-            position: relative;
-        }
-
-        .color-theme::after {
-            content: '✓';
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            width: 20px;
-            height: 20px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-            color: var(--text-primary);
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .color-theme.active::after {
-            opacity: 1;
-        }
-
-        .color-theme:hover {
-            transform: scale(1.05);
-        }
-
-        .color-theme.purple { background: linear-gradient(135deg, #8B5CF6, #7C3AED); }
-        .color-theme.blue { background: linear-gradient(135deg, #3B82F6, #2563EB); }
-        .color-theme.green { background: linear-gradient(135deg, #10B981, #059669); }
-        .color-theme.red { background: linear-gradient(135deg, #EF4444, #DC2626); }
-        .color-theme.orange { background: linear-gradient(135deg, #F59E0B, #D97706); }
-        .color-theme.pink { background: linear-gradient(135deg, #EC4899, #DB2777); }
-
-        /* ===== REACTIONS MENU ===== */
-        .reactions-menu {
-            position: absolute;
-            bottom: 60px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 8px;
-            display: flex;
-            gap: 4px;
-            box-shadow: var(--shadow-lg);
-            z-index: 100;
-            display: none;
-        }
-
-        .reactions-menu.active {
-            display: flex;
-        }
-
-        .reaction-emoji {
-            font-size: 24px;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border-radius: 50%;
-            transition: var(--transition);
-        }
-
-        .reaction-emoji:hover {
-            background: var(--bg-input);
-            transform: scale(1.2);
-        }
-
         /* ===== TOAST ===== */
         .toast-container {
             position: fixed;
@@ -2310,6 +2093,10 @@
                 </div>
                 
                 <div class="chat-actions-menu" id="chatActionsMenu">
+                    <div class="action-item" id="viewProfileBtn">
+                        <iconify-icon icon="mdi:account"></iconify-icon>
+                        <span>عرض الملف الشخصي</span>
+                    </div>
                     <div class="action-item" id="muteChatBtn">
                         <iconify-icon icon="mdi:volume-off"></iconify-icon>
                         <span>كتم المحادثة</span>
@@ -2322,9 +2109,17 @@
                         <iconify-icon icon="mdi:block-helper"></iconify-icon>
                         <span>حظر المستخدم</span>
                     </div>
+                    <div class="action-item" id="searchMessagesBtn">
+                        <iconify-icon icon="mdi:magnify"></iconify-icon>
+                        <span>بحث في الرسائل</span>
+                    </div>
                     <div class="action-item danger" id="clearChatBtn">
                         <iconify-icon icon="mdi:delete"></iconify-icon>
                         <span>مسح المحادثة</span>
+                    </div>
+                    <div class="action-item danger" id="reportUserBtn">
+                        <iconify-icon icon="mdi:flag"></iconify-icon>
+                        <span>الإبلاغ</span>
                     </div>
                 </div>
             </div>
@@ -2347,6 +2142,19 @@
                     <button class="send-button" id="sendMessageBtn">
                         <iconify-icon icon="mdi:send"></iconify-icon>
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Message Modal -->
+        <div class="delete-message-modal" id="deleteMessageModal">
+            <div class="delete-message-content">
+                <h3 class="delete-message-title">حذف الرسالة</h3>
+                <div class="delete-message-options" id="deleteOptions">
+                    <!-- سيتم تعبئته ديناميكياً -->
+                </div>
+                <div class="delete-message-actions">
+                    <button class="delete-cancel-btn" id="deleteCancelBtn">إلغاء</button>
                 </div>
             </div>
         </div>
@@ -2712,36 +2520,27 @@
             </div>
         </div>
 
-        <!-- Reactions Menu -->
-        <div class="reactions-menu" id="reactionsMenu">
-            <div class="reaction-emoji" data-emoji="❤️">❤️</div>
-            <div class="reaction-emoji" data-emoji="👍">👍</div>
-            <div class="reaction-emoji" data-emoji="😂">😂</div>
-            <div class="reaction-emoji" data-emoji="😮">😮</div>
-            <div class="reaction-emoji" data-emoji="😢">😢</div>
-            <div class="reaction-emoji" data-emoji="🔥">🔥</div>
-        </div>
-
         <!-- Toast Container -->
         <div class="toast-container" id="toastContainer"></div>
     </div>
 
-    <!-- Firebase SDK -->
+    <!-- JavaScript -->
     <script type="module">
-        import { auth, db } from "./firebase-config.js";
+        // ===== FIREBASE IMPORTS =====
+        import { app } from "./firebase-config.js";
         import { 
+            getAuth, 
             onAuthStateChanged, 
             signOut,
             updateProfile,
             updatePassword,
             deleteUser,
             reauthenticateWithCredential,
-            EmailAuthProvider,
-            getAuth,
-            signInWithEmailAndPassword
+            EmailAuthProvider
         } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
         
         import {
+            getFirestore,
             collection,
             doc,
             getDoc,
@@ -2759,30 +2558,37 @@
             limit,
             increment,
             arrayUnion,
-            arrayRemove,
-            runTransaction
+            arrayRemove
         } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+        // ===== INITIALIZE FIREBASE =====
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
         // ===== DOM ELEMENTS =====
         const loadingScreen = document.getElementById('loadingScreen');
         const appWrapper = document.getElementById('appWrapper');
         const loadingText = document.getElementById('loadingText');
         
+        // User elements
         const userAvatar = document.getElementById('userAvatar');
         const userName = document.getElementById('userName');
         const userStatus = document.getElementById('userStatus');
         const userTyping = document.getElementById('userTyping');
         const statusIndicator = document.getElementById('statusIndicator');
         
+        // Tab elements
         const tabButtons = document.querySelectorAll('.tab-button');
         const chatsContent = document.getElementById('chatsContent');
         const settingsContent = document.getElementById('settingsContent');
         
+        // Header action elements
         const themeToggleBtn = document.getElementById('themeToggleBtn');
         const newChatModalBtn = document.getElementById('newChatModalBtn');
         const chatsSearch = document.getElementById('chatsSearch');
         const chatsList = document.getElementById('chatsList');
         
+        // Settings elements
         const profileModalBtn = document.getElementById('profileModalBtn');
         const privacyModalBtn = document.getElementById('privacyModalBtn');
         const appearanceModalBtn = document.getElementById('appearanceModalBtn');
@@ -2790,6 +2596,7 @@
         const logoutBtn = document.getElementById('logoutBtn');
         const deleteAccountModalBtn = document.getElementById('deleteAccountModalBtn');
         
+        // Profile modal elements
         const profileModal = document.getElementById('profileModal');
         const profileBackBtn = document.getElementById('profileBackBtn');
         const profileCover = document.getElementById('profileCover');
@@ -2808,6 +2615,7 @@
         const profileStatusSwitch = document.getElementById('profileStatusSwitch');
         const saveProfileBtn = document.getElementById('saveProfileBtn');
         
+        // Privacy modal elements
         const privacyModal = document.getElementById('privacyModal');
         const privacyBackBtn = document.getElementById('privacyBackBtn');
         const showOnlineStatusToggle = document.getElementById('showOnlineStatusToggle');
@@ -2826,27 +2634,32 @@
         const blockedList = document.getElementById('blockedList');
         const savePrivacyBtn = document.getElementById('savePrivacyBtn');
         
+        // Delete account modal elements
         const deleteAccountModal = document.getElementById('deleteAccountModal');
         const deleteAccountBackBtn = document.getElementById('deleteAccountBackBtn');
         const deletePasswordInput = document.getElementById('deletePasswordInput');
         const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
         
+        // New chat modal elements
         const newChatModal = document.getElementById('newChatModal');
         const newChatBackBtn = document.getElementById('newChatBackBtn');
         const userSearchInput = document.getElementById('userSearchInput');
         const searchResults = document.getElementById('searchResults');
         const noResults = document.getElementById('noResults');
         
+        // Appearance modal elements
         const appearanceModal = document.getElementById('appearanceModal');
         const appearanceBackBtn = document.getElementById('appearanceBackBtn');
         const themeOptions = document.querySelectorAll('.theme-option');
         const colorThemes = document.querySelectorAll('.color-theme');
         const saveAppearanceBtn = document.getElementById('saveAppearanceBtn');
         
+        // Sessions modal elements
         const sessionsModal = document.getElementById('sessionsModal');
         const sessionsBackBtn = document.getElementById('sessionsBackBtn');
         const sessionsList = document.getElementById('sessionsList');
         
+        // Chat window elements
         const chatWindow = document.getElementById('chatWindow');
         const chatBackBtn = document.getElementById('chatBackBtn');
         const chatUserAvatar = document.getElementById('chatUserAvatar');
@@ -2856,10 +2669,13 @@
         const chatSearchBtn = document.getElementById('chatSearchBtn');
         const chatMenuBtn = document.getElementById('chatMenuBtn');
         const chatActionsMenu = document.getElementById('chatActionsMenu');
+        const viewProfileBtn = document.getElementById('viewProfileBtn');
         const muteChatBtn = document.getElementById('muteChatBtn');
         const pinChatBtn = document.getElementById('pinChatBtn');
         const blockUserBtn = document.getElementById('blockUserBtn');
+        const searchMessagesBtn = document.getElementById('searchMessagesBtn');
         const clearChatBtn = document.getElementById('clearChatBtn');
+        const reportUserBtn = document.getElementById('reportUserBtn');
         const searchMessagesContainer = document.getElementById('searchMessagesContainer');
         const searchMessagesInput = document.getElementById('searchMessagesInput');
         const searchResultsCount = document.getElementById('searchResultsCount');
@@ -2867,8 +2683,12 @@
         const chatInput = document.getElementById('chatInput');
         const sendMessageBtn = document.getElementById('sendMessageBtn');
         
-        const reactionsMenu = document.getElementById('reactionsMenu');
+        // Delete message modal elements
+        const deleteMessageModal = document.getElementById('deleteMessageModal');
+        const deleteOptions = document.getElementById('deleteOptions');
+        const deleteCancelBtn = document.getElementById('deleteCancelBtn');
         
+        // Toast container
         const toastContainer = document.getElementById('toastContainer');
 
         // ===== STATE VARIABLES =====
@@ -2891,40 +2711,15 @@
         let typingTimeout = null;
         let isTyping = false;
         let editingMessageId = null;
-        let searchResults = [];
+        let searchResultsMessages = [];
         let searchIndex = -1;
-        let activeReactionMessage = null;
-
-        // ===== KEYBOARD SHORTCUTS =====
-        const shortcuts = {
-            'Enter': (e) => {
-                if (!e.shiftKey && !e.ctrlKey) {
-                    e.preventDefault();
-                    handleSendMessage();
-                }
-            },
-            'Escape': () => {
-                if (chatWindow.classList.contains('active')) {
-                    chatBackBtn.click();
-                }
-                if (searchMessagesContainer.classList.contains('active')) {
-                    searchMessagesContainer.classList.remove('active');
-                }
-            },
-            'k': (e) => {
-                if (e.ctrlKey) {
-                    e.preventDefault();
-                    chatsSearch.focus();
-                }
-            },
-            '/': (e) => {
-                if (chatWindow.classList.contains('active') && !e.ctrlKey) {
-                    e.preventDefault();
-                    searchMessagesContainer.classList.add('active');
-                    searchMessagesInput.focus();
-                }
-            }
-        };
+        let messageToDelete = null;
+        
+        // Long press variables
+        let touchStartTime = 0;
+        let touchStartElement = null;
+        let longPressTimer = null;
+        let isScrolling = false;
 
         // ===== UTILITY FUNCTIONS =====
         
@@ -2960,6 +2755,7 @@
                 
                 return date.toLocaleDateString('ar-EG');
             } catch (error) {
+                console.error('Error formatting time:', error);
                 return '';
             }
         }
@@ -3003,6 +2799,7 @@
                     minute: '2-digit'
                 });
             } catch (error) {
+                console.error('Error formatting last seen:', error);
                 return 'غير متاح';
             }
         }
@@ -3105,18 +2902,15 @@
         }
 
         function updateTheme(theme, colorTheme) {
-            // تحديث المظهر
             if (theme === 'light') {
                 document.body.classList.add('light-mode');
             } else {
                 document.body.classList.remove('light-mode');
             }
             
-            // تحديث لون الثيم
             document.body.classList.remove('theme-purple', 'theme-blue', 'theme-green', 'theme-red', 'theme-orange', 'theme-pink');
             document.body.classList.add(`theme-${colorTheme}`);
             
-            // حفظ في localStorage
             localStorage.setItem('chatx-theme', theme);
             localStorage.setItem('chatx-color-theme', colorTheme);
             
@@ -3332,13 +3126,11 @@
                     const pinnedChats = userData.pinnedChats || [];
                     
                     if (pinnedChats.includes(chatId)) {
-                        // إلغاء التثبيت
                         await updateDoc(userRef, {
                             pinnedChats: arrayRemove(chatId)
                         });
                         return 'unpinned';
                     } else {
-                        // التثبيت
                         await updateDoc(userRef, {
                             pinnedChats: arrayUnion(chatId)
                         });
@@ -3362,12 +3154,10 @@
                     const mutedChats = userData.mutedChats || {};
                     
                     if (mutedChats[chatId]) {
-                        // إلغاء الكتم
                         delete mutedChats[chatId];
                     } else {
-                        // الكتم
                         mutedChats[chatId] = duration ? 
-                            Date.now() + (duration * 60 * 60 * 1000) : // تحويل الساعات إلى مللي ثانية
+                            Date.now() + (duration * 60 * 60 * 1000) : 
                             'forever';
                     }
                     
@@ -3394,13 +3184,11 @@
                     const blockedUsers = userData.blockedUsers || [];
                     
                     if (blockedUsers.includes(targetUserId)) {
-                        // إلغاء الحظر
                         await updateDoc(userRef, {
                             blockedUsers: arrayRemove(targetUserId)
                         });
                         return 'unblocked';
                     } else {
-                        // الحظر
                         await updateDoc(userRef, {
                             blockedUsers: arrayUnion(targetUserId)
                         });
@@ -3456,7 +3244,6 @@
                     }
                 }
                 
-                // فرز المحادثات: المثبتة أولاً، ثم غير المقروءة، ثم حسب الوقت
                 chats.sort((a, b) => {
                     if (a.isPinned && !b.isPinned) return -1;
                     if (!a.isPinned && b.isPinned) return 1;
@@ -3503,36 +3290,6 @@
             }
         }
 
-        async function searchMessages(chatId, query) {
-            try {
-                const messagesQuery = query(
-                    collection(db, "chats", chatId, "messages"),
-                    where("text", ">=", query),
-                    where("text", "<=", query + '\uf8ff'),
-                    orderBy("text"),
-                    limit(50)
-                );
-                
-                const messagesSnapshot = await getDocs(messagesQuery);
-                const messages = [];
-                
-                messagesSnapshot.forEach(doc => {
-                    const data = doc.data();
-                    if (!data.deleted) {
-                        messages.push({
-                            id: doc.id,
-                            ...data
-                        });
-                    }
-                });
-                
-                return messages;
-            } catch (error) {
-                console.error('Error searching messages:', error);
-                return [];
-            }
-        }
-
         async function getOrCreateChat(user1Id, user2Id) {
             try {
                 const chatId = getChatId(user1Id, user2Id);
@@ -3569,6 +3326,7 @@
                     read: false,
                     status: 'sent',
                     deleted: false,
+                    deletedFor: [],
                     edited: false,
                     reactions: []
                 };
@@ -3606,59 +3364,26 @@
             }
         }
 
-        async function deleteMessage(chatId, messageId) {
+        async function deleteMessageForEveryone(chatId, messageId) {
             try {
                 const messageRef = doc(db, "chats", chatId, "messages", messageId);
-                await updateDoc(messageRef, {
-                    deleted: true,
-                    text: "تم حذف هذه الرسالة",
-                    deletedAt: serverTimestamp()
-                });
+                await deleteDoc(messageRef);
                 return true;
             } catch (error) {
-                console.error('Error deleting message:', error);
+                console.error('Error deleting message for everyone:', error);
                 return false;
             }
         }
 
-        async function addReaction(chatId, messageId, userId, emoji) {
+        async function deleteMessageForMe(chatId, messageId, userId) {
             try {
                 const messageRef = doc(db, "chats", chatId, "messages", messageId);
-                const messageDoc = await getDoc(messageRef);
-                
-                if (messageDoc.exists()) {
-                    const messageData = messageDoc.data();
-                    const reactions = messageData.reactions || [];
-                    
-                    // البحث عن رد فعل المستخدم
-                    const userReactionIndex = reactions.findIndex(r => r.userId === userId);
-                    
-                    if (userReactionIndex > -1) {
-                        // إذا كان نفس الإيموجي، إزالته
-                        if (reactions[userReactionIndex].emoji === emoji) {
-                            reactions.splice(userReactionIndex, 1);
-                        } else {
-                            // تغيير الإيموجي
-                            reactions[userReactionIndex].emoji = emoji;
-                        }
-                    } else {
-                        // إضافة رد فعل جديد
-                        reactions.push({
-                            userId,
-                            emoji,
-                            timestamp: serverTimestamp()
-                        });
-                    }
-                    
-                    await updateDoc(messageRef, {
-                        reactions: reactions
-                    });
-                    
-                    return true;
-                }
-                return false;
+                await updateDoc(messageRef, {
+                    deletedFor: arrayUnion(userId)
+                });
+                return true;
             } catch (error) {
-                console.error('Error adding reaction:', error);
+                console.error('Error deleting message for me:', error);
                 return false;
             }
         }
@@ -3675,12 +3400,10 @@
                 
                 messagesSnapshot.forEach(doc => {
                     const data = doc.data();
-                    if (!data.deleted) {
-                        messages.push({
-                            id: doc.id,
-                            ...data
-                        });
-                    }
+                    messages.push({
+                        id: doc.id,
+                        ...data
+                    });
                 });
                 
                 return messages;
@@ -3717,6 +3440,39 @@
                 return true;
             } catch (error) {
                 console.error('Error marking messages as read:', error);
+                return false;
+            }
+        }
+
+        async function clearChat(chatId, userId) {
+            try {
+                const messagesQuery = query(
+                    collection(db, "chats", chatId, "messages")
+                );
+                
+                const messagesSnapshot = await getDocs(messagesQuery);
+                const batch = writeBatch(db);
+                
+                messagesSnapshot.forEach(doc => {
+                    batch.update(doc.ref, { 
+                        deletedFor: arrayUnion(userId)
+                    });
+                });
+                
+                if (!messagesSnapshot.empty) {
+                    await batch.commit();
+                }
+                
+                const chatRef = doc(db, "chats", chatId);
+                await updateDoc(chatRef, {
+                    lastMessage: "",
+                    lastMessageTime: null,
+                    [`unreadCount.${userId}`]: 0
+                });
+                
+                return true;
+            } catch (error) {
+                console.error('Error clearing chat:', error);
                 return false;
             }
         }
@@ -3772,41 +3528,6 @@
             }
         }
 
-        async function clearChat(chatId, userId) {
-            try {
-                const messagesQuery = query(
-                    collection(db, "chats", chatId, "messages")
-                );
-                
-                const messagesSnapshot = await getDocs(messagesQuery);
-                const batch = writeBatch(db);
-                
-                messagesSnapshot.forEach(doc => {
-                    batch.update(doc.ref, { 
-                        deleted: true,
-                        text: "تم مسح هذه الرسالة",
-                        deletedAt: serverTimestamp()
-                    });
-                });
-                
-                if (!messagesSnapshot.empty) {
-                    await batch.commit();
-                }
-                
-                const chatRef = doc(db, "chats", chatId);
-                await updateDoc(chatRef, {
-                    lastMessage: "",
-                    lastMessageTime: null,
-                    [`unreadCount.${userId}`]: 0
-                });
-                
-                return true;
-            } catch (error) {
-                console.error('Error clearing chat:', error);
-                return false;
-            }
-        }
-
         // ===== UI FUNCTIONS =====
         
         function updateUserInfo(userData, settings = null) {
@@ -3844,7 +3565,6 @@
                 statusIndicator.classList.add('hidden');
             }
             
-            // تحديث حالة الكتابة
             if (userData.typingIn) {
                 userTyping.classList.remove('hidden');
                 userStatus.classList.add('hidden');
@@ -3889,7 +3609,6 @@
                 });
             }
             
-            // تحديث حالة الحالة
             statusOptions.forEach(option => {
                 option.classList.remove('active');
                 if (option.dataset.status === userData.status) {
@@ -3986,11 +3705,9 @@
                 return;
             }
             
-            // فصل المحادثات المثبتة عن العادية
             const pinnedChats = chats.filter(chat => chat.isPinned);
             const regularChats = chats.filter(chat => !chat.isPinned);
             
-            // عرض المحادثات المثبتة
             if (pinnedChats.length > 0) {
                 const pinnedSection = document.createElement('div');
                 pinnedSection.className = 'pinned-chats';
@@ -4008,7 +3725,6 @@
                 });
             }
             
-            // عرض المحادثات العادية
             regularChats.forEach(chat => {
                 if (!chat.otherUser) return;
                 chatsList.appendChild(createChatCard(chat));
@@ -4039,7 +3755,6 @@
             const lastMessage = chat.lastMessage || 'ابدأ المحادثة...';
             const preview = lastMessage.length > 30 ? lastMessage.substring(0, 30) + '...' : lastMessage;
             
-            // تحديث حالة الاتصال للمستخدم الآخر
             let statusText = '';
             let statusColor = 'var(--text-tertiary)';
             
@@ -4142,24 +3857,20 @@
                 chatUserAvatar.style.background = otherUser.avatarColor;
             }
             
-            // تحديث حالة الاتصال في رأس الشات
             updateChatUserStatus(otherUser);
             
-            // تحديث زر التثبيت
             const isPinned = currentUserData?.pinnedChats?.includes(chatId);
             pinChatBtn.innerHTML = `
                 <iconify-icon icon="${isPinned ? 'mdi:pin-off' : 'mdi:pin'}"></iconify-icon>
                 <span>${isPinned ? 'إلغاء التثبيت' : 'تثبيت المحادثة'}</span>
             `;
             
-            // تحديث زر الكتم
             const isMuted = currentUserData?.mutedChats?.[chatId];
             muteChatBtn.innerHTML = `
                 <iconify-icon icon="${isMuted ? 'mdi:volume-high' : 'mdi:volume-off'}"></iconify-icon>
                 <span>${isMuted ? 'إلغاء الكتم' : 'كتم المحادثة'}</span>
             `;
             
-            // تحديث زر الحظر
             const isBlocked = currentUserData?.blockedUsers?.includes(otherUser.uid);
             blockUserBtn.innerHTML = `
                 <iconify-icon icon="${isBlocked ? 'mdi:block-helper' : 'mdi:block-helper'}"></iconify-icon>
@@ -4191,12 +3902,10 @@
                     const messages = [];
                     snapshot.forEach(doc => {
                         const data = doc.data();
-                        if (!data.deleted) {
-                            messages.push({
-                                id: doc.id,
-                                ...data
-                            });
-                        }
+                        messages.push({
+                            id: doc.id,
+                            ...data
+                        });
                     });
                     renderMessages(messages);
                     
@@ -4208,7 +3917,6 @@
                 }
             );
             
-            // الاستماع لحالة الكتابة
             if (typingListener) typingListener();
             
             typingListener = onSnapshot(doc(db, "users", otherUser.uid), (doc) => {
@@ -4261,7 +3969,11 @@
         function renderMessages(messages, highlightText = '') {
             chatMessages.innerHTML = '';
             
-            if (messages.length === 0) {
+            const filteredMessages = messages.filter(message => 
+                !message.deletedFor?.includes(currentUser.uid)
+            );
+            
+            if (filteredMessages.length === 0) {
                 chatMessages.innerHTML = `
                     <div class="empty-state">
                         <iconify-icon icon="mdi:message-outline" class="empty-icon"></iconify-icon>
@@ -4274,7 +3986,7 @@
             
             let lastDate = null;
             
-            messages.forEach((message, index) => {
+            filteredMessages.forEach((message, index) => {
                 const messageDate = message.timestamp?.toDate?.() || new Date();
                 const messageDay = messageDate.toDateString();
                 
@@ -4319,7 +4031,6 @@
                     bubble.classList.add('edited');
                 }
                 
-                // إذا كانت الرسالة قيد التعديل
                 if (editingMessageId === message.id) {
                     const editInput = document.createElement('textarea');
                     editInput.className = 'message-edit-input';
@@ -4379,7 +4090,6 @@
                     
                     const timeText = formatTime(message.timestamp);
                     
-                    // إظهار حالة القراءة
                     if (isSent && currentUserSettings?.showReadReceipts) {
                         let statusIcon = 'mdi:check';
                         let statusColor = 'var(--text-tertiary)';
@@ -4400,12 +4110,10 @@
                         status.textContent = timeText;
                     }
                     
-                    // عرض الردود
                     if (message.reactions && message.reactions.length > 0) {
                         const reactions = document.createElement('div');
                         reactions.className = 'message-reactions';
                         
-                        // تجميع الردود حسب الإيموجي
                         const reactionCounts = {};
                         message.reactions.forEach(reaction => {
                             if (!reactionCounts[reaction.emoji]) {
@@ -4428,7 +4136,7 @@
                             
                             reaction.addEventListener('click', async (e) => {
                                 e.stopPropagation();
-                                await addReaction(currentChatId, message.id, currentUser.uid, emoji);
+                                // يمكن إضافة وظيفة الردود هنا
                             });
                             
                             reactions.appendChild(reaction);
@@ -4440,29 +4148,22 @@
                     bubble.appendChild(text);
                     bubble.appendChild(status);
                     
-                    // إضافة قائمة الرسائل
                     const menu = document.createElement('div');
                     menu.className = 'message-menu';
                     
                     const deleteBtn = document.createElement('button');
-                    deleteBtn.className = 'message-menu-btn';
+                    deleteBtn.className = 'message-menu-btn delete-btn';
                     deleteBtn.innerHTML = '<iconify-icon icon="mdi:delete"></iconify-icon>';
-                    deleteBtn.addEventListener('click', async (e) => {
+                    deleteBtn.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        if (confirm('هل تريد حذف هذه الرسالة؟')) {
-                            const success = await deleteMessage(currentChatId, message.id);
-                            if (success) {
-                                showToast('تم حذف الرسالة', 'success');
-                            } else {
-                                showToast('فشل حذف الرسالة', 'error');
-                            }
-                        }
+                        messageToDelete = message;
+                        showDeleteMessageModal(message);
                     });
                     
                     const editBtn = document.createElement('button');
                     editBtn.className = 'message-menu-btn';
                     editBtn.innerHTML = '<iconify-icon icon="mdi:pencil"></iconify-icon>';
-                    editBtn.addEventListener('click', async (e) => {
+                    editBtn.addEventListener('click', (e) => {
                         e.stopPropagation();
                         if (isSent) {
                             editingMessageId = message.id;
@@ -4470,22 +4171,10 @@
                         }
                     });
                     
-                    const reactBtn = document.createElement('button');
-                    reactBtn.className = 'message-menu-btn';
-                    reactBtn.innerHTML = '<iconify-icon icon="mdi:emoticon"></iconify-icon>';
-                    reactBtn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        activeReactionMessage = message.id;
-                        reactionsMenu.style.left = `${e.clientX - 100}px`;
-                        reactionsMenu.style.bottom = `${window.innerHeight - e.clientY + 40}px`;
-                        reactionsMenu.classList.add('active');
-                    });
-                    
-                    menu.appendChild(reactBtn);
+                    menu.appendChild(deleteBtn);
                     if (isSent) {
                         menu.appendChild(editBtn);
                     }
-                    menu.appendChild(deleteBtn);
                     bubble.appendChild(menu);
                 }
                 
@@ -4498,6 +4187,55 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
+        function showDeleteMessageModal(message) {
+            const isMyMessage = message.senderId === currentUser.uid;
+            
+            deleteOptions.innerHTML = '';
+            
+            if (isMyMessage) {
+                deleteOptions.innerHTML = `
+                    <div class="delete-option danger" id="deleteForEveryone">
+                        حذف للجميع
+                    </div>
+                    <div class="delete-option" id="deleteForMe">
+                        حذف عندي فقط
+                    </div>
+                `;
+            } else {
+                deleteOptions.innerHTML = `
+                    <div class="delete-option" id="deleteForMe">
+                        حذف عندي فقط
+                    </div>
+                `;
+            }
+            
+            deleteMessageModal.classList.add('active');
+        }
+
+        async function handleDeleteMessage(option) {
+            if (!messageToDelete || !currentChatId) return;
+            
+            try {
+                if (option === 'deleteForEveryone') {
+                    const success = await deleteMessageForEveryone(currentChatId, messageToDelete.id);
+                    if (success) {
+                        showToast('تم حذف الرسالة للجميع', 'success');
+                    }
+                } else if (option === 'deleteForMe') {
+                    const success = await deleteMessageForMe(currentChatId, messageToDelete.id, currentUser.uid);
+                    if (success) {
+                        showToast('تم حذف الرسالة عندك فقط', 'success');
+                    }
+                }
+            } catch (error) {
+                console.error('Error deleting message:', error);
+                showToast('فشل حذف الرسالة', 'error');
+            } finally {
+                deleteMessageModal.classList.remove('active');
+                messageToDelete = null;
+            }
+        }
+
         async function handleSendMessage() {
             const text = chatInput.value.trim();
             if (!text || !currentChatId) return;
@@ -4508,7 +4246,6 @@
                 chatInput.value = '';
                 chatInput.style.height = 'auto';
                 
-                // إلغاء حالة الكتابة
                 if (isTyping) {
                     await updateTypingStatus(currentChatId, currentUser.uid, false);
                     isTyping = false;
@@ -4630,7 +4367,6 @@
                     showReadReceipts
                 };
                 
-                // تحديث إعدادات القراءة في بيانات المستخدم أيضاً
                 await updateUserProfile(currentUser.uid, {
                     readReceipts: showReadReceipts
                 });
@@ -4642,7 +4378,6 @@
                     currentUserData.readReceipts = showReadReceipts;
                     updateUserInfo(currentUserData, currentUserSettings);
                     
-                    // تحديث حالة الاتصال في الشات النشط
                     if (currentChatUser) {
                         updateChatUserStatus(currentChatUser);
                     }
@@ -4829,7 +4564,6 @@
                     `;
                 }
             } else {
-                // عرض قائمة بالخيارات
                 const duration = prompt('اختر مدة الكتم:\n1 - ساعة\n8 - 8 ساعات\n24 - يوم\n0 - دائماً');
                 if (duration !== null) {
                     const hours = parseInt(duration);
@@ -4890,51 +4624,65 @@
             }
         }
 
-        async function handleSearchMessages() {
-            const query = searchMessagesInput.value.trim();
+        // ===== LONG PRESS HANDLING =====
+        
+        function handleTouchStart(e) {
+            if (isScrolling) return;
             
-            if (!query) {
-                searchMessagesContainer.classList.remove('active');
-                const messages = await getChatMessages(currentChatId);
-                renderMessages(messages);
-                return;
-            }
+            const messageBubble = e.target.closest('.message-bubble');
+            if (!messageBubble) return;
             
-            const messages = await searchMessages(currentChatId, query);
-            searchResults = messages;
-            searchIndex = -1;
+            touchStartTime = Date.now();
+            touchStartElement = messageBubble;
             
-            if (messages.length > 0) {
-                renderMessages(messages, query);
-                searchResultsCount.textContent = `تم العثور على ${messages.length} نتيجة`;
-                highlightNextSearchResult();
-            } else {
-                renderMessages(messages);
-                searchResultsCount.textContent = 'لم يتم العثور على نتائج';
-            }
+            longPressTimer = setTimeout(() => {
+                const messageId = messageBubble.closest('.message-container')?.dataset.messageId;
+                if (messageId) {
+                    showDeleteMessageModalForLongPress(messageId);
+                }
+            }, 500);
+            
+            e.preventDefault();
         }
 
-        function highlightNextSearchResult() {
-            if (searchResults.length === 0) return;
+        function handleTouchEnd(e) {
+            clearTimeout(longPressTimer);
             
-            searchIndex = (searchIndex + 1) % searchResults.length;
-            const messageId = searchResults[searchIndex].id;
-            const messageElement = document.querySelector(`[data-message-id="${messageId}"]`);
+            if (touchStartElement) {
+                const touchEndTime = Date.now();
+                const touchDuration = touchEndTime - touchStartTime;
+                const touchEndElement = e.target.closest('.message-bubble');
+                
+                if (touchDuration < 500 && touchStartElement === touchEndElement) {
+                    // هذا كان tap عادي
+                }
+            }
             
-            if (messageElement) {
-                // إزالة التحديد السابق
-                document.querySelectorAll('.search-highlight').forEach(el => {
-                    el.classList.remove('search-highlight');
-                });
-                
-                // إضافة التحديد الجديد
-                messageElement.classList.add('search-highlight');
-                messageElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                
-                // إضافة مؤقت لإزالة التحديد بعد 2 ثانية
-                setTimeout(() => {
-                    messageElement.classList.remove('search-highlight');
-                }, 2000);
+            touchStartElement = null;
+            touchStartTime = 0;
+        }
+
+        function handleTouchMove(e) {
+            isScrolling = true;
+            clearTimeout(longPressTimer);
+            
+            setTimeout(() => {
+                isScrolling = false;
+            }, 100);
+        }
+
+        async function showDeleteMessageModalForLongPress(messageId) {
+            if (!currentChatId) return;
+            
+            try {
+                const messageDoc = await getDoc(doc(db, "chats", currentChatId, "messages", messageId));
+                if (messageDoc.exists()) {
+                    const messageData = messageDoc.data();
+                    messageToDelete = { id: messageId, ...messageData };
+                    showDeleteMessageModal(messageToDelete);
+                }
+            } catch (error) {
+                console.error('Error getting message:', error);
             }
         }
 
@@ -4980,7 +4728,6 @@
                             }
                         });
                         
-                        // الاستماع للمستخدمين المحظورين
                         if (blockedUsersListener) blockedUsersListener();
                         
                         blockedUsersListener = onSnapshot(doc(db, "users", user.uid), async (doc) => {
@@ -5046,6 +4793,7 @@
             }
         });
 
+        // Tab navigation
         tabButtons.forEach(button => {
             button.addEventListener('click', () => {
                 tabButtons.forEach(btn => btn.classList.remove('active'));
@@ -5059,15 +4807,18 @@
             });
         });
 
+        // Theme toggle
         themeToggleBtn.addEventListener('click', () => {
             appearanceModal.classList.add('active');
         });
 
+        // New chat modal
         newChatModalBtn.addEventListener('click', () => {
             newChatModal.classList.add('active');
             userSearchInput.focus();
         });
 
+        // User search
         userSearchInput.addEventListener('input', async (e) => {
             const query = e.target.value.trim();
             
@@ -5080,6 +4831,7 @@
             renderSearchResults(users);
         });
 
+        // Profile modal
         profileModalBtn.addEventListener('click', () => {
             if (currentUserData) {
                 updateProfileModal(currentUserData);
@@ -5091,6 +4843,7 @@
             profileModal.classList.remove('active');
         });
 
+        // Privacy modal
         privacyModalBtn.addEventListener('click', () => {
             if (currentUserSettings) {
                 updatePrivacyModal(currentUserSettings);
@@ -5102,6 +4855,7 @@
             privacyModal.classList.remove('active');
         });
 
+        // Appearance modal
         appearanceModalBtn.addEventListener('click', () => {
             appearanceModal.classList.add('active');
         });
@@ -5110,6 +4864,7 @@
             appearanceModal.classList.remove('active');
         });
 
+        // Sessions modal
         sessionsModalBtn.addEventListener('click', () => {
             sessionsModal.classList.add('active');
         });
@@ -5118,6 +4873,7 @@
             sessionsModal.classList.remove('active');
         });
 
+        // Delete account modal
         deleteAccountModalBtn.addEventListener('click', () => {
             deleteAccountModal.classList.add('active');
             deletePasswordInput.value = '';
@@ -5127,12 +4883,14 @@
             deleteAccountModal.classList.remove('active');
         });
 
+        // New chat back button
         newChatBackBtn.addEventListener('click', () => {
             newChatModal.classList.remove('active');
             userSearchInput.value = '';
             renderSearchResults([]);
         });
 
+        // Color picker
         colorPicker.addEventListener('click', (e) => {
             if (e.target.classList.contains('color-option')) {
                 document.querySelectorAll('.color-option').forEach(option => {
@@ -5145,6 +4903,7 @@
             }
         });
 
+        // Cover color picker
         coverColorPicker.addEventListener('click', (e) => {
             if (e.target.classList.contains('cover-color-option')) {
                 document.querySelectorAll('.cover-color-option').forEach(option => {
@@ -5157,6 +4916,7 @@
             }
         });
 
+        // Status options
         statusOptions.forEach(option => {
             option.addEventListener('click', () => {
                 statusOptions.forEach(opt => opt.classList.remove('active'));
@@ -5164,6 +4924,7 @@
             });
         });
 
+        // Profile status toggle
         profileStatusToggle.addEventListener('click', () => {
             profileStatusSwitch.classList.toggle('active');
             const isOnline = profileStatusSwitch.classList.contains('active');
@@ -5178,6 +4939,7 @@
             }
         });
 
+        // Privacy toggles
         showOnlineStatusToggle.addEventListener('click', () => {
             showOnlineStatusSwitch.classList.toggle('active');
             const isActive = showOnlineStatusSwitch.classList.contains('active');
@@ -5196,6 +4958,7 @@
             showReadReceiptsValue.textContent = isActive ? 'مفعل' : 'معطل';
         });
 
+        // Theme options
         themeOptions.forEach(option => {
             option.addEventListener('click', () => {
                 themeOptions.forEach(opt => opt.classList.remove('active'));
@@ -5203,6 +4966,7 @@
             });
         });
 
+        // Color themes
         colorThemes.forEach(theme => {
             theme.addEventListener('click', () => {
                 colorThemes.forEach(t => t.classList.remove('active'));
@@ -5210,12 +4974,14 @@
             });
         });
 
+        // Save buttons
         saveProfileBtn.addEventListener('click', handleSaveProfile);
         savePrivacyBtn.addEventListener('click', handleSavePrivacy);
         changePasswordBtn.addEventListener('click', handleChangePassword);
         confirmDeleteBtn.addEventListener('click', handleDeleteAccount);
         saveAppearanceBtn.addEventListener('click', handleSaveAppearance);
 
+        // Logout
         logoutBtn.addEventListener('click', async () => {
             if (confirm('هل تريد تسجيل الخروج؟')) {
                 try {
@@ -5228,6 +4994,7 @@
             }
         });
 
+        // Chat back button
         chatBackBtn.addEventListener('click', async () => {
             chatWindow.classList.remove('active');
             
@@ -5251,6 +5018,7 @@
             searchMessagesContainer.classList.remove('active');
         });
 
+        // Chat search button
         chatSearchBtn.addEventListener('click', () => {
             searchMessagesContainer.classList.toggle('active');
             if (searchMessagesContainer.classList.contains('active')) {
@@ -5258,16 +5026,18 @@
             }
         });
 
+        // Chat menu button
         chatMenuBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             chatActionsMenu.classList.toggle('active');
         });
 
+        // Close menus when clicking outside
         document.addEventListener('click', () => {
             chatActionsMenu.classList.remove('active');
-            reactionsMenu.classList.remove('active');
         });
 
+        // Chat action menu items
         chatActionsMenu.addEventListener('click', (e) => {
             e.stopPropagation();
         });
@@ -5277,8 +5047,10 @@
         blockUserBtn.addEventListener('click', handleBlockUser);
         clearChatBtn.addEventListener('click', handleClearChat);
 
+        // Send message
         sendMessageBtn.addEventListener('click', handleSendMessage);
 
+        // Chat input enter key
         chatInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -5286,6 +5058,7 @@
             }
         });
 
+        // Chat input typing detection
         chatInput.addEventListener('input', function() {
             this.style.height = 'auto';
             this.style.height = Math.min(this.scrollHeight, 120) + 'px';
@@ -5295,14 +5068,21 @@
             }
         });
 
-        searchMessagesInput.addEventListener('input', handleSearchMessages);
+        // Delete message modal
+        deleteCancelBtn.addEventListener('click', () => {
+            deleteMessageModal.classList.remove('active');
+            messageToDelete = null;
+        });
 
-        searchMessagesInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && searchResults.length > 0) {
-                highlightNextSearchResult();
+        deleteOptions.addEventListener('click', (e) => {
+            if (e.target.id === 'deleteForEveryone') {
+                handleDeleteMessage('deleteForEveryone');
+            } else if (e.target.id === 'deleteForMe') {
+                handleDeleteMessage('deleteForMe');
             }
         });
 
+        // Chat search
         chatsSearch.addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase();
             const filteredChats = allChats.filter(chat => 
@@ -5313,6 +5093,34 @@
             renderChats(filteredChats);
         });
 
+        // Long press handling for touch devices
+        chatMessages.addEventListener('touchstart', handleTouchStart, { passive: false });
+        chatMessages.addEventListener('touchend', handleTouchEnd);
+        chatMessages.addEventListener('touchmove', handleTouchMove);
+
+        // Long press handling for mouse
+        chatMessages.addEventListener('mousedown', (e) => {
+            if (e.button === 0) {
+                handleTouchStart(e);
+            }
+        });
+
+        chatMessages.addEventListener('mouseup', (e) => {
+            if (e.button === 0) {
+                handleTouchEnd(e);
+            }
+        });
+
+        chatMessages.addEventListener('mousemove', handleTouchMove);
+
+        // Disable context menu on message bubbles
+        chatMessages.addEventListener('contextmenu', (e) => {
+            if (e.target.closest('.message-bubble')) {
+                e.preventDefault();
+            }
+        });
+
+        // Window beforeunload
         window.addEventListener('beforeunload', async () => {
             if (currentUser) {
                 await updateOnlineStatus(currentUser.uid, false);
@@ -5323,80 +5131,20 @@
             }
         });
 
-        // إضافة اختصارات لوحة المفاتيح
+        // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
-            const shortcut = shortcuts[e.key];
-            if (shortcut) {
-                shortcut(e);
-            }
-        });
-
-        // إضافة ردود فعل
-        document.querySelectorAll('.reaction-emoji').forEach(emoji => {
-            emoji.addEventListener('click', async (e) => {
-                const emojiChar = e.target.dataset.emoji;
-                if (activeReactionMessage && currentChatId) {
-                    await addReaction(currentChatId, activeReactionMessage, currentUser.uid, emojiChar);
-                    reactionsMenu.classList.remove('active');
-                    activeReactionMessage = null;
+            if (e.key === 'Escape') {
+                if (chatWindow.classList.contains('active')) {
+                    chatBackBtn.click();
                 }
-            });
-        });
-
-        // إضافة حدث long press لحذف الرسائل
-        document.addEventListener('touchstart', handleTouchStart, false);
-        document.addEventListener('touchend', handleTouchEnd, false);
-
-        let touchStartTime;
-        let touchStartElement;
-
-        function handleTouchStart(e) {
-            touchStartTime = Date.now();
-            touchStartElement = e.target.closest('.message-bubble');
-        }
-
-        function handleTouchEnd(e) {
-            const touchEndTime = Date.now();
-            const touchDuration = touchEndTime - touchStartTime;
-            const touchEndElement = e.target.closest('.message-bubble');
+                if (searchMessagesContainer.classList.contains('active')) {
+                    searchMessagesContainer.classList.remove('active');
+                }
+            }
             
-            if (touchDuration > 500 && touchStartElement === touchEndElement) {
-                // عرض قائمة ردود الفعل
-                const messageId = touchEndElement.closest('.message-container')?.dataset.messageId;
-                if (messageId) {
-                    activeReactionMessage = messageId;
-                    const rect = touchEndElement.getBoundingClientRect();
-                    reactionsMenu.style.left = `${rect.left + rect.width / 2 - 100}px`;
-                    reactionsMenu.style.bottom = `${window.innerHeight - rect.top + 40}px`;
-                    reactionsMenu.classList.add('active');
-                }
-            }
-        }
-
-        // للماوس
-        document.addEventListener('mousedown', (e) => {
-            if (e.button === 0 && e.target.closest('.message-bubble')) {
-                touchStartTime = Date.now();
-                touchStartElement = e.target.closest('.message-bubble');
-            }
-        });
-
-        document.addEventListener('mouseup', (e) => {
-            if (e.button === 0 && touchStartElement) {
-                const touchEndTime = Date.now();
-                const touchDuration = touchEndTime - touchStartTime;
-                const touchEndElement = e.target.closest('.message-bubble');
-                
-                if (touchDuration > 500 && touchStartElement === touchEndElement) {
-                    const messageId = touchEndElement.closest('.message-container')?.dataset.messageId;
-                    if (messageId) {
-                        activeReactionMessage = messageId;
-                        const rect = touchEndElement.getBoundingClientRect();
-                        reactionsMenu.style.left = `${rect.left + rect.width / 2 - 100}px`;
-                        reactionsMenu.style.bottom = `${window.innerHeight - rect.top + 40}px`;
-                        reactionsMenu.classList.add('active');
-                    }
-                }
+            if (e.key === 'Enter' && e.ctrlKey && chatWindow.classList.contains('active')) {
+                e.preventDefault();
+                chatInput.focus();
             }
         });
 
