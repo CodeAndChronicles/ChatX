@@ -1215,6 +1215,103 @@ class UIManager {
     }
 }
 
+// js/ui.js - إضافات جديدة
+async function saveSetting(key, value) {
+    try {
+        const updates = { [key]: value };
+        
+        // Update in Firebase
+        const result = await firebaseService.updateUserDocument(this.currentUserId, updates);
+        
+        if (result.success) {
+            // Update local user data
+            const userData = firebaseService.getCurrentUserData();
+            firebaseService.setCurrentUserData({ ...userData, ...updates });
+            
+            // Apply theme changes immediately
+            if (key === 'theme') {
+                document.documentElement.setAttribute('data-theme', value);
+                utils.setTheme(value);
+            }
+            
+            if (key === 'colorTheme') {
+                document.documentElement.setAttribute('data-color-theme', value);
+                utils.setColorTheme(value);
+            }
+            
+            // Apply online status mode
+            if (key === 'onlineStatusMode') {
+                realTimeService.setupUserStatusUpdates(this.currentUserId, value);
+            }
+            
+            utils.createToast('تم حفظ الإعداد', 'success');
+            return true;
+        } else {
+            utils.createToast('فشل حفظ الإعداد', 'error');
+            return false;
+        }
+    } catch (error) {
+        console.error('❌ Save setting error:', error);
+        utils.createToast('حدث خطأ في حفظ الإعداد', 'error');
+        return false;
+    }
+}
+
+// تحديث saveProfile ليكون أكثر فاعلية
+async function saveProfile() {
+    const nameInput = document.getElementById('settingsName');
+    const bioInput = document.getElementById('settingsBio');
+    
+    if (!nameInput || !bioInput) return;
+    
+    const name = nameInput.value.trim();
+    const bio = bioInput.value.trim();
+    
+    if (!name) {
+        utils.createToast('الاسم مطلوب', 'error');
+        return;
+    }
+    
+    // Show loading
+    const saveBtn = document.getElementById('saveProfileBtn');
+    const originalText = saveBtn.innerHTML;
+    saveBtn.innerHTML = '<iconify-icon icon="mdi:loading"></iconify-icon> جاري الحفظ...';
+    saveBtn.disabled = true;
+    
+    try {
+        const updates = {
+            name,
+            bio
+        };
+        
+        const result = await firebaseService.updateUserDocument(this.currentUserId, updates);
+        
+        if (result.success) {
+            utils.createToast('تم حفظ التغييرات', 'success');
+            
+            // Update current user data
+            const userData = firebaseService.getCurrentUserData();
+            firebaseService.setCurrentUserData({ ...userData, ...updates });
+            
+            // Update UI
+            this.updateUserInfo();
+            
+            // Close modal if open
+            this.closeModal('userProfileModal');
+            
+        } else {
+            utils.createToast('فشل حفظ التغييرات', 'error');
+        }
+    } catch (error) {
+        console.error('❌ Save profile error:', error);
+        utils.createToast('حدث خطأ في حفظ التغييرات', 'error');
+    } finally {
+        // Restore button
+        saveBtn.innerHTML = originalText;
+        saveBtn.disabled = false;
+    }
+}
+
 // Create global UIManager instance
 const uiManager = new UIManager();
 
