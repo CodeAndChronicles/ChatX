@@ -1,395 +1,703 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NovaChat — Auth</title>
+    <title>Nova Pass | إدارة كلمات المرور الآمنة</title>
     
-    <!-- Iconify -->
-    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Firebase Import -->
+    <script type="module" src="firebase-config.js"></script>
     
     <style>
-        /* ========== إعادة تعيين وتنسيقات أساسية ========== */
-        *, *::before, *::after {
-            box-sizing: border-box;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #00B894;
+            --primary-dark: #00A085;
+            --primary-light: #E8F8F5;
+            --secondary: #0984E3;
+            --dark: #2D3436;
+            --gray: #636E72;
+            --light-gray: #DFE6E9;
+            --white: #FFFFFF;
+            --error: #E74C3C;
+            --error-light: #FDEDEC;
+            --success: #27AE60;
+            --success-light: #D5F4E6;
+            --warning: #F39C12;
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            --shadow-light: 0 10px 30px rgba(0, 184, 148, 0.15);
+            --radius: 20px;
+            --transition: all 0.3s ease;
         }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background: #0F172A;         /* خلفية داكنة - ثيم بنفسجي */
+            background: linear-gradient(135deg, #F0F9FF 0%, #F0FDF4 100%);
             min-height: 100vh;
-            display: flex;                /* لتمركز الكارد في منتصف الشاشة */
-            align-items: center;          /* توسيط عمودي */
-            justify-content: center;      /* توسيط أفقي */
-        }
-
-        /* ========== حاوية الصفحة ========== */
-        .page {
-            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;                /* مسافة داخلية حتى لا يلتصق الكارد بالحواف على الموبايل */
+            padding: 20px;
         }
 
-        /* ========== الكارد الأساسي ========== */
-        .card {
-            background: #1E293B;          /* أغمق قليلاً من الخلفية */
-            border-radius: 24px;          /* زوايا مدورة واضحة */
-            padding: 40px 36px;
+        .container {
             width: 100%;
-            max-width: 380px;             /* عرض الكارد كما في التصميم تقريباً */
-            display: flex;
-            flex-direction: column;       /* ترتيب العناصر عمودياً */
-            align-items: center;
-            gap: 16px;                    /* مسافة منتظمة بين العناصر */
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5); /* ظل ليبدو الكارد طافياً فوق الخلفية */
-            border: 1px solid rgba(124, 58, 237, 0.3);  /* حدود بنفسجية خفيفة */
+            max-width: 500px;
+            animation: fadeIn 0.5s ease;
         }
 
-        /* ========== الأيقونة الدائرية العلوية ========== */
-        .avatar-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;           /* شكل دائري كامل */
-            background: linear-gradient(135deg, #7C3AED, #1F2937); /* تدرج بنفسجي */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .auth-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 50px;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .logo {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 36px;
-            margin-bottom: 8px;
-            color: #ffffff;
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
-        /* ========== العنوان ========== */
-        h2 {
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 28px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 4px;
         }
 
-        /* ========== حقل الإدخال (حاوية الأيقونة + الإدخال) ========== */
-        .field {
-            width: 100%;
-            display: flex;                /* لجعل الأيقونة وحقل الإدخال في سطر واحد */
+        .logo-text h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .logo-text p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
             align-items: center;
             gap: 10px;
-            background: #1F2937;          /* خلفية الحقل - ثيم بنفسجي */
-            border-radius: 12px;
-            padding: 12px 16px;
-            border: 1px solid rgba(124, 58, 237, 0.35); /* حدود بنفسجية */
+            font-size: 14px;
         }
 
-        .field iconify-icon {
+        .message.error {
+            background: var(--error-light);
+            color: var(--error);
+            border: 1px solid var(--error);
+        }
+
+        .message.success {
+            background: var(--success-light);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .message.info {
+            background: #E3F2FD;
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
+        }
+
+        .mode-indicator {
+            background: var(--primary-light);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 2px solid var(--primary);
+        }
+
+        .mode-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--white);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
             font-size: 20px;
-            color: #9D5CF6;              /* لون بنفسجي فاتح للأيقونات */
-            flex-shrink: 0;              /* الأيقونة تحافظ على حجمها ولا تنضغط */
         }
 
-        .field input {
-            background: transparent;      /* شفاف ليظهر خلفية الحقل الأب */
-            border: none;
-            outline: none;
-            color: #ffffff;
-            font-size: 15px;
-            width: 100%;
-        }
-
-        .field input::placeholder {
-            color: #6b7280;               /* لون باهت للنص الإرشادي */
-        }
-
-        /* ========== رابط نسيت كلمة المرور ========== */
-        .forgot {
-            width: 100%;
-            text-align: right;            /* محاذاة لليمين */
-            margin-top: -8px;             /* تقريبه من حقل كلمة المرور أعلاه */
-        }
-
-        .forgot a {
-            color: #9D5CF6;              /* بنفسجي فاتح */
-            font-size: 13px;
-            text-decoration: none;
-        }
-
-        .forgot a:hover {
-            color: #C4B5FD;              /* أفتح عند التحويم */
-        }
-
-        /* ========== الأزرار ========== */
-        button {
-            width: 100%;
-            padding: 14px;
-            background: #7C3AED;          /* بنفسجي أساسي */
-            color: #ffffff;
+        .mode-text h3 {
             font-size: 16px;
             font-weight: 600;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: background 0.2s;
+            margin-bottom: 5px;
+            color: var(--dark);
         }
 
-        button:hover {
-            background: #5B21B6;          /* بنفسجي أغمق عند التحويم */
+        .mode-text p {
+            font-size: 14px;
+            color: var(--gray);
         }
 
-        button:active {
-            transform: scale(0.98);       /* تأثير ضغط الزر */
+        .mode-text strong {
+            color: var(--primary);
         }
 
-        /* ========== نص التبديل بين النماذج ========== */
-        .switch {
-            font-size: 13px;
-            color: #9CA3AF;              /* رمادي فاتح */
+        .form-group {
+            margin-bottom: 25px;
         }
 
-        .switch span {
-            color: #9D5CF6;              /* بنفسجي فاتح */
-            cursor: pointer;
-            font-weight: 600;
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .switch span:hover {
-            text-decoration: underline;
-            color: #C4B5FD;
+        .input-container {
+            position: relative;
         }
 
-        /* ========== رسائل الخطأ ========== */
-        .error {
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .form-input {
             width: 100%;
-            color: #f87171;
-            font-size: 13px;
-            min-height: 16px;             /* يحافظ على المساحة حتى لو كانت فارغة فلا يتحرك الكارد */
+            padding: 15px 45px 15px 15px;
+            border: 2px solid var(--light-gray);
+            border-radius: 10px;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 184, 148, 0.1);
+        }
+
+        .form-input.success {
+            border-color: var(--success);
+        }
+
+        .form-input.error {
+            border-color: var(--error);
+        }
+
+        .password-toggle {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: var(--white);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .footer {
             text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--light-gray);
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 40px 20px;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .logo-text h1 {
+                font-size: 28px;
+            }
         }
     </style>
 </head>
 <body>
-
-<div class="page">
-
-    <!-- ========== كارد تسجيل الدخول ========== -->
-    <div class="card" id="login-form">
-        <div class="avatar-icon">
-            <iconify-icon icon="mdi:account-circle" style="font-size: 50px;"></iconify-icon>
+    <div class="container">
+        <div class="auth-card">
+            <div class="header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>Nova Pass</h1>
+                        <p>Secure • Smart • Simple</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content">
+                <div id="message" class="message hidden"></div>
+                
+                <div id="modeInfo" class="mode-indicator hidden">
+                    <div class="mode-icon">
+                        <i id="modeIcon" class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="mode-text">
+                        <h3 id="modeTitle">تسجيل حساب جديد</h3>
+                        <p id="modeDescription">أدخل بياناتك لإنشاء حساب جديد</p>
+                    </div>
+                </div>
+                
+                <form id="authForm">
+                    <div class="form-group">
+                        <label for="email" class="form-label">
+                            <i class="fas fa-envelope"></i>
+                            البريد الإلكتروني
+                        </label>
+                        <div class="input-container">
+                            <input 
+                                type="email" 
+                                id="email" 
+                                class="form-input" 
+                                placeholder="example@domain.com" 
+                                required
+                                autocomplete="email"
+                            >
+                            <div class="input-icon">
+                                <i class="fas fa-at"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group hidden" id="nameGroup">
+                        <label for="name" class="form-label">
+                            <i class="fas fa-user"></i>
+                            الاسم الكامل
+                        </label>
+                        <div class="input-container">
+                            <input 
+                                type="text" 
+                                id="name" 
+                                class="form-input" 
+                                placeholder="أحمد محمد"
+                                autocomplete="name"
+                            >
+                            <div class="input-icon">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password" class="form-label">
+                            <i class="fas fa-lock"></i>
+                            كلمة المرور
+                        </label>
+                        <div class="input-container">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                class="form-input" 
+                                placeholder="كلمة مرور قوية" 
+                                required
+                                autocomplete="current-password"
+                            >
+                            <div class="input-icon">
+                                <i class="fas fa-key"></i>
+                            </div>
+                            <button type="button" class="password-toggle" id="togglePassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span id="btnText">التحقق من البريد الإلكتروني</span>
+                    </button>
+                </form>
+                
+                <div class="footer">
+                    <p>باستخدام Nova Pass، فإنك توافق على شروط الخدمة وسياسة الخصوصية</p>
+                </div>
+            </div>
         </div>
-        <h2>Login</h2>
-
-        <div class="field">
-            <iconify-icon icon="mdi:email-outline"></iconify-icon>
-            <input type="email" id="login-email" placeholder="jane.doe@example.com">
-        </div>
-
-        <div class="field">
-            <iconify-icon icon="mdi:lock-outline"></iconify-icon>
-            <input type="password" id="login-password" placeholder="••••••">
-        </div>
-
-        <p class="error" id="login-error"></p>
-
-        <div class="forgot">
-            <a href="#">Forgot password?</a>
-        </div>
-
-        <button id="btn-login">Log in</button>
-
-        <p class="switch">Don't have an account? <span id="go-signup">Sign Up</span></p>
     </div>
 
-    <!-- ========== كارد إنشاء الحساب (مخفي افتراضياً) ========== -->
-    <div class="card" id="signup-form" style="display:none">
-        <div class="avatar-icon">
-            <iconify-icon icon="mdi:account-plus" style="font-size: 50px;"></iconify-icon>
-        </div>
-        <h2>Create Account</h2>
+    <script type="module">
+        import { 
+            auth, 
+            db,
+            createUserWithEmailAndPassword,
+            signInWithEmailAndPassword,
+            fetchSignInMethodsForEmail,
+            onAuthStateChanged,
+            doc, 
+            setDoc,
+            serverTimestamp
+        } from './firebase-config.js';
 
-        <div class="field">
-            <iconify-icon icon="mdi:card-account-details-outline"></iconify-icon>
-            <input type="text" id="signup-displayname" placeholder="Display Name">
-        </div>
+        const emailInput = document.getElementById('email');
+        const nameInput = document.getElementById('name');
+        const nameGroup = document.getElementById('nameGroup');
+        const passwordInput = document.getElementById('password');
+        const togglePassword = document.getElementById('togglePassword');
+        const authForm = document.getElementById('authForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const messageDiv = document.getElementById('message');
+        const modeInfo = document.getElementById('modeInfo');
+        const modeIcon = document.getElementById('modeIcon');
+        const modeTitle = document.getElementById('modeTitle');
+        const modeDescription = document.getElementById('modeDescription');
 
-        <div class="field">
-            <iconify-icon icon="mdi:account-outline"></iconify-icon>
-            <input type="text" id="signup-username" placeholder="Username">
-        </div>
-
-        <div class="field">
-            <iconify-icon icon="mdi:email-outline"></iconify-icon>
-            <input type="email" id="signup-email" placeholder="Email">
-        </div>
-
-        <div class="field">
-            <iconify-icon icon="mdi:lock-outline"></iconify-icon>
-            <input type="password" id="signup-password" placeholder="Password">
-        </div>
-
-        <p class="error" id="signup-error"></p>
-
-        <button id="btn-signup">Create Account</button>
-
-        <p class="switch">Already have an account? <span id="go-login">Log In</span></p>
-    </div>
-
-</div>
-
-<script type="module">
-    // ========== استيراد Firebase ==========
-    import { auth, db } from "./firebase-config.js";
-
-    import {
-        createUserWithEmailAndPassword,
-        signInWithEmailAndPassword,
-        onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-    import {
-        doc, setDoc, serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-    // ========== التحقق التلقائي عند فتح الصفحة ==========
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            window.location.href = "index.html";
-        }
-    });
-
-    // ========== عناصر DOM ==========
-    const loginForm  = document.getElementById('login-form');
-    const signupForm = document.getElementById('signup-form');
-    const loginError  = document.getElementById('login-error');
-    const signupError = document.getElementById('signup-error');
-
-    // ========== التبديل بين الفورمين ==========
-    document.getElementById('go-signup').addEventListener('click', () => {
-        loginForm.style.display  = 'none';
-        signupForm.style.display = 'flex';
-        loginError.textContent   = '';
-        signupError.textContent  = '';
-    });
-
-    document.getElementById('go-login').addEventListener('click', () => {
-        signupForm.style.display = 'none';
-        loginForm.style.display  = 'flex';
-        loginError.textContent   = '';
-        signupError.textContent  = '';
-    });
-
-    // ========== دالة التحقق من صحة البريد الإلكتروني ==========
-    function isValidEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-
-    // ========== معالجة تسجيل الدخول ==========
-    document.getElementById('btn-login').addEventListener('click', async () => {
-        const email    = document.getElementById('login-email').value.trim();
-        const password = document.getElementById('login-password').value;
-
-        loginError.textContent = '';
-
-        if (!email || !password) {
-            loginError.textContent = 'Please fill in all fields.';
-            return;
-        }
-
-        if (!isValidEmail(email)) {
-            loginError.textContent = 'Please enter a valid email address.';
-            return;
-        }
-
-        try {
-            await signInWithEmailAndPassword(auth, email, password);
-            window.location.href = "index.html";
-        } catch (err) {
-            console.error("Login error:", err.code);
-            if (err.code === 'auth/invalid-credential' || err.code === 'auth/user-not-found') {
-                loginError.textContent = 'Invalid email or password.';
-            } else if (err.code === 'auth/invalid-email') {
-                loginError.textContent = 'Please enter a valid email address.';
-            } else {
-                loginError.textContent = 'Login failed. Please try again.';
-            }
-        }
-    });
-
-    // ========== معالجة إنشاء الحساب ==========
-    document.getElementById('btn-signup').addEventListener('click', async () => {
-        const displayName = document.getElementById('signup-displayname').value.trim();
-        const username    = document.getElementById('signup-username').value.trim().toLowerCase();
-        const email       = document.getElementById('signup-email').value.trim();
-        const password    = document.getElementById('signup-password').value;
-
-        signupError.textContent = '';
-
-        // التحقق من الحقول الفارغة
-        if (!displayName || !username || !email || !password) {
-            signupError.textContent = 'Please fill in all fields.';
-            return;
-        }
+        let currentMode = 'checking';
+        let emailCheckTimeout;
+        let lastCheckedEmail = '';
 
         // التحقق من صحة البريد الإلكتروني
-        if (!isValidEmail(email)) {
-            signupError.textContent = 'Please enter a valid email address.';
-            return;
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
         }
 
-        // التحقق من طول كلمة المرور
-        if (password.length < 6) {
-            signupError.textContent = 'Password must be at least 6 characters.';
-            return;
-        }
-
-        try {
-            // إنشاء الحساب في Firebase Auth
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
-
-            // حفظ البيانات في Firestore
-            await setDoc(doc(db, "users", user.uid), {
-                uid:            user.uid,
-                email:          email,
-                username:       username,
-                displayName:    displayName,
-                photoURL:       "",
-                theme:          "dark",
-                bio:            "",
-                status:         "online",
-                createdAt:      serverTimestamp(),
-                lastLogin:      serverTimestamp(),
-                searchKeywords: [username, displayName.toLowerCase()]
-            });
-
-            // التوجيه إلى الصفحة الرئيسية
-            window.location.href = "index.html";
-
-        } catch (err) {
-            console.error("Signup error:", err.code);
-            if (err.code === 'auth/email-already-in-use') {
-                signupError.textContent = 'This email is already registered.';
-            } else if (err.code === 'auth/invalid-email') {
-                signupError.textContent = 'Please enter a valid email address.';
-            } else if (err.code === 'auth/weak-password') {
-                signupError.textContent = 'Password should be at least 6 characters.';
-            } else {
-                signupError.textContent = 'Registration failed. Please try again.';
+        // عرض رسالة
+        function showMessage(text, type = 'info') {
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.classList.remove('hidden');
+            
+            if (type === 'success') {
+                setTimeout(() => {
+                    messageDiv.classList.add('hidden');
+                }, 3000);
             }
         }
-    });
 
-    // ========== تفعيل زر Enter للإرسال ==========
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            if (loginForm.style.display !== 'none') {
-                document.getElementById('btn-login').click();
-            } else if (signupForm.style.display !== 'none') {
-                document.getElementById('btn-signup').click();
+        // تحديث واجهة المستخدم حسب الوضع
+        function updateUIMode(mode, email = '') {
+            currentMode = mode;
+            
+            switch(mode) {
+                case 'register':
+                    nameGroup.classList.remove('hidden');
+                    modeInfo.classList.remove('hidden');
+                    modeIcon.className = 'fas fa-user-plus';
+                    modeTitle.textContent = 'تسجيل حساب جديد';
+                    modeDescription.innerHTML = `مرحبًا! <strong>${email}</strong> جديد على Nova Pass. أدخل اسمك لتكملة التسجيل.`;
+                    btnText.textContent = 'إنشاء حساب';
+                    break;
+                    
+                case 'login':
+                    nameGroup.classList.add('hidden');
+                    modeInfo.classList.remove('hidden');
+                    modeIcon.className = 'fas fa-sign-in-alt';
+                    modeTitle.textContent = 'تسجيل الدخول';
+                    modeDescription.innerHTML = `مرحبًا مرة أخرى! <strong>${email}</strong> لديه حساب على Nova Pass. أدخل كلمة المرور.`;
+                    btnText.textContent = 'تسجيل الدخول';
+                    break;
+                    
+                case 'checking':
+                default:
+                    nameGroup.classList.add('hidden');
+                    modeInfo.classList.add('hidden');
+                    btnText.textContent = 'التحقق من البريد الإلكتروني';
+                    break;
             }
         }
-    });
-</script>
 
+        // 🔥🔥🔥 الدالة المُصححة للتحقق من البريد الإلكتروني
+        async function checkEmailAvailability(email) {
+            try {
+                console.log('🔍 جاري التحقق من البريد:', email);
+                
+                // استدعاء Firebase للتحقق
+                const methods = await fetchSignInMethodsForEmail(auth, email);
+                console.log('نتيجة التحقق:', methods);
+                
+                if (methods && methods.length > 0) {
+                    // 🔥 البريد الإلكتروني موجود بالفعل - تسجيل دخول
+                    console.log('✅ البريد موجود، تحويل إلى تسجيل الدخول');
+                    emailInput.classList.add('success');
+                    updateUIMode('login', email);
+                    showMessage('يمكنك تسجيل الدخول الآن', 'success');
+                } else {
+                    // 🔥 البريد الإلكتروني جديد - تسجيل حساب
+                    console.log('🆕 البريد جديد، تحويل إلى تسجيل جديد');
+                    emailInput.classList.add('success');
+                    updateUIMode('register', email);
+                    showMessage('يمكنك إنشاء حساب جديد', 'success');
+                }
+                
+                lastCheckedEmail = email;
+                
+            } catch (error) {
+                console.error('❌ خطأ في التحقق:', error.code, error.message);
+                emailInput.classList.add('error');
+                
+                if (error.code === 'auth/invalid-email') {
+                    showMessage('بريد إلكتروني غير صحيح', 'error');
+                } else {
+                    showMessage('حدث خطأ أثناء التحقق. حاول مرة أخرى', 'error');
+                }
+                
+                updateUIMode('checking');
+            }
+        }
+
+        // تبديل إظهار/إخفاء كلمة المرور
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            togglePassword.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+        });
+
+        // الاستماع لإدخال البريد الإلكتروني
+        emailInput.addEventListener('input', (e) => {
+            const email = e.target.value.trim();
+            
+            clearTimeout(emailCheckTimeout);
+            
+            if (!email) {
+                updateUIMode('checking');
+                messageDiv.classList.add('hidden');
+                emailInput.classList.remove('success', 'error');
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                showMessage('يرجى إدخال بريد إلكتروني صحيح', 'error');
+                emailInput.classList.add('error');
+                emailInput.classList.remove('success');
+                updateUIMode('checking');
+                return;
+            }
+            
+            // إذا كان نفس البريد الذي تم التحقق منه مسبقًا، لا تتحقق مرة أخرى
+            if (email === lastCheckedEmail) {
+                return;
+            }
+            
+            showMessage('جاري التحقق من البريد الإلكتروني...', 'info');
+            emailInput.classList.remove('error', 'success');
+            submitBtn.disabled = true;
+            
+            emailCheckTimeout = setTimeout(async () => {
+                await checkEmailAvailability(email);
+                submitBtn.disabled = false;
+            }, 800);
+        });
+
+        // إرسال النموذج
+        authForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            const name = nameInput.value.trim();
+            
+            if (!isValidEmail(email)) {
+                showMessage('يرجى إدخال بريد إلكتروني صحيح', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showMessage('كلمة المرور يجب أن تكون 6 أحرف على الأقل', 'error');
+                return;
+            }
+            
+            if (currentMode === 'register' && !name) {
+                showMessage('يرجى إدخال الاسم الكامل', 'error');
+                return;
+            }
+            
+            submitBtn.disabled = true;
+            const originalText = btnText.textContent;
+            btnText.innerHTML = '<div class="loading"></div>';
+            
+            try {
+                if (currentMode === 'register') {
+                    console.log('🚀 جاري إنشاء حساب جديد:', email);
+                    
+                    // إنشاء حساب في Firebase Authentication
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
+                    
+                    // إنشاء مستند في Firestore
+                    await setDoc(doc(db, "users", user.uid), {
+                        name: name,
+                        email: email,
+                        createdAt: serverTimestamp(),
+                        updatedAt: serverTimestamp(),
+                        lastLogin: serverTimestamp()
+                    });
+                    
+                    showMessage('🎉 تم إنشاء الحساب بنجاح! يتم التوجيه...', 'success');
+                    
+                    setTimeout(() => {
+                        window.location.href = "index.html";
+                    }, 2000);
+                    
+                } else if (currentMode === 'login') {
+                    console.log('🔑 جاري تسجيل الدخول:', email);
+                    
+                    // تسجيل الدخول
+                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
+                    
+                    // تحديث وقت آخر دخول
+                    await setDoc(doc(db, "users", user.uid), {
+                        lastLogin: serverTimestamp()
+                    }, { merge: true });
+                    
+                    showMessage('✅ تم تسجيل الدخول بنجاح! يتم التوجيه...', 'success');
+                    
+                    setTimeout(() => {
+                        window.location.href = "index.html";
+                    }, 1500);
+                }
+                
+            } catch (error) {
+                console.error('❌ خطأ في المصادقة:', error.code, error.message);
+                
+                submitBtn.disabled = false;
+                btnText.textContent = originalText;
+                
+                let errorMessage = 'حدث خطأ غير متوقع. حاول مرة أخرى';
+                
+                switch(error.code) {
+                    case 'auth/email-already-in-use':
+                        errorMessage = 'هذا البريد الإلكتروني مستخدم بالفعل. يرجى تسجيل الدخول';
+                        // 🔥 تحويل إلى وضع تسجيل الدخول تلقائيًا
+                        updateUIMode('login', email);
+                        break;
+                    case 'auth/user-not-found':
+                        errorMessage = 'لا يوجد حساب بهذا البريد الإلكتروني. يرجى التسجيل';
+                        updateUIMode('register', email);
+                        break;
+                    case 'auth/wrong-password':
+                        errorMessage = 'كلمة المرور غير صحيحة';
+                        break;
+                    case 'auth/weak-password':
+                        errorMessage = 'كلمة المرور ضعيفة. استخدم 6 أحرف على الأقل';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMessage = 'تم إجراء محاولات كثيرة. حاول مرة أخرى لاحقًا';
+                        break;
+                    case 'auth/network-request-failed':
+                        errorMessage = 'خطأ في الاتصال بالإنترنت';
+                        break;
+                }
+                
+                showMessage(errorMessage, 'error');
+            }
+        });
+
+        // تهيئة الواجهة
+        updateUIMode('checking');
+        
+        // التحقق إذا كان المستخدم مسجل الدخول بالفعل
+        onAuthStateChanged(auth, (user) => {
+            if (user && window.location.pathname.includes('auth.html')) {
+                window.location.href = "index.html";
+            }
+        });
+
+        // التركيز على حقل البريد الإلكتروني تلقائيًا
+        emailInput.focus();
+    </script>
 </body>
 </html>
