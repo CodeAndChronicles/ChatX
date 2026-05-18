@@ -52,11 +52,7 @@
             --glass-border: rgba(124, 58, 237, 0.15);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Poppins', sans-serif;
@@ -84,7 +80,7 @@
             flex-direction: column;
             height: 100%;
             z-index: 100;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .sidebar-header {
@@ -147,9 +143,6 @@
             text-transform: uppercase;
             letter-spacing: 1.5px;
             padding: 16px 16px 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
         .chat-list {
@@ -176,18 +169,9 @@
             cursor: pointer;
             transition: all 0.2s ease;
             margin-bottom: 2px;
-            position: relative;
-            animation: slideIn 0.3s ease;
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-10px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .chat-item:hover { background: var(--hover-bg); transform: translateX(2px); }
-        .chat-item:active { transform: scale(0.98); }
-
+        .chat-item:hover { background: var(--hover-bg); }
         .chat-item.active {
             background: var(--active-bg);
             border: 1px solid rgba(124, 58, 237, 0.3);
@@ -210,10 +194,8 @@
             font-size: 18px;
             color: #fff;
             position: relative;
-            transition: transform 0.3s;
         }
 
-        .avatar:hover { transform: scale(1.05); }
         .avatar.sm { width: 38px; height: 38px; min-width: 38px; font-size: 15px; }
 
         .avatar.online::after {
@@ -257,35 +239,13 @@
         .chat-info .typing {
             color: var(--accent-light);
             font-style: italic;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .unread-badge {
-            background: var(--accent-light);
-            color: #fff;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 2px 7px;
-            border-radius: 12px;
-            min-width: 22px;
-            text-align: center;
-            animation: popIn 0.3s ease;
-        }
-
-        @keyframes popIn {
-            from { transform: scale(0); }
-            to { transform: scale(1); }
         }
 
         .pin-icon {
             color: var(--accent-light);
             font-size: 14px;
-            margin-left: 4px;
+            margin-right: 2px;
+            vertical-align: middle;
         }
 
         .sidebar-footer {
@@ -340,17 +300,13 @@
             justify-content: center;
             transition: all 0.2s;
             font-size: 18px;
-            position: relative;
         }
 
         .icon-btn:hover {
             background: var(--hover-bg);
             border-color: var(--accent-light);
             color: var(--accent);
-            transform: translateY(-1px);
         }
-
-        .icon-btn:active { transform: scale(0.95); }
 
         .icon-btn.danger:hover {
             background: rgba(248, 113, 113, 0.1);
@@ -358,7 +314,7 @@
             color: var(--danger);
         }
 
-        /* ========== CHAT AREA ========== */
+        /* ========== MAIN CHAT ========== */
         .chat-main {
             flex: 1;
             display: flex;
@@ -373,18 +329,13 @@
             align-items: center;
             gap: 12px;
             padding: 14px 20px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--glass-border);
-            animation: slideDown 0.3s ease;
-        }
-
-        @keyframes slideDown {
-            from { transform: translateY(-100%); }
-            to { transform: translateY(0); }
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .chat-header .avatar { cursor: pointer; }
+        .chat-header .avatar:hover { transform: scale(1.08); }
 
         .chat-header-info { flex: 1; min-width: 0; }
 
@@ -403,7 +354,6 @@
 
         .chat-header-info .status-text.online { color: var(--online-color); }
         .chat-header-info .status-text.offline { color: var(--text-muted); }
-        .chat-header-info .status-text.typing { color: var(--accent-light); }
 
         .messages-area {
             flex: 1;
@@ -412,7 +362,6 @@
             display: flex;
             flex-direction: column;
             gap: 6px;
-            scroll-behavior: smooth;
         }
 
         .messages-area::-webkit-scrollbar { width: 5px; }
@@ -427,21 +376,18 @@
             color: var(--text-muted);
             padding: 16px 0 8px;
             font-weight: 500;
-            animation: fadeIn 0.5s ease;
         }
 
         .msg {
             display: flex;
             flex-direction: column;
             max-width: 68%;
-            animation: msgSlide 0.3s ease;
-            position: relative;
-            transition: all 0.3s;
+            animation: msgSlide 0.2s ease;
         }
 
         @keyframes msgSlide {
-            from { opacity: 0; transform: translateY(10px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .msg.in { align-self: flex-start; }
@@ -454,11 +400,7 @@
             line-height: 1.5;
             word-wrap: break-word;
             font-weight: 400;
-            transition: all 0.3s;
-            position: relative;
         }
-
-        .msg-bubble:hover { transform: translateY(-1px); }
 
         .msg.in .msg-bubble {
             background: var(--bubble-received);
@@ -477,90 +419,14 @@
             color: var(--text-muted);
             margin-top: 4px;
             padding: 0 6px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
         }
 
-        .msg.out .msg-time { justify-content: flex-end; }
-
-        .msg-status {
-            font-size: 12px;
-        }
-
-        .msg-status.sent { color: var(--text-muted); }
-        .msg-status.delivered { color: var(--text-muted); }
-        .msg-status.seen { color: var(--accent-light); }
-
-        .msg-reactions {
-            display: flex;
-            gap: 4px;
-            margin-top: 4px;
-            padding: 2px 8px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            font-size: 16px;
-            animation: popIn 0.3s ease;
-            cursor: pointer;
-        }
-
-        .msg-reactions span {
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .msg-reactions span:hover { transform: scale(1.3); }
-
-        .msg-actions {
-            display: none;
-            position: absolute;
-            top: -30px;
-            right: 0;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 4px;
-            gap: 4px;
-            z-index: 10;
-        }
-
-        .msg:hover .msg-actions {
-            display: flex;
-        }
-
-        .msg-action-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.2s;
-        }
-
-        .msg-action-btn:hover {
-            background: var(--hover-bg);
-            color: var(--accent-light);
-        }
-
-        .msg-action-btn.danger:hover { color: var(--danger); }
-
-        .msg-edited {
-            font-size: 10px;
-            color: var(--text-muted);
-            font-style: italic;
-            margin-top: 2px;
-        }
+        .msg.out .msg-time { text-align: right; }
 
         .input-area {
             padding: 14px 20px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid var(--glass-border);
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
             display: flex;
             align-items: center;
             gap: 10px;
@@ -576,7 +442,7 @@
             font-size: 14px;
             outline: none;
             font-family: 'Poppins', sans-serif;
-            transition: all 0.3s;
+            transition: border-color 0.3s;
         }
 
         .input-area input:focus {
@@ -599,21 +465,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
-            animation: float 2s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-3px); }
+            transition: all 0.2s;
         }
 
         .send-btn:hover {
-            transform: scale(1.1) translateY(-2px);
-            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.5);
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
         }
 
-        .send-btn:active { transform: scale(0.9); }
+        .send-btn:active { transform: scale(0.95); }
 
         .welcome {
             flex: 1;
@@ -624,14 +484,13 @@
             gap: 16px;
             text-align: center;
             padding: 30px;
-            animation: fadeIn 0.5s ease;
         }
 
         .welcome iconify-icon { font-size: 80px; opacity: 0.25; color: var(--accent); }
         .welcome h2 { font-size: 24px; font-weight: 700; color: var(--text-primary); }
         .welcome p { font-size: 14px; color: var(--text-secondary); max-width: 320px; font-weight: 400; }
 
-        /* ========== MODALS (Glassmorphism) ========== */
+        /* ========== MODALS ========== */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -641,33 +500,26 @@
             align-items: center;
             justify-content: center;
             backdrop-filter: blur(6px);
-            animation: fadeIn 0.3s ease;
         }
 
         .modal-overlay.show { display: flex; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
         .modal {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
             border-radius: 24px;
             padding: 32px 28px;
             width: 92%;
             max-width: 420px;
             text-align: center;
-            animation: modalSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: modalIn 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             max-height: 90vh;
             overflow-y: auto;
         }
 
-        @keyframes modalSlide {
-            from { opacity: 0; transform: scale(0.8) translateY(40px); }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
@@ -686,12 +538,7 @@
             border: 4px solid var(--accent-light);
         }
 
-        .modal h2 {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 2px;
-            color: var(--text-primary);
-        }
+        .modal h2 { font-size: 22px; font-weight: 700; margin-bottom: 2px; }
 
         .modal .uname {
             font-size: 14px;
@@ -724,17 +571,9 @@
             letter-spacing: 1px;
         }
 
-        .modal .info-row .val {
-            color: var(--text-secondary);
-            font-weight: 400;
-            font-size: 13px;
-        }
+        .modal .info-row .val { color: var(--text-secondary); font-weight: 400; font-size: 13px; }
 
-        .modal .btn-row {
-            display: flex;
-            gap: 8px;
-            margin-top: 20px;
-        }
+        .modal .btn-row { display: flex; gap: 8px; margin-top: 20px; }
 
         .modal .btn {
             flex: 1;
@@ -745,24 +584,23 @@
             font-weight: 600;
             font-family: 'Poppins', sans-serif;
             transition: all 0.2s;
-            border: 1px solid var(--border-color);
         }
 
         .modal .btn-close {
             background: var(--hover-bg);
+            border: 1px solid var(--border-color);
             color: var(--text-primary);
         }
 
         .modal .btn-close:hover { background: var(--active-bg); }
 
-        .modal .btn-primary {
+        .modal .btn-save {
             background: linear-gradient(135deg, #7C3AED, #5B21B6);
             color: #fff;
             border: none;
         }
 
-        .modal .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
-        .modal .btn-primary:active { transform: scale(0.98); }
+        .modal .btn-save:hover { opacity: 0.9; }
 
         .modal .edit-input, .modal .edit-textarea {
             width: 100%;
@@ -782,56 +620,7 @@
             border-color: var(--accent-light);
         }
 
-        .modal .edit-textarea {
-            resize: vertical;
-            min-height: 60px;
-        }
-
-        /* Reaction picker */
-        .reaction-picker {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            padding: 8px;
-        }
-
-        .reaction-picker span {
-            font-size: 24px;
-            cursor: pointer;
-            transition: transform 0.2s;
-            padding: 4px;
-        }
-
-        .reaction-picker span:hover {
-            transform: scale(1.4);
-        }
-
-        /* Skeleton Loading */
-        .skeleton {
-            background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--hover-bg) 50%, var(--bg-tertiary) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            border-radius: 8px;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
-        .skeleton-avatar {
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
-        }
-
-        .skeleton-text {
-            height: 14px;
-            margin: 4px 0;
-        }
-
-        .skeleton-text.short { width: 60%; }
-        .skeleton-text.long { width: 80%; }
+        .modal .edit-textarea { resize: vertical; min-height: 60px; }
 
         /* ========== MOBILE ========== */
         .menu-btn {
@@ -890,7 +679,6 @@
             .menu-btn { display: flex; }
             .back-btn { display: block; }
             .msg { max-width: 85%; }
-            .msg-actions { display: flex !important; position: static; margin-top: 4px; }
         }
 
         @media (max-width: 480px) {
@@ -934,7 +722,7 @@
         </div>
         <div class="btn-row">
             <button class="btn btn-close" id="edit-cancel">Cancel</button>
-            <button class="btn btn-primary" id="edit-save">Save Changes</button>
+            <button class="btn btn-save" id="edit-save">Save Changes</button>
         </div>
     </div>
 </div>
@@ -969,18 +757,6 @@
     </div>
 </div>
 
-<!-- EDIT MESSAGE MODAL -->
-<div class="modal-overlay" id="edit-msg-modal">
-    <div class="modal">
-        <h2>Edit Message</h2>
-        <input type="text" class="edit-input" id="edit-msg-input" placeholder="Edit your message..." style="margin-top:16px;"/>
-        <div class="btn-row">
-            <button class="btn btn-close" id="edit-msg-cancel">Cancel</button>
-            <button class="btn btn-primary" id="edit-msg-save">Save</button>
-        </div>
-    </div>
-</div>
-
 <div class="app">
     <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
@@ -995,10 +771,7 @@
             </div>
         </div>
         <div class="search-results" id="search-results"></div>
-        <div class="section-title">
-            <span>Messages</span>
-            <span id="online-count" style="color:var(--online-color);font-size:10px;"></span>
-        </div>
+        <div class="section-title">Messages</div>
         <div class="chat-list" id="conversations-list"></div>
         <div class="sidebar-footer">
             <div class="user-section" id="profile-section" title="Edit Profile">
@@ -1025,7 +798,7 @@
             <p>Search for someone to start a conversation</p>
         </div>
 
-        <div id="chat-screen" style="display:none; flex:1; flex-direction:column;">
+        <div id="chat-screen" style="display:none; flex:1; flex-direction:column; min-height:0; height:100%;">
             <div class="chat-header">
                 <button class="back-btn" id="back-btn">
                     <iconify-icon icon="mdi:arrow-left"></iconify-icon>
@@ -1035,18 +808,12 @@
                     <div class="name" id="chat-name">User</div>
                     <div class="status-text offline" id="chat-status">offline</div>
                 </div>
-                <button class="icon-btn" id="pin-chat-btn" title="Pin Chat">
-                    <iconify-icon icon="mdi:pin-outline"></iconify-icon>
-                </button>
                 <button class="icon-btn" id="chat-info-btn" title="User Info">
                     <iconify-icon icon="mdi:information-outline"></iconify-icon>
                 </button>
             </div>
             <div class="messages-area" id="messages-area"></div>
             <div class="input-area">
-                <button class="icon-btn" title="Emoji">
-                    <iconify-icon icon="mdi:emoticon-outline"></iconify-icon>
-                </button>
                 <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off"/>
                 <button class="send-btn" id="send-btn" title="Send">
                     <iconify-icon icon="mdi:send"></iconify-icon>
@@ -1062,7 +829,7 @@
     import { 
         collection, doc, getDoc, getDocs, setDoc, addDoc, 
         query, where, orderBy, onSnapshot, serverTimestamp,
-        updateDoc, deleteDoc, increment, Timestamp
+        updateDoc
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     // ===== STATE =====
@@ -1072,14 +839,8 @@
     let activeChatUser = null;
     let messagesUnsub = null;
     let convsUnsub = null;
-    let usersCache = [];
-    let typingTimeout = null;
-    let lastMessageTime = 0;
-    const SPAM_COOLDOWN = 1000; // 1 second cooldown
-    const EDIT_WINDOW = 15 * 60 * 1000; // 15 minutes
-    let editingMessageId = null;
 
-    // ===== DOM =====
+    // ===== DOM HELPERS =====
     const $ = (id) => document.getElementById(id);
     const sidebar = $('sidebar');
     const overlay = $('sidebar-overlay');
@@ -1092,7 +853,11 @@
     const messageInput = $('message-input');
     const userModal = $('user-modal');
     const editModal = $('edit-modal');
-    const editMsgModal = $('edit-msg-modal');
+
+    function closeSidebarMobile() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
+    }
 
     // ===== THEME =====
     const savedTheme = localStorage.getItem('nova-theme') || 'dark';
@@ -1105,7 +870,7 @@
 
     // ===== MOBILE MENU =====
     $('menu-btn').addEventListener('click', () => { sidebar.classList.add('open'); overlay.classList.add('show'); });
-    overlay.addEventListener('click', () => { sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    overlay.addEventListener('click', closeSidebarMobile);
     $('back-btn').addEventListener('click', closeChat);
 
     // ===== MODALS =====
@@ -1114,12 +879,12 @@
     
     userModal.addEventListener('click', (e) => { if (e.target === userModal) hideModal(userModal); });
     editModal.addEventListener('click', (e) => { if (e.target === editModal) hideModal(editModal); });
-    editMsgModal.addEventListener('click', (e) => { if (e.target === editMsgModal) hideModal(editMsgModal); });
 
     // ===== AUTH =====
     onAuthStateChanged(auth, async (user) => {
         if (!user) { window.location.href = "auth.html"; return; }
         currentUser = user;
+        console.log('✅ Auth:', user.uid);
         
         const userRef = doc(db, "users", user.uid);
         const snap = await getDoc(userRef);
@@ -1135,8 +900,7 @@
                 photoURL: "", bio: "", status: "online",
                 createdAt: serverTimestamp(),
                 lastLogin: serverTimestamp(),
-                searchKeywords: [], contacts: [],
-                pinnedChats: []
+                searchKeywords: [], contacts: [], pinnedChats: []
             };
             currentUserData.searchKeywords = [currentUserData.username, currentUserData.displayName.toLowerCase()];
             await setDoc(userRef, currentUserData);
@@ -1144,13 +908,7 @@
 
         await updateDoc(userRef, { status: "online", lastLogin: serverTimestamp() });
         updateSelfUI();
-        await cacheUsers();
         listenToConversations();
-        
-        // Browser notifications permission
-        if (Notification.permission === 'default') {
-            Notification.requestPermission();
-        }
     });
 
     function updateSelfUI() {
@@ -1159,47 +917,23 @@
         $('edit-avatar').textContent = currentUserData.displayName.charAt(0).toUpperCase();
     }
 
-    async function cacheUsers() {
-        const snap = await getDocs(collection(db, "users"));
-        usersCache = [];
-        snap.forEach(d => {
-            if (d.data().uid !== currentUser?.uid) usersCache.push(d.data());
-        });
-        updateOnlineCount();
-    }
-
-    function updateOnlineCount() {
-        const count = usersCache.filter(u => u.status === 'online').length;
-        $('online-count').textContent = count > 0 ? `${count} online` : '';
-    }
-
-    // ===== CONVERSATIONS =====
+    // ===== CONVERSATIONS (REAL-TIME) =====
     function listenToConversations() {
         if (convsUnsub) convsUnsub();
 
         const q = query(
             collection(db, "conversations"),
-            where("participants", "array-contains", currentUser.uid)
+            where("participants", "array-contains", currentUser.uid),
+            orderBy("updatedAt", "desc")
         );
 
         convsUnsub = onSnapshot(q, async (snapshot) => {
             const docs = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
             
-            // Separate pinned and unpinned
             const pinned = docs.filter(d => currentUserData.pinnedChats?.includes(d.id));
             const unpinned = docs.filter(d => !currentUserData.pinnedChats?.includes(d.id));
-            
-            // Sort each group by time
-            const sortFn = (a, b) => {
-                const timeA = a.updatedAt?.toDate?.() || new Date(0);
-                const timeB = b.updatedAt?.toDate?.() || new Date(0);
-                return timeB - timeA;
-            };
-            pinned.sort(sortFn);
-            unpinned.sort(sortFn);
-            
             const sorted = [...pinned, ...unpinned];
-            
+
             conversationsList.innerHTML = '';
 
             if (sorted.length === 0) {
@@ -1215,64 +949,39 @@
                 const otherId = conv.participants.find(id => id !== currentUser.uid);
                 if (!otherId) continue;
 
-                let otherUser = usersCache.find(u => u.uid === otherId);
-                if (!otherUser) {
-                    const snap = await getDoc(doc(db, "users", otherId));
-                    if (snap.exists()) { otherUser = snap.data(); usersCache.push(otherUser); }
-                    else continue;
-                }
+                const otherSnap = await getDoc(doc(db, "users", otherId));
+                if (!otherSnap.exists()) continue;
+                const otherUser = otherSnap.data();
+
+                const isPinned  = currentUserData.pinnedChats?.includes(conv.id);
+                const isOnline  = otherUser.status === 'online';
+                const lastMsg   = conv.lastMessage || 'Start chatting...';
+                const truncated = lastMsg.length > 28 ? lastMsg.substring(0, 28) + '...' : lastMsg;
+                const isTyping  = conv.typing?.[otherId];
 
                 const item = document.createElement('div');
-                item.className = 'chat-item';
-                if (conv.id === activeChatId) item.classList.add('active');
-                if (currentUserData.pinnedChats?.includes(conv.id)) item.classList.add('pinned');
+                item.className = 'chat-item' + (conv.id === activeChatId ? ' active' : '') + (isPinned ? ' pinned' : '');
                 item.dataset.convId = conv.id;
-
-                const lastMsg = conv.lastMessage || 'Start chatting...';
-                const truncated = lastMsg.length > 25 ? lastMsg.substring(0, 25) + '...' : lastMsg;
-                const isOnline = otherUser.status === 'online';
-                
-                // Count unread (simplified)
-                const unreadCount = (conv.lastMessageSender && conv.lastMessageSender !== currentUser.uid && conv.id !== activeChatId) ? 1 : 0;
 
                 item.innerHTML = `
                     <div class="avatar sm ${isOnline ? 'online' : ''}">${otherUser.displayName.charAt(0).toUpperCase()}</div>
                     <div class="chat-info">
                         <div class="name">
-                            ${currentUserData.pinnedChats?.includes(conv.id) ? '<iconify-icon icon="mdi:pin" class="pin-icon"></iconify-icon> ' : ''}
+                            ${isPinned ? '<iconify-icon icon="mdi:pin" class="pin-icon"></iconify-icon>' : ''}
                             ${otherUser.displayName}
                         </div>
-                        <div class="preview">${conv.typing?.[otherId] ? `<span class="typing">typing...</span>` : truncated}</div>
+                        <div class="preview">${isTyping ? '<span class="typing">typing...</span>' : truncated}</div>
                     </div>
-                    ${unreadCount > 0 ? `<div class="unread-badge">${unreadCount}</div>` : ''}
                 `;
 
                 item.addEventListener('click', () => {
                     openChat(conv.id, otherUser);
-                    if (window.innerWidth <= 768) {
-                        sidebar.classList.remove('open');
-                        overlay.classList.remove('show');
-                    }
+                    if (window.innerWidth <= 768) closeSidebarMobile();
                 });
 
-                // Swipe to delete (mobile)
-                let touchStartX = 0;
-                item.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
-                item.addEventListener('touchend', async (e) => {
-                    const diff = e.changedTouches[0].clientX - touchStartX;
-                    if (diff > 80 && window.innerWidth <= 768) {
-                        if (confirm('Delete this conversation?')) {
-                            await deleteDoc(doc(db, "conversations", conv.id));
-                        }
-                    }
-                });
-
-                // Right click context menu
                 item.addEventListener('contextmenu', (e) => {
                     e.preventDefault();
-                    if (confirm(currentUserData.pinnedChats?.includes(conv.id) ? 'Unpin this chat?' : 'Pin this chat?')) {
-                        togglePinChat(conv.id);
-                    }
+                    togglePinChat(conv.id);
                 });
 
                 conversationsList.appendChild(item);
@@ -1280,44 +989,35 @@
         });
     }
 
-    // ===== PIN CHAT =====
     async function togglePinChat(convId) {
         const pinned = currentUserData.pinnedChats || [];
         const index = pinned.indexOf(convId);
-        
-        if (index > -1) {
-            pinned.splice(index, 1);
-        } else {
-            pinned.unshift(convId);
-        }
-        
+        index > -1 ? pinned.splice(index, 1) : pinned.unshift(convId);
         await updateDoc(doc(db, "users", currentUser.uid), { pinnedChats: pinned });
         currentUserData.pinnedChats = pinned;
     }
 
-    $('pin-chat-btn').addEventListener('click', async () => {
-        if (activeChatId) {
-            await togglePinChat(activeChatId);
-            alert(currentUserData.pinnedChats?.includes(activeChatId) ? 'Chat pinned!' : 'Chat unpinned!');
-        }
-    });
-
-    // ===== SEARCH =====
-    searchInput.addEventListener('input', () => {
+    // ===== SEARCH (مباشر من Firestore) =====
+    searchInput.addEventListener('input', async () => {
         const term = searchInput.value.trim().toLowerCase();
         searchResults.innerHTML = '';
         if (term.length < 2) return;
 
-        const filtered = usersCache.filter(u => 
-            u.searchKeywords && u.searchKeywords.some(k => k.includes(term))
-        ).slice(0, 6);
+        const q = query(
+            collection(db, "users"),
+            where("searchKeywords", "array-contains", term)
+        );
 
-        if (filtered.length === 0) {
+        const snap = await getDocs(q);
+        const results = [];
+        snap.forEach(d => { if (d.data().uid !== currentUser.uid) results.push(d.data()); });
+
+        if (results.length === 0) {
             searchResults.innerHTML = '<div style="padding:14px;text-align:center;color:var(--text-muted);font-size:13px;">No users found</div>';
             return;
         }
 
-        filtered.forEach(u => {
+        results.forEach(u => {
             const div = document.createElement('div');
             div.className = 'chat-item';
             div.innerHTML = `
@@ -1335,28 +1035,6 @@
             });
             searchResults.appendChild(div);
         });
-    });
-
-    // ===== TYPING INDICATOR =====
-    messageInput.addEventListener('input', async () => {
-        if (!activeChatId) return;
-        
-        // Set typing status
-        const convRef = doc(db, "conversations", activeChatId);
-        await setDoc(convRef, {
-            [`typing.${currentUser.uid}`]: true
-        }, { merge: true });
-        
-        // Clear after 2 seconds
-        clearTimeout(typingTimeout);
-        typingTimeout = setTimeout(async () => {
-            await setDoc(convRef, {
-                [`typing.${currentUser.uid}`]: false
-            }, { merge: true });
-        }, 2000);
-        
-        // Save draft
-        localStorage.setItem(`draft_${activeChatId}`, messageInput.value);
     });
 
     // ===== START CHAT =====
@@ -1379,12 +1057,7 @@
 
         const currentContacts = currentUserData.contacts || [];
         if (!currentContacts.some(c => c.uid === otherUser.uid)) {
-            currentContacts.push({
-                uid: otherUser.uid,
-                displayName: otherUser.displayName,
-                username: otherUser.username,
-                lastInteraction: new Date().toISOString()
-            });
+            currentContacts.push({ uid: otherUser.uid, displayName: otherUser.displayName, username: otherUser.username, lastInteraction: new Date().toISOString() });
             await updateDoc(doc(db, "users", currentUser.uid), { contacts: currentContacts });
             currentUserData.contacts = currentContacts;
         }
@@ -1400,32 +1073,18 @@
         activeChatUser = otherUser;
 
         welcomeScreen.style.display = 'none';
-        chatScreen.style.display = 'flex';
+        chatScreen.style.cssText = 'display:flex; flex:1; flex-direction:column; min-height:0; height:100%;';
 
         $('chat-avatar').textContent = otherUser.displayName.charAt(0).toUpperCase();
         $('chat-name').textContent = otherUser.displayName;
         
         const statusEl = $('chat-status');
-        if (otherUser.status === 'online') {
-            statusEl.textContent = 'Online';
-            statusEl.className = 'status-text online';
-        } else {
-            statusEl.textContent = 'Offline';
-            statusEl.className = 'status-text offline';
-        }
-
-        // Load draft
-        const draft = localStorage.getItem(`draft_${convId}`);
-        messageInput.value = draft || '';
-        messageInput.focus();
+        statusEl.textContent = otherUser.status === 'online' ? 'Online' : 'Offline';
+        statusEl.className = 'status-text ' + (otherUser.status === 'online' ? 'online' : 'offline');
 
         document.querySelectorAll('#conversations-list .chat-item').forEach(item => {
             item.classList.toggle('active', item.dataset.convId === convId);
         });
-
-        // Update pin button
-        $('pin-chat-btn').querySelector('iconify-icon').setAttribute('icon', 
-            currentUserData.pinnedChats?.includes(convId) ? 'mdi:pin' : 'mdi:pin-outline');
 
         const msgsQuery = query(
             collection(db, "conversations", convId, "messages"),
@@ -1445,8 +1104,8 @@
             }
 
             let lastDate = '';
-            snap.forEach((msgDoc, index) => {
-                const msg = msgDoc.data();
+            snap.forEach(doc => {
+                const msg = doc.data();
                 const isMine = msg.senderId === currentUser.uid;
 
                 if (msg.timestamp) {
@@ -1459,86 +1118,25 @@
                         const now = new Date();
                         const yesterday = new Date(now);
                         yesterday.setDate(yesterday.getDate() - 1);
-                        
-                        if (dateStr === now.toLocaleDateString()) sep.textContent = 'Today';
-                        else if (dateStr === yesterday.toLocaleDateString()) sep.textContent = 'Yesterday';
-                        else sep.textContent = d.toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric' });
-                        
+                        sep.textContent = dateStr === now.toLocaleDateString() ? 'Today' : dateStr === yesterday.toLocaleDateString() ? 'Yesterday' : d.toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric' });
                         messagesArea.appendChild(sep);
                     }
                 }
 
                 const el = document.createElement('div');
                 el.className = `msg ${isMine ? 'out' : 'in'}`;
-                el.dataset.msgId = msgDoc.id;
-                el.dataset.senderId = msg.senderId;
 
                 let time = '';
-                if (msg.timestamp) {
-                    time = msg.timestamp.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                }
+                if (msg.timestamp) time = msg.timestamp.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-                // Status icons
-                let statusIcon = '';
-                if (isMine) {
-                    if (msg.seen) {
-                        statusIcon = '<iconify-icon icon="mdi:check-all" class="msg-status seen"></iconify-icon>';
-                    } else if (msg.delivered) {
-                        statusIcon = '<iconify-icon icon="mdi:check-all" class="msg-status delivered"></iconify-icon>';
-                    } else {
-                        statusIcon = '<iconify-icon icon="mdi:check" class="msg-status sent"></iconify-icon>';
-                    }
-                }
-
-                // Reactions
-                let reactionsHtml = '';
-                if (msg.reactions && Object.keys(msg.reactions).length > 0) {
-                    reactionsHtml = '<div class="msg-reactions">';
-                    for (const [emoji, users] of Object.entries(msg.reactions)) {
-                        reactionsHtml += `<span onclick="addReaction('${msgDoc.id}', '${emoji}')" title="${users.join(', ')}">${emoji} ${users.length}</span>`;
-                    }
-                    reactionsHtml += '</div>';
-                }
-
-                el.innerHTML = `
-                    <div class="msg-bubble">
-                        ${msg.text || ''}
-                        ${msg.edited ? '<div class="msg-edited">edited</div>' : ''}
-                    </div>
-                    ${reactionsHtml}
-                    <div class="msg-time">
-                        ${time}
-                        ${statusIcon}
-                    </div>
-                    ${isMine ? `
-                        <div class="msg-actions">
-                            <button class="msg-action-btn" onclick="window.addReaction('${msgDoc.id}', '❤️')" title="❤️">❤️</button>
-                            <button class="msg-action-btn" onclick="window.addReaction('${msgDoc.id}', '😂')" title="😂">😂</button>
-                            <button class="msg-action-btn" onclick="window.addReaction('${msgDoc.id}', '🔥')" title="🔥">🔥</button>
-                            <button class="msg-action-btn" onclick="window.addReaction('${msgDoc.id}', '👍')" title="👍">👍</button>
-                            <button class="msg-action-btn" onclick="window.editMessage('${msgDoc.id}', '${escapeHtml(msg.text || '')}', ${msg.timestamp?.toDate?.()?.getTime() || 0})" title="Edit">✏️</button>
-                            <button class="msg-action-btn danger" onclick="window.deleteMessage('${msgDoc.id}')" title="Delete">🗑️</button>
-                        </div>
-                    ` : `
-                        <div class="msg-actions">
-                            <button class="msg-action-btn" onclick="window.addReaction('${msgDoc.id}', '❤️')" title="❤️">❤️</button>
-                            <button class="msg-action-btn" onclick="window.addReaction('${msgDoc.id}', '😂')" title="😂">😂</button>
-                            <button class="msg-action-btn" onclick="window.addReaction('${msgDoc.id}', '🔥')" title="🔥">🔥</button>
-                            <button class="msg-action-btn" onclick="window.addReaction('${msgDoc.id}', '👍')" title="👍">👍</button>
-                        </div>
-                    `}
-                `;
-
-                // Double tap reaction (mobile)
-                el.addEventListener('dblclick', () => {
-                    window.addReaction(msgDoc.id, '❤️');
-                });
-
+                el.innerHTML = `<div class="msg-bubble">${escapeHtml(msg.text || '')}</div><div class="msg-time">${time}</div>`;
                 messagesArea.appendChild(el);
             });
 
             messagesArea.scrollTop = messagesArea.scrollHeight;
         });
+
+        messageInput.focus();
     }
 
     function closeChat() {
@@ -1549,41 +1147,24 @@
         chatScreen.style.display = 'none';
     }
 
-    // ===== SEND MESSAGE (with spam protection) =====
+    // ===== SEND MESSAGE =====
     async function sendMessage() {
         const text = messageInput.value.trim();
         if (!text) return;
 
-        // Spam cooldown
-        const now = Date.now();
-        if (now - lastMessageTime < SPAM_COOLDOWN) {
-            alert('Please wait before sending another message');
-            return;
-        }
-        lastMessageTime = now;
-
-        if (!activeChatId && activeChatUser) {
-            await startChat(activeChatUser);
-        }
+        if (!activeChatId && activeChatUser) await startChat(activeChatUser);
         if (!activeChatId) return;
 
         messageInput.value = '';
-        localStorage.removeItem(`draft_${activeChatId}`);
 
-        // Clear typing
-        await setDoc(doc(db, "conversations", activeChatId), {
-            [`typing.${currentUser.uid}`]: false
-        }, { merge: true });
+        await setDoc(doc(db, "conversations", activeChatId), { [`typing.${currentUser.uid}`]: false }, { merge: true });
 
         try {
             await addDoc(collection(db, "conversations", activeChatId, "messages"), {
                 senderId: currentUser.uid,
                 text: text,
                 timestamp: serverTimestamp(),
-                type: "text",
-                delivered: false,
-                seen: false,
-                reactions: {}
+                type: "text"
             });
 
             await setDoc(doc(db, "conversations", activeChatId), {
@@ -1601,79 +1182,8 @@
 
     $('send-btn').addEventListener('click', sendMessage);
     messageInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendMessage();
-        }
+        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
     });
-
-    // ===== REACTIONS =====
-    window.addReaction = async function(msgId, emoji) {
-        if (!activeChatId) return;
-        
-        const msgRef = doc(db, "conversations", activeChatId, "messages", msgId);
-        const snap = await getDoc(msgRef);
-        if (!snap.exists()) return;
-        
-        const msg = snap.data();
-        const reactions = msg.reactions || {};
-        
-        if (!reactions[emoji]) reactions[emoji] = [];
-        
-        const idx = reactions[emoji].indexOf(currentUser.uid);
-        if (idx > -1) {
-            reactions[emoji].splice(idx, 1);
-            if (reactions[emoji].length === 0) delete reactions[emoji];
-        } else {
-            reactions[emoji].push(currentUser.uid);
-        }
-        
-        await updateDoc(msgRef, { reactions });
-    };
-
-    // ===== EDIT MESSAGE =====
-    window.editMessage = function(msgId, currentText, timestamp) {
-        const msgTime = new Date(timestamp).getTime();
-        const now = Date.now();
-        
-        if (now - msgTime > EDIT_WINDOW) {
-            alert('You can only edit messages within 15 minutes');
-            return;
-        }
-        
-        editingMessageId = msgId;
-        $('edit-msg-input').value = currentText;
-        showModal(editMsgModal);
-        $('edit-msg-input').focus();
-    };
-
-    $('edit-msg-save').addEventListener('click', async () => {
-        const newText = $('edit-msg-input').value.trim();
-        if (!newText || !editingMessageId || !activeChatId) return;
-        
-        await updateDoc(doc(db, "conversations", activeChatId, "messages", editingMessageId), {
-            text: newText,
-            edited: true,
-            editedAt: serverTimestamp()
-        });
-        
-        hideModal(editMsgModal);
-        editingMessageId = null;
-    });
-
-    $('edit-msg-cancel').addEventListener('click', () => {
-        hideModal(editMsgModal);
-        editingMessageId = null;
-    });
-
-    // ===== DELETE MESSAGE =====
-    window.deleteMessage = async function(msgId) {
-        if (!activeChatId) return;
-        
-        if (confirm('Delete this message?')) {
-            await deleteDoc(doc(db, "conversations", activeChatId, "messages", msgId));
-        }
-    };
 
     // ===== USER INFO =====
     function showUserInfo(userData) {
@@ -1683,19 +1193,8 @@
         $('user-email').textContent = userData.email || '-';
         $('user-bio').textContent = userData.bio || 'No bio yet';
         $('user-uid').textContent = userData.uid || '-';
-        
-        if (userData.createdAt?.toDate) {
-            $('user-created').textContent = userData.createdAt.toDate().toLocaleDateString();
-        } else {
-            $('user-created').textContent = '-';
-        }
-        
-        if (userData.lastLogin?.toDate) {
-            $('user-lastseen').textContent = userData.lastLogin.toDate().toLocaleString();
-        } else {
-            $('user-lastseen').textContent = 'Recently';
-        }
-        
+        $('user-created').textContent = userData.createdAt?.toDate ? userData.createdAt.toDate().toLocaleDateString() : '-';
+        $('user-lastseen').textContent = userData.lastLogin?.toDate ? userData.lastLogin.toDate().toLocaleString() : 'Recently';
         showModal(userModal);
     }
 
@@ -1717,17 +1216,10 @@
     $('edit-save').addEventListener('click', async () => {
         const newName = $('edit-name').value.trim();
         const newBio = $('edit-bio').value.trim();
-        
         if (!newName) { alert('Name cannot be empty'); return; }
 
-        const userRef = doc(db, "users", currentUser.uid);
-        const updates = {
-            displayName: newName,
-            bio: newBio,
-            searchKeywords: [currentUserData.username, newName.toLowerCase()]
-        };
-        
-        await updateDoc(userRef, updates);
+        const updates = { displayName: newName, bio: newBio, searchKeywords: [currentUserData.username, newName.toLowerCase()] };
+        await updateDoc(doc(db, "users", currentUser.uid), updates);
         currentUserData = { ...currentUserData, ...updates };
         updateSelfUI();
         hideModal(editModal);
@@ -1736,21 +1228,20 @@
     // ===== LOGOUT =====
     $('logout-btn').addEventListener('click', async () => {
         if (!confirm('Sign out?')) return;
-        if (currentUser) {
-            await updateDoc(doc(db, "users", currentUser.uid), { status: "offline", lastLogin: serverTimestamp() });
-        }
+        if (currentUser) await updateDoc(doc(db, "users", currentUser.uid), { status: "offline", lastLogin: serverTimestamp() });
         await signOut(auth);
         window.location.href = "auth.html";
     });
 
-    // ===== ONLINE/OFFLINE =====
-    window.addEventListener('online', () => {
-        if (currentUser) updateDoc(doc(db, "users", currentUser.uid), { status: "online" });
+    // ===== STATUS =====
+    document.addEventListener('visibilitychange', async () => {
+        if (!currentUser) return;
+        const status = document.hidden ? 'offline' : 'online';
+        await updateDoc(doc(db, "users", currentUser.uid), { status, lastLogin: serverTimestamp() });
     });
+
     window.addEventListener('beforeunload', () => {
-        if (currentUser) {
-            updateDoc(doc(db, "users", currentUser.uid), { status: "offline", lastLogin: serverTimestamp() });
-        }
+        if (currentUser) updateDoc(doc(db, "users", currentUser.uid), { status: "offline", lastLogin: serverTimestamp() });
     });
 
     function escapeHtml(text) {
@@ -1759,13 +1250,7 @@
         return div.innerHTML;
     }
 
-    function closeSidebarMobile() {
-        sidebar.classList.remove('open');
-        overlay.classList.remove('show');
-    }
-
-    console.log('🚀 NovaChat Pro Ready!');
-    console.log('✨ Features: Reactions, Edit, Delete, Pin, Typing, Status, Online, Spam Protection');
+    console.log('🚀 NovaChat Fixed & Ready!');
 </script>
 </body>
-</html>
+    </html>
