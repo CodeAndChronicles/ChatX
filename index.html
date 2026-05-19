@@ -462,7 +462,7 @@
         if(msg.timestamp){const d=msg.timestamp.toDate(),dateStr=d.toLocaleDateString();if(dateStr!==lastDate){lastDate=dateStr;const sep=document.createElement('div');sep.className='date-sep';const now=new Date(),yest=new Date();yest.setDate(yest.getDate()-1);sep.textContent=dateStr===now.toLocaleDateString()?'Today':dateStr===yest.toLocaleDateString()?'Yesterday':d.toLocaleDateString([],{weekday:'long',month:'short',day:'numeric'});$('messages').appendChild(sep)}}
         const el=document.createElement('div');el.className=`msg ${isMine?'out':'in'}`;
         const time=msg.timestamp?msg.timestamp.toDate().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'';
-        const seenHtml=isMine?(msg.seen?'<i class="ph ph-checks seen"></i>':'<i class="ph ph-check unseen"></i>':'');
+        const seenHtml = isMine ? (msg.seen ? '<i class="ph ph-checks seen"></i>' : '<i class="ph ph-check unseen"></i>') : '';
         // ✅ Reply quote
         const quoteHtml=msg.replyTo?`<div class="quote"><span class="qname">${safe(msg.replyTo.senderName||'User')}</span>${safe(msg.replyTo.text||'')}</div>`:'';
         el.innerHTML=`${quoteHtml}<div class="bubble">${safe(msg.text||'')}</div><div class="msg-foot">${time}${seenHtml}</div>`;
