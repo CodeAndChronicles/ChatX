@@ -49,172 +49,197 @@
       display       : flex;
       flex-direction: column;
       height        : 100dvh;
-      max-width     : 680px;
+      max-width     : 600px;
       margin        : 0 auto;
     }
 
     .top-bar {
       display    : flex;
       align-items: center;
-      gap        : 14px;
-      padding    : 16px 20px;
+      gap        : 12px;
+      padding    : 14px 16px;
       background : var(--bg-surface);
       border-bottom: 1px solid var(--border);
       flex-shrink: 0;
-      box-shadow : 0 1px 0 var(--border), var(--shadow-sm);
     }
 
-    .back-btn {
-      width        : 38px;
-      height       : 38px;
-      border-radius: 10px;
-      background   : var(--bg-elevated);
-      border       : 1px solid var(--border);
-      color        : var(--text);
-      font-size    : 20px;
-      cursor       : pointer;
-      display      : flex;
-      align-items  : center;
-      justify-content: center;
-      transition   : all .2s;
-      flex-shrink  : 0;
-    }
-
-    .back-btn:hover {
-      background  : var(--hover);
-      border-color: var(--accent);
-      color       : var(--accent-l);
-      transform   : translateX(-2px);
-    }
-
-    .top-bar-text h1 {
-      font-size  : 18px;
+    .top-title {
+      font-size  : 16px;
       font-weight: 700;
       color      : var(--text);
       line-height: 1.2;
     }
 
-    .top-bar-text p {
-      font-size: 12px;
-      color    : var(--text-3);
+    .top-sub {
+      font-size : 11px;
+      color     : var(--text-3);
       margin-top: 1px;
     }
+
+    .icon-btn {
+      width          : 36px;
+      height         : 36px;
+      border-radius  : 10px;
+      background     : var(--bg-elevated);
+      border         : 1px solid var(--border);
+      color          : var(--text-2);
+      font-size      : 18px;
+      cursor         : pointer;
+      display        : flex;
+      align-items    : center;
+      justify-content: center;
+      transition     : all .2s;
+      flex-shrink    : 0;
+    }
+
+    .icon-btn:hover {
+      background  : var(--hover);
+      border-color: var(--accent);
+      color       : var(--accent-l);
+    }
+
+    .icon-btn:active { transform: scale(.93); }
 
     .content {
       flex      : 1;
       overflow-y: auto;
-      padding   : 20px 16px;
+      padding   : 16px 14px;
       display   : flex;
       flex-direction: column;
       gap       : 10px;
     }
 
-    .avatar {
+    .profile-hero {
+      display       : flex;
+      flex-direction: column;
+      align-items   : center;
+      gap           : 6px;
+      padding       : 24px 16px 20px;
+      background    : var(--bg-surface);
+      border        : 1px solid var(--border-2);
+      border-radius : 18px;
+      text-align    : center;
+      background-image: radial-gradient(
+        ellipse at 50% 0%,
+        rgba(139,92,246,.07) 0%,
+        transparent 65%
+      );
+    }
+
+    .hero-av-wrap {
+      position: relative;
+      display : inline-flex;
+      margin-bottom: 4px;
+    }
+
+    .av-lg {
+      width          : 68px;
+      height         : 68px;
       border-radius  : 50%;
       background     : linear-gradient(135deg, var(--accent-d), var(--accent));
       display        : flex;
       align-items    : center;
       justify-content: center;
+      font-size      : 26px;
       font-weight    : 700;
       color          : #fff;
-      flex-shrink    : 0;
-      user-select    : none;
       letter-spacing : -.5px;
+      border         : 2.5px solid var(--accent);
+      box-shadow     : 0 0 20px var(--accent-glow);
+      user-select    : none;
     }
 
-    .avatar.lg {
-      width     : 76px;
-      height    : 76px;
-      font-size : 30px;
-      border    : 3px solid var(--accent);
-      box-shadow: 0 0 24px var(--accent-glow);
-    }
-
-    .profile-card {
-      background   : var(--bg-surface);
-      border       : 1px solid var(--border-2);
-      border-radius: 20px;
-      padding      : 24px 20px;
-      display      : flex;
-      flex-direction: column;
-      align-items  : center;
-      gap          : 12px;
-      text-align   : center;
-      position     : relative;
-      overflow     : hidden;
-      background-image: radial-gradient(
-        ellipse at 50% 0%,
-        rgba(139,92,246,.08) 0%,
-        transparent 60%
-      );
-    }
-
-    .profile-av-wrap {
-      position: relative;
-      display : inline-block;
-    }
-
-    .online-ring {
+    .av-online {
       position     : absolute;
-      inset        : -4px;
+      bottom       : 2px;
+      right        : 2px;
+      width        : 14px;
+      height       : 14px;
       border-radius: 50%;
-      border       : 2px solid transparent;
-      animation    : none;
+      border       : 2.5px solid var(--bg-surface);
+      background   : var(--text-3);
+      transition   : background .3s;
     }
 
-    .online-ring.active {
-      border-color: var(--green);
-      box-shadow  : 0 0 12px rgba(16,185,129,.4);
-      animation   : ringPulse 2.5s infinite;
+    .av-online.active {
+      background: var(--green);
+      animation : dotPulse 2.5s infinite;
     }
 
-    @keyframes ringPulse {
+    @keyframes dotPulse {
       0%,100% { box-shadow: 0 0 0 0 rgba(16,185,129,.4); }
-      50%     { box-shadow: 0 0 0 6px rgba(16,185,129,0); }
+      50%     { box-shadow: 0 0 0 5px rgba(16,185,129,0); }
     }
 
-    .profile-texts h2 {
-      font-size  : 20px;
+    .hero-name {
+      font-size  : 17px;
       font-weight: 700;
       color      : var(--text);
+      line-height: 1.2;
     }
 
-    .profile-texts p {
+    .hero-uname {
       font-size : 13px;
       color     : var(--accent-l);
-      margin-top: 2px;
+      font-weight: 500;
     }
 
-    .profile-meta {
-      width     : 100%;
-      background: var(--bg-elevated);
-      border    : 1px solid var(--border);
-      border-radius: 12px;
-      overflow  : hidden;
-      margin-top: 4px;
+    .info-block {
+      background   : var(--bg-surface);
+      border       : 1px solid var(--border);
+      border-radius: 14px;
+      overflow     : hidden;
     }
 
-    .meta-row {
+    .info-row {
       display    : flex;
       align-items: center;
       gap        : 10px;
       padding    : 11px 14px;
-      font-size  : 13px;
-      color      : var(--text-2);
       border-bottom: 1px solid var(--border);
+      transition : background .15s;
     }
 
-    .meta-row:last-child { border-bottom: none; }
+    .info-row:last-child { border-bottom: none; }
 
-    .meta-row i { font-size: 16px; color: var(--accent-l); flex-shrink: 0; }
+    .info-row > i {
+      font-size : 16px;
+      color     : var(--accent-l);
+      flex-shrink: 0;
+      width     : 20px;
+      text-align: center;
+    }
 
-    .meta-row span { flex: 1; text-align: left; }
+    .info-content {
+      flex     : 1;
+      min-width: 0;
+      display  : flex;
+      flex-direction: column;
+      gap      : 1px;
+    }
 
-    .uid-val {
-      font-size  : 12px;
+    .info-label {
+      font-size  : 10px;
+      font-weight: 600;
       color      : var(--text-3);
-      font-family: monospace;
-      letter-spacing: .5px;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+    }
+
+    .info-val {
+      font-size  : 13px;
+      color      : var(--text-2);
+      font-weight: 400;
+      white-space: nowrap;
+      overflow   : hidden;
+      text-overflow: ellipsis;
+    }
+
+    .info-val.mono {
+      font-family  : 'Courier New', monospace;
+      font-size    : 11px;
+      color        : var(--text-3);
+      letter-spacing: .3px;
     }
 
     .copy-btn {
@@ -222,102 +247,124 @@
       border       : none;
       color        : var(--text-3);
       cursor       : pointer;
-      padding      : 4px 6px;
-      border-radius: 6px;
-      font-size    : 16px;
-      transition   : all .2s;
+      padding      : 5px 7px;
+      border-radius: 7px;
+      font-size    : 15px;
+      transition   : all .18s;
       display      : flex;
       align-items  : center;
+      flex-shrink  : 0;
     }
 
-    .copy-btn:hover { color: var(--accent-l); background: var(--hover); }
+    .copy-btn:hover {
+      color     : var(--accent-l);
+      background: var(--hover);
+    }
 
-    .section-title {
+    .sec-label {
       display    : flex;
       align-items: center;
-      gap        : 7px;
-      font-size  : 11px;
+      gap        : 6px;
+      font-size  : 10px;
       font-weight: 600;
       color      : var(--text-3);
       text-transform: uppercase;
-      letter-spacing: 1.5px;
-      padding    : 6px 4px 2px;
-      margin-top : 6px;
+      letter-spacing: 1.2px;
+      padding    : 4px 2px 0;
+      margin-top : 4px;
     }
 
-    .section-title i    { font-size: 15px; color: var(--accent-l); }
-    .danger-title       { color: rgba(239,68,68,.7); }
-    .danger-title i     { color: var(--red); }
+    .sec-label i    { font-size: 14px; color: var(--accent-l); }
+    .sec-label.danger      { color: rgba(239,68,68,.6); }
+    .sec-label.danger i    { color: var(--red); }
 
-    .card {
+    .setting-card {
       background   : var(--bg-surface);
       border       : 1px solid var(--border);
-      border-radius: 16px;
-      padding      : 16px;
+      border-radius: 14px;
+      padding      : 14px;
       display      : flex;
       flex-direction: column;
       gap          : 10px;
       transition   : border-color .2s;
     }
 
-    .card:focus-within { border-color: rgba(139,92,246,.35); }
+    .setting-card:focus-within {
+      border-color: rgba(139,92,246,.3);
+    }
 
-    .card-label {
+    .setting-header {
+      display    : flex;
+      align-items: center;
+      gap        : 8px;
       font-size  : 13px;
       font-weight: 600;
       color      : var(--text-2);
     }
 
-    .field-row { width: 100%; }
-
-    .field-wrap {
-      display      : flex;
-      align-items  : center;
-      gap          : 10px;
-      background   : var(--bg-input);
-      border       : 1.5px solid var(--border);
-      border-radius: 12px;
-      padding      : 11px 14px;
-      transition   : border-color .25s, box-shadow .25s;
+    .setting-header i {
+      font-size : 15px;
+      color     : var(--accent-l);
+      flex-shrink: 0;
     }
 
-    .field-wrap:focus-within {
+    .field-box {
+      display      : flex;
+      align-items  : center;
+      background   : var(--bg-input);
+      border       : 1.5px solid var(--border);
+      border-radius: 11px;
+      padding      : 0 14px;
+      height       : 42px;
+      transition   : border-color .22s, box-shadow .22s;
+    }
+
+    .field-box:focus-within {
       border-color: var(--accent);
       box-shadow  : 0 0 0 3px var(--accent-glow);
     }
 
-    .field-wrap i {
-      font-size  : 17px;
+    .field-box.prefix { gap: 6px; }
+
+    .prefix-text {
+      font-size  : 15px;
       color      : var(--accent-l);
+      font-weight: 600;
       flex-shrink: 0;
     }
 
-    .field-wrap input {
-      background : transparent;
-      border     : none;
-      outline    : none;
-      color      : var(--text);
-      font-size  : 14px;
+    .field-box input {
+      flex      : 1;
+      background: transparent;
+      border    : none;
+      outline   : none;
+      color     : var(--text);
+      font-size : 14px;
       font-family: 'Outfit', sans-serif;
-      width      : 100%;
+      height    : 100%;
     }
 
-    .field-wrap input::placeholder { color: var(--text-3); }
+    .field-box input::placeholder { color: var(--text-3); }
+
+    .fields-stack {
+      display       : flex;
+      flex-direction: column;
+      gap           : 6px;
+    }
 
     textarea {
       width        : 100%;
       background   : var(--bg-input);
       border       : 1.5px solid var(--border);
-      border-radius: 12px;
-      padding      : 12px 14px;
+      border-radius: 11px;
+      padding      : 11px 14px;
       color        : var(--text);
       font-size    : 14px;
       font-family  : 'Outfit', sans-serif;
-      resize       : vertical;
-      min-height   : 80px;
+      resize       : none;
       outline      : none;
-      transition   : border-color .25s, box-shadow .25s;
       line-height  : 1.55;
+      transition   : border-color .22s, box-shadow .22s;
     }
 
     textarea:focus {
@@ -327,153 +374,132 @@
 
     textarea::placeholder { color: var(--text-3); }
 
-    .field-hint {
+    .card-foot {
+      display    : flex;
+      align-items: center;
+      justify-content: space-between;
+      gap        : 10px;
+      margin-top : 2px;
+    }
+
+    .foot-hint {
       font-size : 11px;
       color     : var(--text-3);
-      line-height: 1.5;
-      padding   : 0 2px;
+      line-height: 1.4;
+      flex      : 1;
     }
 
     .save-btn {
-      display        : flex;
-      align-items    : center;
-      justify-content: center;
-      gap            : 6px;
-      background     : var(--active);
-      border         : 1px solid var(--border-2);
-      color          : var(--accent-l);
-      padding        : 10px 16px;
-      border-radius  : 11px;
-      cursor         : pointer;
-      font-size      : 13px;
-      font-weight    : 600;
-      font-family    : 'Outfit', sans-serif;
-      transition     : all .2s;
-      align-self     : flex-end;
+      display      : flex;
+      align-items  : center;
+      gap          : 5px;
+      background   : var(--active);
+      border       : 1px solid var(--border-2);
+      color        : var(--accent-l);
+      padding      : 7px 14px;
+      border-radius: 9px;
+      cursor       : pointer;
+      font-size    : 12px;
+      font-weight  : 600;
+      font-family  : 'Outfit', sans-serif;
+      transition   : all .18s;
+      flex-shrink  : 0;
+      white-space  : nowrap;
     }
 
     .save-btn:hover {
-      background  : rgba(139,92,246,.25);
+      background  : rgba(139,92,246,.22);
       border-color: var(--accent);
       transform   : translateY(-1px);
     }
 
-    .save-btn:active { transform: scale(.97); }
+    .save-btn:active { transform: scale(.96); }
+    .save-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
 
-    .save-btn i { font-size: 15px; }
+    .save-btn i { font-size: 13px; }
 
-    .stats-card {
+    .stats-row {
       background   : var(--bg-surface);
       border       : 1px solid var(--border);
-      border-radius: 16px;
-      padding      : 20px;
+      border-radius: 14px;
+      padding      : 16px;
       display      : flex;
       align-items  : center;
-      justify-content: space-around;
-      gap          : 10px;
+      justify-content: center;
+      gap          : 0;
     }
 
-    .stat-item {
+    .stat-box {
       display       : flex;
       flex-direction: column;
       align-items   : center;
-      gap           : 4px;
+      gap           : 3px;
       flex          : 1;
     }
 
-    .stat-item i { font-size: 22px; color: var(--accent-l); margin-bottom: 2px; }
+    .stat-box i { font-size: 18px; color: var(--accent-l); }
 
-    .stat-val {
-      font-size  : 22px;
+    .stat-num {
+      font-size  : 20px;
       font-weight: 700;
       color      : var(--text);
-      line-height: 1;
+      line-height: 1.1;
     }
 
-    .stat-label {
-      font-size: 11px;
-      color    : var(--text-3);
+    .stat-lbl {
+      font-size : 10px;
+      color     : var(--text-3);
       font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .8px;
     }
 
-    .stat-divider {
+    .stat-sep {
       width     : 1px;
-      height    : 48px;
+      height    : 40px;
       background: var(--border);
       flex-shrink: 0;
+      margin    : 0 8px;
     }
 
-    .btn-ghost {
-      background   : var(--hover);
-      border       : 1px solid var(--border);
-      color        : var(--text);
-      padding      : 10px 16px;
-      border-radius: 11px;
-      cursor       : pointer;
-      font-size    : 14px;
-      font-weight  : 600;
-      font-family  : 'Outfit', sans-serif;
-      transition   : background .2s;
-      flex         : 1;
-    }
-
-    .btn-ghost:hover { background: var(--active); }
-
-    .danger-btn {
+    .action-btn {
       display        : flex;
       align-items    : center;
       justify-content: center;
       gap            : 8px;
       width          : 100%;
-      padding        : 13px;
-      border-radius  : 14px;
+      padding        : 12px;
+      border-radius  : 12px;
       cursor         : pointer;
-      font-size      : 14px;
+      font-size      : 13px;
       font-weight    : 600;
       font-family    : 'Outfit', sans-serif;
-      transition     : all .2s;
+      transition     : all .18s;
     }
 
-    .danger-btn.outline {
+    .action-btn i { font-size: 16px; }
+
+    .outline-red {
       background  : transparent;
-      border      : 1.5px solid rgba(239,68,68,.3);
+      border      : 1.5px solid rgba(239,68,68,.28);
       color       : var(--red);
     }
 
-    .danger-btn.outline:hover {
-      background  : rgba(239,68,68,.08);
+    .outline-red:hover {
+      background  : rgba(239,68,68,.07);
       border-color: var(--red);
     }
 
-    .danger-btn.solid {
-      background  : rgba(239,68,68,.1);
-      border      : 1.5px solid rgba(239,68,68,.25);
+    .fill-red {
+      background  : rgba(239,68,68,.09);
+      border      : 1.5px solid rgba(239,68,68,.22);
       color       : var(--red);
-      margin-top  : 4px;
     }
 
-    .danger-btn.solid:hover {
-      background  : rgba(239,68,68,.18);
+    .fill-red:hover {
+      background  : rgba(239,68,68,.16);
       border-color: var(--red);
     }
-
-    .btn-danger {
-      background   : var(--red);
-      border       : none;
-      color        : #fff;
-      padding      : 10px 16px;
-      border-radius: 11px;
-      cursor       : pointer;
-      font-size    : 14px;
-      font-weight  : 600;
-      font-family  : 'Outfit', sans-serif;
-      transition   : opacity .2s;
-      flex         : 1;
-    }
-
-    .btn-danger:hover { opacity: .88; }
-
-    .bottom-space { height: 32px; }
 
     .modal-wrap {
       display        : none;
@@ -491,64 +517,92 @@
     .modal {
       background   : var(--bg-elevated);
       border       : 1px solid var(--border-2);
-      border-radius: 22px;
-      padding      : 28px 24px;
+      border-radius: 20px;
+      padding      : 24px 20px;
       width        : 92%;
-      max-width    : 360px;
+      max-width    : 340px;
       text-align   : center;
-      animation    : modalIn .28s cubic-bezier(.34,1.3,.64,1);
+      animation    : modalIn .25s cubic-bezier(.34,1.3,.64,1);
       box-shadow   : var(--shadow-lg);
     }
 
     @keyframes modalIn {
-      from { opacity: 0; transform: scale(.86) translateY(20px); }
+      from { opacity: 0; transform: scale(.88) translateY(16px); }
       to   { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     .modal-icon {
-      width          : 60px;
-      height         : 60px;
+      width          : 52px;
+      height         : 52px;
       border-radius  : 50%;
-      background     : rgba(239,68,68,.12);
-      border         : 1px solid rgba(239,68,68,.25);
+      background     : rgba(239,68,68,.1);
+      border         : 1px solid rgba(239,68,68,.22);
       display        : flex;
       align-items    : center;
       justify-content: center;
-      margin         : 0 auto 14px;
-      font-size      : 28px;
+      margin         : 0 auto 12px;
+      font-size      : 24px;
       color          : var(--red);
     }
 
-    .modal h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .modal h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
 
     .modal-desc {
       font-size  : 13px;
       color      : var(--text-2);
-      line-height: 1.6;
+      line-height: 1.55;
     }
 
     .modal-btns {
       display   : flex;
       gap       : 8px;
-      margin-top: 20px;
+      margin-top: 18px;
     }
+
+    .mbtn {
+      flex         : 1;
+      padding      : 9px 14px;
+      border-radius: 10px;
+      cursor       : pointer;
+      font-size    : 13px;
+      font-weight  : 600;
+      font-family  : 'Outfit', sans-serif;
+      transition   : all .18s;
+    }
+
+    .mbtn.ghost {
+      background: var(--hover);
+      border    : 1px solid var(--border);
+      color     : var(--text);
+    }
+
+    .mbtn.ghost:hover { background: var(--active); }
+
+    .mbtn.red {
+      background: var(--red);
+      border    : none;
+      color     : #fff;
+    }
+
+    .mbtn.red:hover   { opacity: .88; }
+    .mbtn:disabled    { opacity: .5; cursor: not-allowed; }
 
     .toast {
       position     : fixed;
-      bottom       : 24px;
+      bottom       : 20px;
       left         : 50%;
-      transform    : translateX(-50%) translateY(20px);
+      transform    : translateX(-50%) translateY(12px);
       background   : var(--bg-elevated);
       border       : 1px solid var(--border-2);
-      border-radius: 12px;
-      padding      : 12px 20px;
-      font-size    : 14px;
+      border-radius: 10px;
+      padding      : 10px 18px;
+      font-size    : 13px;
       font-weight  : 500;
       color        : var(--text);
       box-shadow   : var(--shadow-lg);
       z-index      : 999;
       opacity      : 0;
-      transition   : all .3s ease;
+      transition   : all .25s ease;
       pointer-events: none;
       white-space  : nowrap;
     }
@@ -558,220 +612,216 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    .toast.success { border-color: rgba(16,185,129,.4); color: var(--green); }
-    .toast.error   { border-color: rgba(239,68,68,.4);  color: var(--red);   }
+    .toast.success { border-color: rgba(16,185,129,.35); color: var(--green); }
+    .toast.error   { border-color: rgba(239,68,68,.35);  color: var(--red);   }
   </style>
 </head>
 <body>
 
-  <!-- Toast Notification -->
   <div class="toast" id="toast"></div>
 
-  <!-- Delete Account Modal -->
   <div class="modal-wrap" id="delete-modal">
     <div class="modal">
-      <div class="modal-icon">
-        <i class="ph ph-warning-circle"></i>
-      </div>
+      <div class="modal-icon"><i class="ph ph-warning-circle"></i></div>
       <h3>Delete Account</h3>
       <p class="modal-desc">
-        This will permanently delete your account and all your messages.
+        This will permanently delete your account and all your data.
         This action cannot be undone.
       </p>
       <div class="modal-btns">
-        <button class="btn-ghost" id="delete-cancel">Cancel</button>
-        <button class="btn-danger" id="delete-confirm">Delete Forever</button>
+        <button class="mbtn ghost" id="delete-cancel">Cancel</button>
+        <button class="mbtn red"   id="delete-confirm">Delete Forever</button>
       </div>
     </div>
   </div>
 
-  <!-- Page Shell -->
   <div class="page">
 
-    <!-- Header -->
-    <div class="top-bar">
-      <button class="back-btn" id="back-btn">
+    <header class="top-bar">
+      <button class="icon-btn" id="back-btn">
         <i class="ph ph-arrow-left"></i>
       </button>
-      <div class="top-bar-text">
-        <h1>Settings</h1>
-        <p>Manage your account</p>
+      <div>
+        <div class="top-title">Settings</div>
+        <div class="top-sub">Manage your account</div>
       </div>
-    </div>
+    </header>
 
-    <!-- Scrollable Content -->
     <div class="content">
 
-      <!-- Profile Card -->
-      <div class="profile-card" id="profile-card">
-        <div class="profile-av-wrap">
-          <div class="avatar lg" id="profile-av">U</div>
-          <div class="online-ring" id="online-ring"></div>
+      <!-- READ ONLY — Profile Identity -->
+      <div class="profile-hero">
+        <div class="hero-av-wrap">
+          <div class="av-lg" id="profile-av">U</div>
+          <div class="av-online" id="online-ring"></div>
         </div>
-        <div class="profile-texts">
-          <h2 id="profile-name">User</h2>
-          <p id="profile-username">@username</p>
-        </div>
-        <div class="profile-meta">
-          <div class="meta-row">
-            <i class="ph ph-envelope"></i>
-            <span id="profile-email">-</span>
+        <div class="hero-name" id="profile-name">User</div>
+        <div class="hero-uname" id="profile-username">@username</div>
+      </div>
+
+      <!-- Read Only Info -->
+      <div class="info-block">
+        <div class="info-row">
+          <i class="ph ph-envelope-simple"></i>
+          <div class="info-content">
+            <span class="info-label">Email</span>
+            <span class="info-val" id="profile-email">-</span>
           </div>
-          <div class="meta-row">
-            <i class="ph ph-fingerprint"></i>
-            <span class="uid-val" id="profile-uid">-</span>
-            <button class="copy-btn" id="copy-uid">
-              <i class="ph ph-copy"></i>
-            </button>
+        </div>
+        <div class="info-row">
+          <i class="ph ph-identification-badge"></i>
+          <div class="info-content">
+            <span class="info-label">User ID</span>
+            <span class="info-val mono" id="profile-uid">-</span>
+          </div>
+          <button class="copy-btn" id="copy-uid">
+            <i class="ph ph-copy-simple"></i>
+          </button>
+        </div>
+        <div class="info-row">
+          <i class="ph ph-calendar-blank"></i>
+          <div class="info-content">
+            <span class="info-label">Member since</span>
+            <span class="info-val" id="profile-joined">-</span>
           </div>
         </div>
       </div>
 
-      <!-- Section: Profile -->
-      <div class="section-title">
-        <i class="ph ph-user-circle"></i> Profile
+      <!-- READ/WRITE — Edit Profile -->
+      <div class="sec-label">
+        <i class="ph ph-pencil-simple-line"></i>
+        Edit Profile
       </div>
 
-      <!-- Display Name -->
-      <div class="card">
-        <div class="card-label">Display Name</div>
-        <div class="field-row">
-          <div class="field-wrap">
-            <i class="ph ph-user"></i>
-            <input type="text" id="input-name"
-                   placeholder="Your display name"/>
-          </div>
+      <div class="setting-card">
+        <div class="setting-header">
+          <i class="ph ph-user"></i>
+          <span>Display Name</span>
         </div>
-        <button class="save-btn" id="save-name">
-          <i class="ph ph-floppy-disk"></i>
-          Save
-        </button>
-      </div>
-
-      <!-- Username -->
-      <div class="card">
-        <div class="card-label">Username</div>
-        <div class="field-row">
-          <div class="field-wrap">
-            <i class="ph ph-at"></i>
-            <input type="text" id="input-username"
-                   placeholder="your_username"/>
-          </div>
+        <div class="field-box">
+          <input type="text" id="input-name" placeholder="Your display name"/>
         </div>
-        <p class="field-hint">
-          Username is used for search. Lowercase letters and numbers only.
-        </p>
-        <button class="save-btn" id="save-username">
-          <i class="ph ph-floppy-disk"></i>
-          Save
-        </button>
+        <div class="card-foot">
+          <span class="foot-hint">Visible to everyone in chats</span>
+          <button class="save-btn" id="save-name">
+            Save <i class="ph ph-check"></i>
+          </button>
+        </div>
       </div>
 
-      <!-- Bio -->
-      <div class="card">
-        <div class="card-label">Bio</div>
+      <div class="setting-card">
+        <div class="setting-header">
+          <i class="ph ph-at"></i>
+          <span>Username</span>
+        </div>
+        <div class="field-box prefix">
+          <span class="prefix-text">@</span>
+          <input type="text" id="input-username" placeholder="your_username"/>
+        </div>
+        <div class="card-foot">
+          <span class="foot-hint">Used for search · letters and numbers only</span>
+          <button class="save-btn" id="save-username">
+            Save <i class="ph ph-check"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="setting-card">
+        <div class="setting-header">
+          <i class="ph ph-text-aa"></i>
+          <span>Bio</span>
+        </div>
         <textarea id="input-bio"
                   placeholder="Write something about yourself..."
                   rows="3"></textarea>
-        <button class="save-btn" id="save-bio">
-          <i class="ph ph-floppy-disk"></i>
-          Save
-        </button>
+        <div class="card-foot">
+          <span class="foot-hint">Shown on your profile</span>
+          <button class="save-btn" id="save-bio">
+            Save <i class="ph ph-check"></i>
+          </button>
+        </div>
       </div>
 
-      <!-- Section: Security -->
-      <div class="section-title">
-        <i class="ph ph-lock-key"></i> Security
+      <!-- Security -->
+      <div class="sec-label">
+        <i class="ph ph-lock-key"></i>
+        Security
       </div>
 
-      <!-- Change Password -->
-      <div class="card">
-        <div class="card-label">Change Password</div>
-        <div class="field-row">
-          <div class="field-wrap">
-            <i class="ph ph-lock"></i>
+      <div class="setting-card">
+        <div class="setting-header">
+          <i class="ph ph-key"></i>
+          <span>Change Password</span>
+        </div>
+        <div class="fields-stack">
+          <div class="field-box">
             <input type="password" id="input-current-pass"
                    placeholder="Current password"/>
           </div>
-        </div>
-        <div class="field-row">
-          <div class="field-wrap">
-            <i class="ph ph-lock-simple"></i>
+          <div class="field-box">
             <input type="password" id="input-new-pass"
                    placeholder="New password"/>
           </div>
-        </div>
-        <div class="field-row">
-          <div class="field-wrap">
-            <i class="ph ph-lock-simple-open"></i>
+          <div class="field-box">
             <input type="password" id="input-confirm-pass"
                    placeholder="Confirm new password"/>
           </div>
         </div>
-        <button class="save-btn" id="save-password">
-          <i class="ph ph-shield-check"></i>
-          Update Password
-        </button>
+        <div class="card-foot">
+          <span class="foot-hint">Min 6 characters</span>
+          <button class="save-btn" id="save-password">
+            Update <i class="ph ph-shield-check"></i>
+          </button>
+        </div>
       </div>
 
-      <!-- Section: Account -->
-      <div class="section-title">
-        <i class="ph ph-chart-bar"></i> Account
+      <!-- Stats -->
+      <div class="sec-label">
+        <i class="ph ph-chart-bar"></i>
+        Account Stats
       </div>
 
-      <!-- Stats Card -->
-      <div class="stats-card">
-        <div class="stat-item">
+      <div class="stats-row">
+        <div class="stat-box">
           <i class="ph ph-chats-circle"></i>
-          <span class="stat-val" id="stat-chats">-</span>
-          <span class="stat-label">Chats</span>
+          <span class="stat-num" id="stat-chats">—</span>
+          <span class="stat-lbl">Chats</span>
         </div>
-        <div class="stat-divider"></div>
-        <div class="stat-item">
-          <i class="ph ph-paper-plane-right"></i>
-          <span class="stat-val" id="stat-messages">-</span>
-          <span class="stat-label">Messages</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat-item">
-          <i class="ph ph-calendar-check"></i>
-          <span class="stat-val" id="stat-joined">-</span>
-          <span class="stat-label">Joined</span>
+        <div class="stat-sep"></div>
+        <div class="stat-box">
+          <i class="ph ph-paper-plane-tilt"></i>
+          <span class="stat-num" id="stat-messages">—</span>
+          <span class="stat-lbl">Sent</span>
         </div>
       </div>
 
-      <!-- Section: Danger -->
-      <div class="section-title danger-title">
-        <i class="ph ph-warning"></i> Danger Zone
+      <!-- Danger Zone -->
+      <div class="sec-label danger">
+        <i class="ph ph-warning"></i>
+        Danger Zone
       </div>
 
-      <!-- Sign Out -->
-      <button class="danger-btn outline" id="signout-btn">
+      <button class="action-btn outline-red" id="signout-btn">
         <i class="ph ph-sign-out"></i>
         Sign Out
       </button>
 
-      <!-- Delete Account -->
-      <button class="danger-btn solid" id="delete-btn">
-        <i class="ph ph-trash"></i>
+      <button class="action-btn fill-red" id="delete-btn">
+        <i class="ph ph-trash-simple"></i>
         Delete Account
       </button>
 
-      <div class="bottom-space"></div>
-
-    </div><!-- /content -->
-  </div><!-- /page -->
+      <div style="height:28px"></div>
+    </div>
+  </div>
 
   <script type="module">
     import { auth, db, rtdb } from "./firebase-config.js";
 
     import {
-      onAuthStateChanged,
-      signOut,
-      updatePassword,
-      reauthenticateWithCredential,
-      EmailAuthProvider,
-      deleteUser
+      onAuthStateChanged, signOut,
+      updatePassword, reauthenticateWithCredential,
+      EmailAuthProvider, deleteUser
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
     import {
@@ -780,327 +830,262 @@
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     import {
-      ref, set, serverTimestamp as rtServerTimestamp
+      ref, set, serverTimestamp as rtTS
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-    let currentUser     = null;
-    let currentUserData = null;
-
+    let currentUser = null, currentUserData = null;
     const $ = id => document.getElementById(id);
 
-    // Toast
+    // ── Toast ──
     let toastTimer = null;
     function showToast(msg, type = 'success') {
       const t = $('toast');
       t.textContent = msg;
       t.className   = 'toast show ' + type;
       clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => {
-        t.classList.remove('show');
-      }, 3000);
+      toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
     }
 
-    // Loading state
-    function setLoading(btn, loading) {
-      btn.disabled    = loading;
-      btn.style.opacity = loading ? '.6' : '1';
+    // ── Loading ──
+    function setLoading(btn, on) {
+      btn.disabled      = on;
+      btn.style.opacity = on ? '.55' : '1';
     }
 
-    // Auth Guard + Load Data
+    // ── Auth Guard ──
     onAuthStateChanged(auth, async user => {
-      if (!user) {
-        window.location.href = 'auth.html';
-        return;
-      }
+      if (!user) { window.location.href = 'auth.html'; return; }
       currentUser = user;
 
       const snap = await getDoc(doc(db, 'users', user.uid));
-      if (!snap.exists()) {
-        window.location.href = 'auth.html';
-        return;
-      }
+      if (!snap.exists()) { window.location.href = 'auth.html'; return; }
 
       currentUserData = snap.data();
+
+      set(ref(rtdb, 'status/' + user.uid), {
+        state: 'online', lastSeen: rtTS()
+      });
+
       populateUI();
       loadStats();
-
-      // Set online status
-      set(ref(rtdb, 'status/' + user.uid), {
-        state: 'online',
-        lastSeen: rtServerTimestamp()
-      });
     });
 
-    // Populate UI with user data
+    // ── Populate ──
     function populateUI() {
       const d = currentUserData;
       const initial = (d.displayName || 'U').charAt(0).toUpperCase();
 
-      // Profile Card
       $('profile-av').textContent       = initial;
       $('profile-name').textContent     = d.displayName || 'User';
       $('profile-username').textContent = '@' + (d.username || 'user');
       $('profile-email').textContent    = d.email || '-';
       $('profile-uid').textContent      = currentUser.uid;
 
-      // Online ring
+      $('profile-joined').textContent = d.createdAt?.toDate
+        ? d.createdAt.toDate().toLocaleDateString([], {
+            day: 'numeric', month: 'long', year: 'numeric'
+          })
+        : '-';
+
       $('online-ring').classList.add('active');
 
-      // Inputs
       $('input-name').value     = d.displayName || '';
       $('input-username').value = d.username    || '';
       $('input-bio').value      = d.bio         || '';
     }
 
-    // Load stats (chats count, messages count, join date)
+    // ── Stats ──
     async function loadStats() {
       try {
-        const convQ = query(
+        const convQ  = query(
           collection(db, 'conversations'),
           where('participants', 'array-contains', currentUser.uid)
         );
         const convSnap = await getDocs(convQ);
         $('stat-chats').textContent = convSnap.size;
 
-        const joined = currentUserData.createdAt?.toDate
-          ? currentUserData.createdAt.toDate().toLocaleDateString([], {
-              month: 'short', year: 'numeric'
-            })
-          : '-';
-        $('stat-joined').textContent = joined;
-
-        let totalMsgs = 0;
-        for (const convDoc of convSnap.docs) {
-          const msgsQ  = query(
-            collection(db, 'conversations', convDoc.id, 'messages'),
+        let total = 0;
+        for (const c of convSnap.docs) {
+          const mq   = query(
+            collection(db, 'conversations', c.id, 'messages'),
             where('senderId', '==', currentUser.uid)
           );
-          const msgsSnap = await getDocs(msgsQ);
-          totalMsgs += msgsSnap.size;
+          const ms = await getDocs(mq);
+          total   += ms.size;
         }
-        $('stat-messages').textContent = totalMsgs;
+        $('stat-messages').textContent = total;
 
-      } catch (e) {
-        console.error('Stats error:', e);
+      } catch {
         $('stat-chats').textContent    = '0';
         $('stat-messages').textContent = '0';
-        $('stat-joined').textContent   = '-';
       }
     }
 
-    // Copy UID
+    // ── Copy UID ──
     $('copy-uid').addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(currentUser.uid);
-        showToast('UID copied!', 'success');
       } catch {
-        const el       = document.createElement('textarea');
-        el.value       = currentUser.uid;
-        el.style.opacity = '0';
+        const el = document.createElement('textarea');
+        el.value = currentUser.uid;
+        el.style.cssText = 'position:fixed;opacity:0';
         document.body.appendChild(el);
         el.select();
         document.execCommand('copy');
         document.body.removeChild(el);
-        showToast('UID copied!', 'success');
       }
+      showToast('UID copied!');
     });
 
-    // Save Display Name
+    // ── Save Name ──
     $('save-name').addEventListener('click', async () => {
       const name = $('input-name').value.trim();
-      if (!name) { showToast('Name cannot be empty', 'error'); return; }
-      if (name === currentUserData.displayName) {
-        showToast('No changes made', 'success'); return;
-      }
+      if (!name)                             { showToast('Name cannot be empty', 'error'); return; }
+      if (name === currentUserData.displayName) { showToast('No changes', 'success'); return; }
 
       const btn = $('save-name');
       setLoading(btn, true);
-
       try {
         await updateDoc(doc(db, 'users', currentUser.uid), {
           displayName   : name,
           searchKeywords: [currentUserData.username || '', name.toLowerCase()]
         });
-
-        currentUserData.displayName = name;
+        currentUserData.displayName   = name;
         $('profile-name').textContent = name;
         $('profile-av').textContent   = name.charAt(0).toUpperCase();
-        showToast('Display name updated!', 'success');
-
-      } catch (e) {
-        showToast('Failed to update name', 'error');
-      } finally {
-        setLoading(btn, false);
-      }
+        showToast('Display name updated!');
+      } catch { showToast('Failed to update', 'error'); }
+      finally  { setLoading(btn, false); }
     });
 
-    // Save Username
+    // ── Save Username ──
     $('save-username').addEventListener('click', async () => {
-      const username = $('input-username').value.trim().toLowerCase()
-                       .replace(/[^a-z0-9_]/g, '');
+      const raw      = $('input-username').value.trim().toLowerCase();
+      const username = raw.replace(/[^a-z0-9_]/g, '');
 
-      if (!username) { showToast('Username cannot be empty', 'error'); return; }
-      if (username === currentUserData.username) {
-        showToast('No changes made', 'success'); return;
+      if (!username || username.length < 3) {
+        showToast('Min 3 characters (letters & numbers)', 'error'); return;
       }
-      if (username.length < 3) {
-        showToast('Username must be at least 3 characters', 'error'); return;
+      if (username === currentUserData.username) {
+        showToast('No changes', 'success'); return;
       }
 
       const btn = $('save-username');
       setLoading(btn, true);
-
       try {
         await updateDoc(doc(db, 'users', currentUser.uid), {
           username      : username,
           searchKeywords: [username, (currentUserData.displayName || '').toLowerCase()]
         });
-
-        currentUserData.username = username;
+        currentUserData.username          = username;
         $('profile-username').textContent = '@' + username;
-        $('input-username').value = username;
-        showToast('Username updated!', 'success');
-
-      } catch (e) {
-        showToast('Failed to update username', 'error');
-      } finally {
-        setLoading(btn, false);
-      }
+        $('input-username').value         = username;
+        showToast('Username updated!');
+      } catch { showToast('Failed to update', 'error'); }
+      finally  { setLoading(btn, false); }
     });
 
-    // Save Bio
+    // ── Save Bio ──
     $('save-bio').addEventListener('click', async () => {
       const bio = $('input-bio').value.trim();
       const btn = $('save-bio');
       setLoading(btn, true);
-
       try {
         await updateDoc(doc(db, 'users', currentUser.uid), { bio });
         currentUserData.bio = bio;
-        showToast('Bio updated!', 'success');
-
-      } catch (e) {
-        showToast('Failed to update bio', 'error');
-      } finally {
-        setLoading(btn, false);
-      }
+        showToast('Bio updated!');
+      } catch { showToast('Failed to update', 'error'); }
+      finally  { setLoading(btn, false); }
     });
 
-    // Change Password
+    // ── Change Password ──
     $('save-password').addEventListener('click', async () => {
-      const current = $('input-current-pass').value;
-      const newPass = $('input-new-pass').value;
-      const confirm = $('input-confirm-pass').value;
+      const cur  = $('input-current-pass').value;
+      const nw   = $('input-new-pass').value;
+      const conf = $('input-confirm-pass').value;
 
-      if (!current || !newPass || !confirm) {
-        showToast('Fill all password fields', 'error'); return;
-      }
-      if (newPass.length < 6) {
-        showToast('New password must be at least 6 characters', 'error'); return;
-      }
-      if (newPass !== confirm) {
-        showToast('Passwords do not match', 'error'); return;
-      }
+      if (!cur || !nw || !conf)   { showToast('Fill all fields', 'error'); return; }
+      if (nw.length < 6)          { showToast('Min 6 characters', 'error'); return; }
+      if (nw !== conf)            { showToast('Passwords do not match', 'error'); return; }
 
       const btn = $('save-password');
       setLoading(btn, true);
-
       try {
-        const credential = EmailAuthProvider.credential(
-          currentUser.email,
-          current
-        );
-        await reauthenticateWithCredential(currentUser, credential);
-        await updatePassword(currentUser, newPass);
-
+        const cred = EmailAuthProvider.credential(currentUser.email, cur);
+        await reauthenticateWithCredential(currentUser, cred);
+        await updatePassword(currentUser, nw);
         $('input-current-pass').value = '';
         $('input-new-pass').value     = '';
         $('input-confirm-pass').value = '';
-
-        showToast('Password updated!', 'success');
-
+        showToast('Password updated!');
       } catch (e) {
-        if (e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential') {
-          showToast('Current password is incorrect', 'error');
-        } else {
-          showToast('Failed to update password', 'error');
-        }
-      } finally {
-        setLoading(btn, false);
-      }
+        showToast(
+          e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential'
+            ? 'Current password is incorrect'
+            : 'Failed to update password',
+          'error'
+        );
+      } finally { setLoading(btn, false); }
     });
 
-    // Sign Out
+    // ── Sign Out ──
     $('signout-btn').addEventListener('click', async () => {
-      try {
-        await set(ref(rtdb, 'status/' + currentUser.uid), {
-          state   : 'offline',
-          lastSeen: rtServerTimestamp()
-        });
-        await signOut(auth);
-        window.location.href = 'auth.html';
-      } catch (e) {
-        showToast('Sign out failed', 'error');
-      }
+      await set(ref(rtdb, 'status/' + currentUser.uid), {
+        state: 'offline', lastSeen: rtTS()
+      });
+      await signOut(auth);
+      window.location.href = 'auth.html';
     });
 
-    // Delete Account Modal
-    $('delete-btn').addEventListener('click', () => {
-      $('delete-modal').classList.add('show');
-    });
+    // ── Delete Account ──
+    $('delete-btn').addEventListener('click', () =>
+      $('delete-modal').classList.add('show')
+    );
 
-    $('delete-cancel').addEventListener('click', () => {
-      $('delete-modal').classList.remove('show');
-    });
+    $('delete-cancel').addEventListener('click', () =>
+      $('delete-modal').classList.remove('show')
+    );
 
     $('delete-modal').addEventListener('click', e => {
       if (e.target === $('delete-modal'))
         $('delete-modal').classList.remove('show');
     });
 
-    // Confirm Delete Account
     $('delete-confirm').addEventListener('click', async () => {
       const btn = $('delete-confirm');
       setLoading(btn, true);
-
       try {
         const uid = currentUser.uid;
-
-        await set(ref(rtdb, 'status/' + uid), {
-          state: 'offline', lastSeen: rtServerTimestamp()
-        });
-
+        await set(ref(rtdb, 'status/' + uid), { state: 'offline', lastSeen: rtTS() });
         await deleteDoc(doc(db, 'users', uid));
         await set(ref(rtdb, 'status/' + uid), null);
         await deleteUser(currentUser);
-
         window.location.href = 'auth.html';
-
       } catch (e) {
-        if (e.code === 'auth/requires-recent-login') {
-          showToast('Please sign out and sign in again first', 'error');
-        } else {
-          showToast('Failed to delete account', 'error');
-        }
+        showToast(
+          e.code === 'auth/requires-recent-login'
+            ? 'Sign out and sign in again first'
+            : 'Failed to delete account',
+          'error'
+        );
         setLoading(btn, false);
         $('delete-modal').classList.remove('show');
       }
     });
 
-    // Back Button
+    // ── Back ──
     $('back-btn').addEventListener('click', () => {
       window.location.href = 'index.html';
     });
 
-    // Visibility Change — Online Status
+    // ── Visibility ──
     document.addEventListener('visibilitychange', () => {
       if (!currentUser) return;
-      const sRef = ref(rtdb, 'status/' + currentUser.uid);
-      if (document.hidden) {
-        set(sRef, { state: 'offline', lastSeen: rtServerTimestamp() });
-      } else {
-        set(sRef, { state: 'online', lastSeen: rtServerTimestamp() });
-      }
+      const s = ref(rtdb, 'status/' + currentUser.uid);
+      set(s, {
+        state   : document.hidden ? 'offline' : 'online',
+        lastSeen: rtTS()
+      });
     });
   </script>
 </body>
