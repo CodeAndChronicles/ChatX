@@ -2,360 +2,251 @@
 <html lang="ar" dir="ltr">
 <head>
     <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <title>NovaChat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+    <title>NovaChat - WhatsApp Like</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
     
     <style>
-        :root {
-            --bg-primary: #0F172A;
-            --bg-secondary: #1E293B;
-            --bg-tertiary: #0F172A;
-            --text-primary: #F8FAFC;
-            --text-secondary: #94A3B8;
-            --text-muted: #64748B;
-            --border-color: rgba(124, 58, 237, 0.2);
-            --border-input: rgba(124, 58, 237, 0.25);
-            --accent: #9D5CF6;
-            --accent-light: #7C3AED;
-            --bubble-received: #1E293B;
-            --hover-bg: rgba(124, 58, 237, 0.1);
-            --active-bg: rgba(124, 58, 237, 0.2);
-            --online-color: #34D399;
-            --danger: #F87171;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            --popup-bg: rgba(0, 0, 0, 0.7);
-            --glass-bg: rgba(30, 41, 59, 0.8);
-            --glass-border: rgba(124, 58, 237, 0.2);
-        }
-
-        body.light-theme {
-            --bg-primary: #F8FAFC;
-            --bg-secondary: #FFFFFF;
-            --bg-tertiary: #F1F5F9;
-            --text-primary: #1E293B;
-            --text-secondary: #64748B;
-            --text-muted: #94A3B8;
-            --border-color: rgba(124, 58, 237, 0.15);
-            --border-input: rgba(124, 58, 237, 0.2);
-            --bubble-received: #F1F5F9;
-            --hover-bg: rgba(124, 58, 237, 0.05);
-            --active-bg: rgba(124, 58, 237, 0.1);
-            --popup-bg: rgba(0, 0, 0, 0.4);
-            --shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-            --glass-bg: rgba(255, 255, 255, 0.8);
-            --glass-border: rgba(124, 58, 237, 0.15);
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --whatsapp-teal: #075E54;
+            --whatsapp-dark: #111B21;
+            --whatsapp-darker: #0A1217;
+            --whatsapp-green: #25D366;
+            --whatsapp-light: #202C33;
+            --whatsapp-bubble: #005C4B;
+            --whatsapp-received: #202C33;
+            --whatsapp-text: #E9EDEF;
+            --whatsapp-text-secondary: #8696A0;
+            --whatsapp-header: #1F2C33;
+            --whatsapp-border: #2B3B43;
+            --whatsapp-hover: #2A3942;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            background: var(--whatsapp-darker);
+            color: var(--whatsapp-text);
             height: 100vh;
             height: 100dvh;
             overflow: hidden;
-            transition: background 0.3s, color 0.3s;
         }
 
+        /* ========== WHATSAPP STYLE LAYOUT ========== */
         .app {
             display: flex;
             height: 100vh;
             height: 100dvh;
+            position: relative;
         }
 
-        /* ========== SIDEBAR ========== */
+        /* Sidebar - Desktop */
         .sidebar {
-            width: 320px;
-            min-width: 320px;
-            background: var(--bg-secondary);
-            border-right: 1px solid var(--border-color);
+            width: 380px;
+            background: var(--whatsapp-dark);
+            border-right: 1px solid var(--whatsapp-border);
             display: flex;
             flex-direction: column;
             height: 100%;
-            z-index: 100;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        /* Header */
         .sidebar-header {
-            padding: 20px 16px 16px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 16px;
-        }
-
-        .logo iconify-icon { font-size: 30px; }
-
-        .search-box {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--bg-tertiary);
-            border: 2px solid var(--border-input);
-            border-radius: 14px;
-            padding: 10px 14px;
-            transition: all 0.3s;
-        }
-
-        .search-box:focus-within {
-            border-color: var(--accent-light);
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
-        }
-
-        .search-box iconify-icon { color: var(--accent); font-size: 18px; }
-
-        .search-box input {
-            background: transparent;
-            border: none;
-            outline: none;
-            color: var(--text-primary);
-            font-size: 14px;
-            width: 100%;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .search-box input::placeholder { color: var(--text-muted); }
-
-        .search-results {
-            max-height: 250px;
-            overflow-y: auto;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .section-title {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
+            background: var(--whatsapp-header);
             padding: 16px 16px 8px;
+        }
+
+        .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 16px;
         }
 
+        .logo {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--whatsapp-teal);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .header-icon {
+            background: none;
+            border: none;
+            color: var(--whatsapp-text-secondary);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-icon:hover {
+            background: var(--whatsapp-hover);
+            color: var(--whatsapp-text);
+        }
+
+        /* Search Box - WhatsApp Style */
+        .search-container {
+            background: var(--whatsapp-light);
+            border-radius: 12px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-container iconify-icon {
+            color: var(--whatsapp-text-secondary);
+            font-size: 18px;
+        }
+
+        .search-container input {
+            background: none;
+            border: none;
+            outline: none;
+            color: var(--whatsapp-text);
+            font-size: 14px;
+            width: 100%;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .search-container input::placeholder {
+            color: var(--whatsapp-text-secondary);
+        }
+
+        .search-results {
+            max-height: 300px;
+            overflow-y: auto;
+            background: var(--whatsapp-dark);
+        }
+
+        /* Chat List */
         .chat-list {
             flex: 1;
             overflow-y: auto;
-            padding: 4px 8px;
-        }
-
-        .chat-list::-webkit-scrollbar,
-        .search-results::-webkit-scrollbar { width: 5px; }
-
-        .chat-list::-webkit-scrollbar-thumb,
-        .search-results::-webkit-scrollbar-thumb {
-            background: rgba(124, 58, 237, 0.3);
-            border-radius: 10px;
+            background: var(--whatsapp-dark);
         }
 
         .chat-item {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px;
-            border-radius: 14px;
+            padding: 12px 16px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            margin-bottom: 2px;
+            transition: background 0.2s;
             position: relative;
-            animation: slideIn 0.3s ease;
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-10px); }
-            to { opacity: 1; transform: translateX(0); }
+        .chat-item:hover {
+            background: var(--whatsapp-hover);
         }
-
-        .chat-item:hover { background: var(--hover-bg); transform: translateX(2px); }
-        .chat-item:active { transform: scale(0.98); }
 
         .chat-item.active {
-            background: var(--active-bg);
-            border: 1px solid rgba(124, 58, 237, 0.3);
-        }
-
-        .chat-item.pinned {
-            border-left: 3px solid var(--accent-light);
+            background: var(--whatsapp-light);
         }
 
         .avatar {
-            width: 46px;
-            height: 46px;
-            min-width: 46px;
+            width: 52px;
+            height: 52px;
+            min-width: 52px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #7C3AED, #5B21B6);
+            background: linear-gradient(135deg, var(--whatsapp-teal), #128C7E);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 18px;
+            font-weight: 600;
+            font-size: 20px;
             color: #fff;
             position: relative;
-            transition: transform 0.3s;
         }
-
-        .avatar:hover { transform: scale(1.05); }
-        .avatar.sm { width: 38px; height: 38px; min-width: 38px; font-size: 15px; }
 
         .avatar.online::after {
             content: '';
             position: absolute;
             bottom: 2px;
             right: 2px;
-            width: 12px;
-            height: 12px;
-            background: var(--online-color);
+            width: 14px;
+            height: 14px;
+            background: var(--whatsapp-green);
             border-radius: 50%;
-            border: 2px solid var(--bg-secondary);
-            animation: pulse 2s infinite;
+            border: 2px solid var(--whatsapp-dark);
         }
 
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.4); }
-            50% { box-shadow: 0 0 0 6px rgba(52, 211, 153, 0); }
+        .chat-info {
+            flex: 1;
+            min-width: 0;
         }
 
-        .chat-info { flex: 1; overflow: hidden; }
+        .chat-info-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 4px;
+        }
 
-        .chat-info .name {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-primary);
+        .chat-name {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--whatsapp-text);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        .chat-info .preview {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 2px;
+        .chat-time {
+            font-size: 11px;
+            color: var(--whatsapp-text-secondary);
+            flex-shrink: 0;
+        }
+
+        .chat-preview {
+            font-size: 13px;
+            color: var(--whatsapp-text-secondary);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
-        .chat-info .typing {
-            color: var(--accent-light);
-            font-style: italic;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        .chat-preview.typing {
+            color: var(--whatsapp-green);
         }
 
         .unread-badge {
-            background: var(--accent-light);
-            color: #fff;
+            background: var(--whatsapp-green);
+            color: #111B21;
             font-size: 11px;
             font-weight: 700;
-            padding: 2px 7px;
-            border-radius: 12px;
+            padding: 2px 8px;
+            border-radius: 16px;
             min-width: 22px;
             text-align: center;
-            animation: popIn 0.3s ease;
-        }
-
-        @keyframes popIn {
-            from { transform: scale(0); }
-            to { transform: scale(1); }
         }
 
         .pin-icon {
-            color: var(--accent-light);
+            color: var(--whatsapp-text-secondary);
             font-size: 14px;
-            margin-left: 4px;
-        }
-
-        .sidebar-footer {
-            padding: 12px 16px;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--bg-tertiary);
-        }
-
-        .sidebar-footer .user-section {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex: 1;
-            min-width: 0;
-            cursor: pointer;
-            padding: 4px;
-            border-radius: 10px;
-            transition: background 0.2s;
-        }
-
-        .sidebar-footer .user-section:hover { background: var(--hover-bg); }
-
-        .sidebar-footer .user-details { flex: 1; min-width: 0; }
-
-        .sidebar-footer .user-details .name {
-            font-size: 13px;
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .sidebar-footer .user-details .status {
-            font-size: 11px;
-            color: var(--online-color);
-            font-weight: 500;
-        }
-
-        .icon-btn {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            font-size: 18px;
-            position: relative;
-        }
-
-        .icon-btn:hover {
-            background: var(--hover-bg);
-            border-color: var(--accent-light);
-            color: var(--accent);
-            transform: translateY(-1px);
-        }
-
-        .icon-btn:active { transform: scale(0.95); }
-
-        .icon-btn.danger:hover {
-            background: rgba(248, 113, 113, 0.1);
-            border-color: var(--danger);
-            color: var(--danger);
         }
 
         /* ========== CHAT AREA ========== */
@@ -363,603 +254,563 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            background: var(--bg-primary);
-            min-width: 0;
-            transition: background 0.3s;
+            background: var(--whatsapp-darker);
+            position: relative;
         }
 
         .chat-header {
+            background: var(--whatsapp-header);
+            padding: 10px 16px;
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 14px 20px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--glass-border);
-            animation: slideDown 0.3s ease;
+            border-bottom: 1px solid var(--whatsapp-border);
         }
 
-        @keyframes slideDown {
-            from { transform: translateY(-100%); }
-            to { transform: translateY(0); }
-        }
-
-        .chat-header .avatar { cursor: pointer; }
-
-        .chat-header-info { flex: 1; min-width: 0; }
-
-        .chat-header-info .name {
+        .chat-header .avatar {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
             font-size: 16px;
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            cursor: pointer;
         }
 
-        .chat-header-info .status-text {
-            font-size: 12px;
+        .chat-header-info {
+            flex: 1;
+        }
+
+        .chat-header-name {
+            font-size: 16px;
             font-weight: 500;
+            color: var(--whatsapp-text);
         }
 
-        .chat-header-info .status-text.online { color: var(--online-color); }
-        .chat-header-info .status-text.offline { color: var(--text-muted); }
-        .chat-header-info .status-text.typing { color: var(--accent-light); }
+        .chat-header-status {
+            font-size: 12px;
+            color: var(--whatsapp-text-secondary);
+        }
 
+        .chat-header-status.online {
+            color: var(--whatsapp-green);
+        }
+
+        .chat-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* Messages Area - WhatsApp Style */
         .messages-area {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            scroll-behavior: smooth;
+            gap: 4px;
+            background-image: radial-gradient(circle at 10% 20%, rgba(37, 211, 102, 0.03) 0%, transparent 50%);
         }
 
-        .messages-area::-webkit-scrollbar { width: 5px; }
+        .messages-area::-webkit-scrollbar {
+            width: 6px;
+        }
+
         .messages-area::-webkit-scrollbar-thumb {
-            background: rgba(124, 58, 237, 0.2);
-            border-radius: 10px;
+            background: var(--whatsapp-border);
+            border-radius: 3px;
         }
 
         .date-divider {
             text-align: center;
             font-size: 11px;
-            color: var(--text-muted);
-            padding: 16px 0 8px;
-            font-weight: 500;
-            animation: fadeIn 0.5s ease;
+            color: var(--whatsapp-text-secondary);
+            padding: 16px 0;
+            position: relative;
+        }
+
+        .date-divider span {
+            background: var(--whatsapp-light);
+            padding: 4px 12px;
+            border-radius: 12px;
         }
 
         .msg {
             display: flex;
             flex-direction: column;
-            max-width: 68%;
-            animation: msgSlide 0.3s ease;
+            max-width: 75%;
             position: relative;
-            transition: all 0.3s;
+            animation: fadeInUp 0.2s ease;
         }
 
-        @keyframes msgSlide {
-            from { opacity: 0; transform: translateY(10px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .msg.in { align-self: flex-start; }
-        .msg.out { align-self: flex-end; }
+        .msg.in {
+            align-self: flex-start;
+        }
+
+        .msg.out {
+            align-self: flex-end;
+        }
 
         .msg-bubble {
-            padding: 10px 16px;
-            border-radius: 18px;
+            padding: 8px 12px;
+            border-radius: 16px;
             font-size: 14px;
             line-height: 1.5;
             word-wrap: break-word;
-            font-weight: 400;
-            transition: all 0.3s;
             position: relative;
         }
 
-        .msg-bubble:hover { transform: translateY(-1px); }
-
         .msg.in .msg-bubble {
-            background: var(--bubble-received);
-            color: var(--text-primary);
-            border-bottom-left-radius: 6px;
+            background: var(--whatsapp-received);
+            border-top-left-radius: 4px;
         }
 
         .msg.out .msg-bubble {
-            background: linear-gradient(135deg, #7C3AED, #5B21B6);
-            color: #fff;
-            border-bottom-right-radius: 6px;
+            background: var(--whatsapp-bubble);
+            border-top-right-radius: 4px;
         }
 
         .quote {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-            padding: 6px 10px;
-            background: rgba(124, 58, 237, 0.1);
+            font-size: 12px;
+            color: var(--whatsapp-text-secondary);
+            margin-bottom: 4px;
+            padding: 6px 8px;
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
             cursor: pointer;
             transition: background 0.2s;
         }
 
         .quote:hover {
-            background: rgba(124, 58, 237, 0.2);
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .msg-time {
             font-size: 10px;
-            color: var(--text-muted);
-            margin-top: 4px;
-            padding: 0 6px;
+            color: var(--whatsapp-text-secondary);
+            margin-top: 2px;
             display: flex;
             align-items: center;
             gap: 4px;
+            padding: 0 4px;
         }
 
-        .msg.out .msg-time { justify-content: flex-end; }
+        .msg.out .msg-time {
+            justify-content: flex-end;
+        }
 
         .msg-status {
-            font-size: 12px;
+            font-size: 14px;
         }
 
-        .msg-status.sent { color: var(--text-muted); }
-        .msg-status.delivered { color: var(--text-muted); }
-        .msg-status.seen { color: var(--accent-light); }
-
-        .msg-reactions {
-            display: flex;
-            gap: 4px;
-            margin-top: 4px;
-            padding: 2px 8px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            font-size: 16px;
-            animation: popIn 0.3s ease;
-            cursor: pointer;
-        }
-
-        .msg-reactions span {
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .msg-reactions span:hover { transform: scale(1.3); }
-
-        .msg-actions {
-            display: none;
-            position: absolute;
-            top: -30px;
-            right: 0;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 4px;
-            gap: 4px;
-            z-index: 10;
-        }
-
-        .msg:hover .msg-actions {
-            display: flex;
-        }
-
-        .msg-action-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.2s;
-        }
-
-        .msg-action-btn:hover {
-            background: var(--hover-bg);
-            color: var(--accent-light);
-        }
-
-        .msg-action-btn.danger:hover { color: var(--danger); }
+        .msg-status.sent { color: var(--whatsapp-text-secondary); }
+        .msg-status.delivered { color: var(--whatsapp-text-secondary); }
+        .msg-status.seen { color: var(--whatsapp-green); }
 
         .msg-edited {
-            font-size: 10px;
-            color: var(--text-muted);
-            font-style: italic;
-            margin-top: 2px;
+            font-size: 9px;
+            color: var(--whatsapp-text-secondary);
+            margin-left: 4px;
         }
 
+        /* Context Menu (Long Press) */
+        .context-menu {
+            position: fixed;
+            background: var(--whatsapp-light);
+            border-radius: 12px;
+            padding: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            min-width: 180px;
+            animation: menuFade 0.15s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes menuFade {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .context-menu button {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 10px 16px;
+            background: none;
+            border: none;
+            color: var(--whatsapp-text);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .context-menu button:hover {
+            background: var(--whatsapp-hover);
+        }
+
+        .context-menu button.danger {
+            color: #FF5E5E;
+        }
+
+        /* Reply Bar */
         .reply-bar {
             display: none;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             padding: 8px 16px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid var(--glass-border);
-            font-size: 12px;
+            background: var(--whatsapp-light);
+            border-top: 1px solid var(--whatsapp-border);
+            font-size: 13px;
         }
 
         .reply-bar .reply-content {
             flex: 1;
-            overflow: hidden;
         }
 
-        .reply-bar .reply-content .reply-who {
+        .reply-bar .reply-who {
             font-weight: 600;
-            color: var(--accent);
-            font-size: 11px;
+            color: var(--whatsapp-green);
+            font-size: 12px;
         }
 
-        .reply-bar .reply-content .reply-what {
+        .reply-bar .reply-what {
+            color: var(--whatsapp-text-secondary);
+            font-size: 12px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            color: var(--text-secondary);
-            font-size: 11px;
         }
 
         .reply-bar .cancel-reply {
             background: none;
             border: none;
-            color: var(--text-muted);
+            color: var(--whatsapp-text-secondary);
             cursor: pointer;
-            font-size: 18px;
             padding: 4px;
+            border-radius: 50%;
         }
 
-        .reply-bar .cancel-reply:hover {
-            color: var(--danger);
-        }
-
+        /* Input Area - WhatsApp Style */
         .input-area {
-            padding: 14px 20px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid var(--glass-border);
             display: flex;
             align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
+            gap: 8px;
+            padding: 8px 12px;
+            background: var(--whatsapp-light);
+            border-top: 1px solid var(--whatsapp-border);
         }
 
         .input-wrapper {
             flex: 1;
-            display: flex;
-            flex-direction: column;
+            background: var(--whatsapp-dark);
+            border-radius: 24px;
+            padding: 0 16px;
         }
 
         .input-wrapper input {
             width: 100%;
-            background: var(--bg-tertiary);
-            border: 2px solid var(--border-input);
-            border-radius: 24px;
-            padding: 12px 18px;
-            color: var(--text-primary);
-            font-size: 14px;
+            background: none;
+            border: none;
             outline: none;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s;
+            color: var(--whatsapp-text);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            padding: 10px 0;
         }
 
-        .input-wrapper input:focus {
-            border-color: var(--accent-light);
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        .input-wrapper input::placeholder {
+            color: var(--whatsapp-text-secondary);
         }
-
-        .input-wrapper input::placeholder { color: var(--text-muted); }
 
         .char-counter {
-            font-size: 10px;
-            color: var(--text-muted);
+            font-size: 9px;
+            color: var(--whatsapp-text-secondary);
             text-align: right;
             padding: 2px 8px 0;
         }
 
-        .send-btn {
-            width: 46px;
-            height: 46px;
-            min-width: 46px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #7C3AED, #5B21B6);
+        .action-btn {
+            background: none;
             border: none;
-            color: #fff;
-            font-size: 22px;
+            color: var(--whatsapp-text-secondary);
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background: var(--whatsapp-hover);
+            color: var(--whatsapp-text);
+        }
+
+        .send-btn {
+            background: var(--whatsapp-green);
+            border: none;
+            color: var(--whatsapp-dark);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
-        .send-btn:hover:not(:disabled) {
-            transform: scale(1.1) translateY(-2px);
-            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.5);
-        }
-
-        .send-btn:active { transform: scale(0.9); }
         .send-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+        }
+
+        .send-btn:active:not(:disabled) {
             transform: scale(0.95);
         }
 
-        .welcome {
+        /* Emoji Picker */
+        .emoji-picker {
+            position: absolute;
+            bottom: 80px;
+            left: 16px;
+            background: var(--whatsapp-light);
+            border-radius: 20px;
+            padding: 12px;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            z-index: 200;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--whatsapp-border);
+            backdrop-filter: blur(10px);
+            animation: slideUp 0.2s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .emoji-picker span {
+            font-size: 28px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 12px;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .emoji-picker span:hover {
+            background: var(--whatsapp-hover);
+            transform: scale(1.1);
+        }
+
+        /* Bottom Navigation Bar - Mobile */
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--whatsapp-header);
+            padding: 8px 16px;
+            padding-bottom: env(safe-area-inset-bottom, 8px);
+            justify-content: space-around;
+            border-top: 1px solid var(--whatsapp-border);
+            z-index: 90;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: none;
+            color: var(--whatsapp-text-secondary);
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 24px;
+            transition: all 0.2s;
+            font-size: 12px;
+        }
+
+        .nav-item.active {
+            color: var(--whatsapp-green);
+            background: rgba(37, 211, 102, 0.1);
+        }
+
+        .nav-item iconify-icon {
+            font-size: 22px;
+        }
+
+        /* Settings Modal */
+        .settings-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 300;
+            align-items: flex-end;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .settings-modal.show {
+            display: flex;
+        }
+
+        .settings-panel {
+            background: var(--whatsapp-dark);
+            width: 100%;
+            max-width: 500px;
+            border-radius: 24px 24px 0 0;
+            padding: 24px;
+            animation: slideUp 0.3s ease;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .settings-panel h3 {
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: var(--whatsapp-light);
+            border-radius: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+
+        .settings-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Welcome Screen */
+        .welcome-screen {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 16px;
+            gap: 20px;
             text-align: center;
-            padding: 30px;
-            animation: fadeIn 0.5s ease;
+            padding: 20px;
         }
 
-        .welcome iconify-icon { font-size: 80px; opacity: 0.25; color: var(--accent); }
-        .welcome h2 { font-size: 24px; font-weight: 700; color: var(--text-primary); }
-        .welcome p { font-size: 14px; color: var(--text-secondary); max-width: 320px; font-weight: 400; }
-
-        /* ========== MODALS ========== */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: var(--popup-bg);
-            z-index: 300;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(6px);
-            animation: fadeIn 0.3s ease;
+        .welcome-screen iconify-icon {
+            font-size: 100px;
+            opacity: 0.3;
+            color: var(--whatsapp-green);
         }
 
-        .modal-overlay.show { display: flex; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 32px 28px;
-            width: 92%;
-            max-width: 420px;
-            text-align: center;
-            animation: modalSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        @keyframes modalSlide {
-            from { opacity: 0; transform: scale(0.8) translateY(40px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        .modal .modal-avatar {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #7C3AED, #5B21B6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            font-weight: 700;
-            color: #fff;
-            margin: 0 auto 16px;
-            border: 4px solid var(--accent-light);
-        }
-
-        .modal h2 {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 2px;
-            color: var(--text-primary);
-        }
-
-        .modal .uname {
-            font-size: 14px;
-            color: var(--accent);
-            margin-bottom: 16px;
-            font-weight: 500;
-        }
-
-        .modal .info-row {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            padding: 10px 0;
-            border-top: 1px solid var(--border-color);
-            text-align: left;
-            font-size: 13px;
-        }
-
-        .modal .info-row iconify-icon {
-            font-size: 18px;
-            color: var(--accent-light);
-            margin-top: 2px;
-        }
-
-        .modal .info-row .lbl {
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .modal .info-row .val {
-            color: var(--text-secondary);
-            font-weight: 400;
-            font-size: 13px;
-        }
-
-        .modal .btn-row {
-            display: flex;
-            gap: 8px;
-            margin-top: 20px;
-        }
-
-        .modal .btn {
-            flex: 1;
-            padding: 10px 16px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.2s;
-            border: 1px solid var(--border-color);
-        }
-
-        .modal .btn-close {
-            background: var(--hover-bg);
-            color: var(--text-primary);
-        }
-
-        .modal .btn-close:hover { background: var(--active-bg); }
-
-        .modal .btn-primary {
-            background: linear-gradient(135deg, #7C3AED, #5B21B6);
-            color: #fff;
-            border: none;
-        }
-
-        .modal .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
-        .modal .btn-primary:active { transform: scale(0.98); }
-
-        .modal .edit-input, .modal .edit-textarea {
-            width: 100%;
-            padding: 10px 14px;
-            background: var(--bg-tertiary);
-            border: 2px solid var(--border-input);
-            border-radius: 10px;
-            color: var(--text-primary);
-            font-size: 14px;
-            font-family: 'Poppins', sans-serif;
-            outline: none;
-            margin-top: 4px;
-            transition: border-color 0.3s;
-        }
-
-        .modal .edit-input:focus, .modal .edit-textarea:focus {
-            border-color: var(--accent-light);
-        }
-
-        .modal .edit-textarea {
-            resize: vertical;
-            min-height: 60px;
-        }
-
-        /* Reaction picker */
-        .reaction-picker {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            padding: 8px;
-        }
-
-        .reaction-picker span {
-            font-size: 24px;
-            cursor: pointer;
-            transition: transform 0.2s;
-            padding: 4px;
-        }
-
-        .reaction-picker span:hover {
-            transform: scale(1.4);
-        }
-
-        /* Skeleton Loading */
-        .skeleton {
-            background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--hover-bg) 50%, var(--bg-tertiary) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            border-radius: 8px;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
-        /* ========== MOBILE ========== */
-        .menu-btn {
-            display: none;
-            position: fixed;
-            top: 14px;
-            left: 14px;
-            z-index: 50;
-            background: var(--accent-light);
-            border: none;
-            color: #fff;
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            cursor: pointer;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
-        }
-
-        .back-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 24px;
-            cursor: pointer;
-            padding: 6px;
-            margin-right: 4px;
-        }
-
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 99;
-            backdrop-filter: blur(3px);
-        }
-
-        .sidebar-overlay.show { display: block; }
-
+        /* Mobile Responsive */
         @media (max-width: 768px) {
             .sidebar {
                 position: fixed;
                 left: 0;
                 top: 0;
                 bottom: 0;
-                width: 85%;
-                max-width: 340px;
+                width: 100%;
                 transform: translateX(-100%);
                 z-index: 100;
             }
-            .sidebar.open { transform: translateX(0); }
-            .menu-btn { display: flex; }
-            .back-btn { display: block; }
-            .msg { max-width: 85%; }
-            .msg-actions { display: flex !important; position: static; margin-top: 4px; }
-            .input-area { flex-wrap: wrap; }
-            .input-wrapper { width: calc(100% - 56px); }
-        }
-
-        @media (max-width: 480px) {
-            .msg { max-width: 90%; }
-            .msg-bubble { font-size: 13px; padding: 8px 12px; }
-            .modal { padding: 20px 16px; }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .bottom-nav {
+                display: flex;
+            }
+            .chat-main {
+                padding-bottom: 70px;
+            }
+            .msg {
+                max-width: 85%;
+            }
+            .context-menu {
+                transform: translate(-50%, -50%);
+            }
+            .sidebar-header {
+                padding-top: env(safe-area-inset-top, 16px);
+            }
         }
 
         @media (min-width: 769px) {
-            .menu-btn, .sidebar-overlay, .back-btn { display: none; }
+            .menu-btn, .sidebar-overlay, .back-btn {
+                display: none;
+            }
+        }
+
+        .menu-btn {
+            display: none;
+            position: fixed;
+            top: 12px;
+            left: 12px;
+            z-index: 50;
+            background: var(--whatsapp-green);
+            border: none;
+            color: var(--whatsapp-dark);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--whatsapp-text);
+            cursor: pointer;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+        }
+
+        .sidebar-overlay.show {
+            display: block;
         }
     </style>
 </head>
@@ -971,71 +822,28 @@
 
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
-<!-- EDIT PROFILE MODAL -->
-<div class="modal-overlay" id="edit-modal">
-    <div class="modal">
-        <div class="modal-avatar" id="edit-avatar">U</div>
-        <h2>Edit Profile</h2>
-        <p class="uname" id="edit-username-display">@username</p>
-        <div class="info-row">
-            <iconify-icon icon="mdi:account-edit-outline"></iconify-icon>
-            <div style="flex:1;">
-                <div class="lbl">Display Name</div>
-                <input type="text" class="edit-input" id="edit-name" placeholder="Your name"/>
+<!-- Settings Modal -->
+<div class="settings-modal" id="settings-modal">
+    <div class="settings-panel">
+        <h3>Settings</h3>
+        <div class="settings-item" id="profile-settings-btn">
+            <div class="settings-item-left">
+                <iconify-icon icon="mdi:account-circle" style="font-size: 24px;"></iconify-icon>
+                <span>Edit Profile</span>
+            </div>
+            <iconify-icon icon="mdi:chevron-right"></iconify-icon>
+        </div>
+        <div class="settings-item" id="theme-settings-btn">
+            <div class="settings-item-left">
+                <iconify-icon icon="mdi:theme-light-dark" style="font-size: 24px;"></iconify-icon>
+                <span>Dark/Light Mode</span>
             </div>
         </div>
-        <div class="info-row">
-            <iconify-icon icon="mdi:information-outline"></iconify-icon>
-            <div style="flex:1;">
-                <div class="lbl">Bio</div>
-                <textarea class="edit-textarea" id="edit-bio" placeholder="Write something about yourself..."></textarea>
+        <div class="settings-item" id="logout-settings-btn">
+            <div class="settings-item-left">
+                <iconify-icon icon="mdi:logout" style="font-size: 24px; color: #ff5e5e;"></iconify-icon>
+                <span style="color: #ff5e5e;">Sign Out</span>
             </div>
-        </div>
-        <div class="btn-row">
-            <button class="btn btn-close" id="edit-cancel">Cancel</button>
-            <button class="btn btn-primary" id="edit-save">Save Changes</button>
-        </div>
-    </div>
-</div>
-
-<!-- USER INFO MODAL -->
-<div class="modal-overlay" id="user-modal">
-    <div class="modal">
-        <div class="modal-avatar" id="user-avatar">U</div>
-        <h2 id="user-name">User</h2>
-        <p class="uname" id="user-username">@username</p>
-        <div class="info-row">
-            <iconify-icon icon="mdi:email-outline"></iconify-icon>
-            <div><div class="lbl">Email</div><div class="val" id="user-email">-</div></div>
-        </div>
-        <div class="info-row">
-            <iconify-icon icon="mdi:information-outline"></iconify-icon>
-            <div><div class="lbl">Bio</div><div class="val" id="user-bio">No bio yet</div></div>
-        </div>
-        <div class="info-row">
-            <iconify-icon icon="mdi:identifier"></iconify-icon>
-            <div><div class="lbl">User ID</div><div class="val" id="user-uid" style="font-size:11px;word-break:break-all;"></div></div>
-        </div>
-        <div class="info-row">
-            <iconify-icon icon="mdi:calendar-account-outline"></iconify-icon>
-            <div><div class="lbl">Joined</div><div class="val" id="user-created">-</div></div>
-        </div>
-        <div class="info-row">
-            <iconify-icon icon="mdi:clock-outline"></iconify-icon>
-            <div><div class="lbl">Last Seen</div><div class="val" id="user-lastseen">-</div></div>
-        </div>
-        <button class="btn btn-close" id="user-close-btn" style="width:100%;">Close</button>
-    </div>
-</div>
-
-<!-- EDIT MESSAGE MODAL -->
-<div class="modal-overlay" id="edit-msg-modal">
-    <div class="modal">
-        <h2>Edit Message</h2>
-        <input type="text" class="edit-input" id="edit-msg-input" placeholder="Edit your message..." style="margin-top:16px;"/>
-        <div class="btn-row">
-            <button class="btn btn-close" id="edit-msg-cancel">Cancel</button>
-            <button class="btn btn-primary" id="edit-msg-save">Save</button>
         </div>
     </div>
 </div>
@@ -1044,86 +852,103 @@
     <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <div class="logo">
-                <iconify-icon icon="mdi:chat-processing-outline"></iconify-icon>
-                NovaChat
+            <div class="header-top">
+                <div class="logo">NovaChat</div>
+                <div class="header-actions">
+                    <button class="header-icon" id="settings-header-btn">
+                        <iconify-icon icon="mdi:cog"></iconify-icon>
+                    </button>
+                </div>
             </div>
-            <div class="search-box">
+            <div class="search-container">
                 <iconify-icon icon="mdi:magnify"></iconify-icon>
-                <input type="text" id="search-input" placeholder="Search users..." autocomplete="off"/>
+                <input type="text" id="search-input" placeholder="Search or start new chat" autocomplete="off"/>
             </div>
         </div>
         <div class="search-results" id="search-results"></div>
-        <div class="section-title">
-            <span>Messages</span>
-            <span id="online-count" style="color:var(--online-color);font-size:10px;"></span>
-        </div>
         <div class="chat-list" id="conversations-list"></div>
-        <div class="sidebar-footer">
-            <div class="user-section" id="profile-section" title="Edit Profile">
-                <div class="avatar sm" id="self-avatar">U</div>
-                <div class="user-details">
-                    <div class="name" id="self-name">User</div>
-                    <div class="status">Online</div>
-                </div>
-            </div>
-            <button class="icon-btn" id="theme-btn" title="Toggle Theme">
-                <iconify-icon icon="mdi:theme-light-dark"></iconify-icon>
-            </button>
-            <button class="icon-btn danger" id="logout-btn" title="Sign Out">
-                <iconify-icon icon="mdi:logout"></iconify-icon>
-            </button>
-        </div>
     </aside>
 
     <!-- MAIN CHAT -->
     <main class="chat-main">
-        <div class="welcome" id="welcome-screen">
-            <iconify-icon icon="mdi:chat-outline"></iconify-icon>
+        <div class="welcome-screen" id="welcome-screen">
+            <iconify-icon icon="mdi:whatsapp"></iconify-icon>
             <h2>Welcome to NovaChat</h2>
-            <p>Search for someone to start a conversation</p>
+            <p>Start a conversation by searching for someone</p>
         </div>
 
-        <div id="chat-screen" style="display:none; flex:1; flex-direction:column;">
+        <div id="chat-screen" style="display:none; flex-direction:column; flex:1;">
             <div class="chat-header">
                 <button class="back-btn" id="back-btn">
                     <iconify-icon icon="mdi:arrow-left"></iconify-icon>
                 </button>
-                <div class="avatar sm" id="chat-avatar" style="cursor:pointer;">U</div>
+                <div class="avatar" id="chat-avatar">U</div>
                 <div class="chat-header-info">
-                    <div class="name" id="chat-name">User</div>
-                    <div class="status-text offline" id="chat-status">offline</div>
+                    <div class="chat-header-name" id="chat-name">User</div>
+                    <div class="chat-header-status" id="chat-status">offline</div>
                 </div>
-                <button class="icon-btn" id="pin-chat-btn" title="Pin Chat">
-                    <iconify-icon icon="mdi:pin-outline"></iconify-icon>
-                </button>
-                <button class="icon-btn" id="chat-info-btn" title="User Info">
-                    <iconify-icon icon="mdi:information-outline"></iconify-icon>
-                </button>
+                <div class="chat-actions">
+                    <button class="action-btn" id="pin-chat-btn" title="Pin Chat">
+                        <iconify-icon icon="mdi:pin-outline"></iconify-icon>
+                    </button>
+                </div>
             </div>
             <div class="messages-area" id="messages-area"></div>
-            <div class="reply-bar" id="reply-bar" style="display:none;">
-                <iconify-icon icon="mdi:reply" style="color:var(--accent);"></iconify-icon>
+            <div class="reply-bar" id="reply-bar">
+                <iconify-icon icon="mdi:reply" style="color: var(--whatsapp-green);"></iconify-icon>
                 <div class="reply-content">
                     <div class="reply-who" id="reply-who"></div>
                     <div class="reply-what" id="reply-what"></div>
                 </div>
-                <button class="cancel-reply" id="cancel-reply">✕</button>
+                <button class="cancel-reply" id="cancel-reply">
+                    <iconify-icon icon="mdi:close"></iconify-icon>
+                </button>
             </div>
             <div class="input-area">
-                <button class="icon-btn" id="emoji-btn" title="Emoji">
+                <button class="action-btn" id="emoji-btn">
                     <iconify-icon icon="mdi:emoticon-outline"></iconify-icon>
                 </button>
                 <div class="input-wrapper">
-                    <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off" maxlength="500"/>
+                    <input type="text" id="message-input" placeholder="Type a message" autocomplete="off" maxlength="500"/>
                     <div class="char-counter" id="char-counter" style="display:none;"></div>
                 </div>
-                <button class="send-btn" id="send-btn" title="Send" disabled>
+                <button class="send-btn" id="send-btn" disabled>
                     <iconify-icon icon="mdi:send"></iconify-icon>
                 </button>
             </div>
         </div>
     </main>
+</div>
+
+<!-- Bottom Navigation (Mobile) -->
+<div class="bottom-nav" id="bottom-nav">
+    <button class="nav-item" id="nav-chats" data-nav="chats">
+        <iconify-icon icon="mdi:chat"></iconify-icon>
+        <span>Chats</span>
+    </button>
+    <button class="nav-item" id="nav-settings" data-nav="settings">
+        <iconify-icon icon="mdi:cog"></iconify-icon>
+        <span>Settings</span>
+    </button>
+</div>
+
+<!-- Edit Profile Modal -->
+<div class="modal-overlay" id="edit-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:400; align-items:center; justify-content:center;">
+    <div style="background:var(--whatsapp-dark); border-radius:24px; padding:24px; width:90%; max-width:400px;">
+        <h3 style="margin-bottom:20px;">Edit Profile</h3>
+        <div style="margin-bottom:16px;">
+            <label style="font-size:12px; color:var(--whatsapp-text-secondary);">Display Name</label>
+            <input type="text" id="edit-name" style="width:100%; padding:12px; background:var(--whatsapp-light); border:none; border-radius:12px; color:var(--whatsapp-text); margin-top:4px;" placeholder="Your name"/>
+        </div>
+        <div style="margin-bottom:20px;">
+            <label style="font-size:12px; color:var(--whatsapp-text-secondary);">Bio</label>
+            <textarea id="edit-bio" rows="3" style="width:100%; padding:12px; background:var(--whatsapp-light); border:none; border-radius:12px; color:var(--whatsapp-text); margin-top:4px; resize:none;" placeholder="Write something..."></textarea>
+        </div>
+        <div style="display:flex; gap:12px;">
+            <button id="edit-cancel" style="flex:1; padding:12px; background:var(--whatsapp-light); border:none; border-radius:12px; color:var(--whatsapp-text); cursor:pointer;">Cancel</button>
+            <button id="edit-save" style="flex:1; padding:12px; background:var(--whatsapp-green); border:none; border-radius:12px; color:var(--whatsapp-dark); font-weight:600; cursor:pointer;">Save</button>
+        </div>
+    </div>
 </div>
 
 <script type="module">
@@ -1132,7 +957,7 @@
     import { 
         collection, doc, getDoc, getDocs, setDoc, addDoc, 
         query, where, orderBy, onSnapshot, serverTimestamp,
-        updateDoc, deleteDoc, increment, Timestamp
+        updateDoc, deleteDoc, increment
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     // ===== STATE =====
@@ -1144,11 +969,9 @@
     let convsUnsub = null;
     let usersCache = [];
     let typingTimeout = null;
-    let lastMessageTime = 0;
-    const SPAM_COOLDOWN = 1000;
-    const EDIT_WINDOW = 15 * 60 * 1000;
-    let editingMessageId = null;
     let replyingTo = null;
+    let editingMessageId = null;
+    let currentContextMsg = null;
 
     // ===== DOM =====
     const $ = (id) => document.getElementById(id);
@@ -1161,32 +984,28 @@
     const conversationsList = $('conversations-list');
     const messagesArea = $('messages-area');
     const messageInput = $('message-input');
-    const userModal = $('user-modal');
-    const editModal = $('edit-modal');
-    const editMsgModal = $('edit-msg-modal');
     const sendBtn = $('send-btn');
     const charCounter = $('char-counter');
+    const settingsModal = $('settings-modal');
+    const editModal = document.getElementById('edit-modal');
     const MAX_CHARS = 500;
 
     // ===== HELPER FUNCTIONS =====
-    function formatShortTime(date) {
+    function formatTime(date) {
         if (!date) return '';
-        
+        const d = date.toDate ? date.toDate() : date;
         const now = new Date();
-        const diff = (now - date) / 1000;
+        const diff = (now - d) / 1000;
         
         if (diff < 60) return 'now';
         if (diff < 3600) return Math.floor(diff / 60) + 'm';
-        
-        if (date.toDateString() === now.toDateString()) {
-            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        if (d.toDateString() === now.toDateString()) {
+            return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         }
-        
-        const yesterday = new Date(now);
-        yesterday.setDate(yesterday.getDate() - 1);
-        if (date.toDateString() === yesterday.toDateString()) return 'Yesterday';
-        
-        return date.toLocaleDateString([], { day: 'numeric', month: 'short' });
+        if (diff < 86400 * 7) {
+            return d.toLocaleDateString([], { weekday: 'short' });
+        }
+        return d.toLocaleDateString([], { day: 'numeric', month: 'short' });
     }
 
     function escapeHtml(text) {
@@ -1195,85 +1014,117 @@
         return div.innerHTML;
     }
 
-    function closeSidebarMobile() {
-        sidebar.classList.remove('open');
-        overlay.classList.remove('show');
-    }
-
-    // ===== THEME =====
-    const savedTheme = localStorage.getItem('nova-theme') || 'dark';
-    if (savedTheme === 'light') document.body.classList.add('light-theme');
-    
-    $('theme-btn').addEventListener('click', () => {
-        document.body.classList.toggle('light-theme');
-        localStorage.setItem('nova-theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
-    });
-
-    // ===== MOBILE MENU =====
-    $('menu-btn').addEventListener('click', () => { sidebar.classList.add('open'); overlay.classList.add('show'); });
-    overlay.addEventListener('click', () => { sidebar.classList.remove('open'); overlay.classList.remove('show'); });
-    $('back-btn').addEventListener('click', closeChat);
-
-    // ===== MODALS =====
-    function showModal(modal) { modal.classList.add('show'); }
-    function hideModal(modal) { modal.classList.remove('show'); }
-    
-    userModal.addEventListener('click', (e) => { if (e.target === userModal) hideModal(userModal); });
-    editModal.addEventListener('click', (e) => { if (e.target === editModal) hideModal(editModal); });
-    editMsgModal.addEventListener('click', (e) => { if (e.target === editMsgModal) hideModal(editMsgModal); });
+    function showModal(modal) { modal.style.display = 'flex'; }
+    function hideModal(modal) { modal.style.display = 'none'; }
 
     // ===== MARK AS SEEN =====
     async function markSeen(convId) {
         if (!convId || !currentUser) return;
-        
         const convRef = doc(db, "conversations", convId);
-        await updateDoc(convRef, {
-            [`unread.${currentUser.uid}`]: 0
-        });
-    }
-
-    // ===== SCROLL TO MESSAGE =====
-    function scrollToMessage(msgId) {
-        const target = document.querySelector(`[data-msg-id="${msgId}"]`);
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            target.style.backgroundColor = 'rgba(124, 58, 237, 0.2)';
-            target.style.transition = 'background-color 0.3s';
-            setTimeout(() => {
-                target.style.backgroundColor = '';
-            }, 1500);
-        }
+        await updateDoc(convRef, { [`unread.${currentUser.uid}`]: 0 });
     }
 
     // ===== UPDATE SEND BUTTON =====
     function updateSendButton() {
-        const hasText = messageInput.value.trim().length > 0;
-        sendBtn.style.opacity = hasText ? '1' : '0.5';
-        sendBtn.disabled = !hasText;
+        sendBtn.disabled = messageInput.value.trim().length === 0;
     }
 
-    // ===== CHARACTER COUNTER =====
     function updateCharCounter() {
         const len = messageInput.value.length;
-        
         if (len > MAX_CHARS - 50) {
             charCounter.style.display = 'block';
             charCounter.textContent = `${len}/${MAX_CHARS}`;
-            charCounter.style.color = len > MAX_CHARS ? 'var(--danger)' : 'var(--text-muted)';
-            
             if (len > MAX_CHARS) {
                 messageInput.value = messageInput.value.substring(0, MAX_CHARS);
             }
         } else {
             charCounter.style.display = 'none';
         }
-        
         updateSendButton();
     }
 
     messageInput.addEventListener('input', updateCharCounter);
     messageInput.addEventListener('input', updateSendButton);
-    updateSendButton();
+
+    // ===== THEME =====
+    const savedTheme = localStorage.getItem('nova-theme') || 'dark';
+    if (savedTheme === 'light') document.body.style.background = '#fff';
+
+    // ===== MOBILE FUNCTIONS =====
+    function closeSidebarMobile() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
+    }
+
+    $('menu-btn')?.addEventListener('click', () => {
+        sidebar.classList.add('open');
+        overlay.classList.add('show');
+    });
+    overlay.addEventListener('click', closeSidebarMobile);
+    $('back-btn')?.addEventListener('click', closeChat);
+
+    // ===== SETTINGS =====
+    function openSettings() {
+        showModal(settingsModal);
+        if (window.innerWidth <= 768) closeSidebarMobile();
+    }
+
+    $('settings-header-btn')?.addEventListener('click', openSettings);
+    $('nav-settings')?.addEventListener('click', openSettings);
+    $('nav-chats')?.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+            sidebar.classList.add('open');
+            overlay.classList.add('show');
+        }
+    });
+
+    settingsModal.addEventListener('click', (e) => {
+        if (e.target === settingsModal) hideModal(settingsModal);
+    });
+
+    $('profile-settings-btn')?.addEventListener('click', () => {
+        hideModal(settingsModal);
+        openEditProfile();
+    });
+
+    $('theme-settings-btn')?.addEventListener('click', () => {
+        document.body.classList.toggle('light-theme');
+        localStorage.setItem('nova-theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+        hideModal(settingsModal);
+    });
+
+    $('logout-settings-btn')?.addEventListener('click', async () => {
+        if (!confirm('Sign out?')) return;
+        if (currentUser) {
+            await updateDoc(doc(db, "users", currentUser.uid), { status: "offline" });
+        }
+        await signOut(auth);
+        window.location.href = "auth.html";
+    });
+
+    // ===== EDIT PROFILE =====
+    function openEditProfile() {
+        if (currentUserData) {
+            $('edit-name').value = currentUserData.displayName || '';
+            $('edit-bio').value = currentUserData.bio || '';
+            showModal(editModal);
+        }
+    }
+
+    $('profile-section')?.addEventListener('click', openEditProfile);
+    $('edit-cancel')?.addEventListener('click', () => hideModal(editModal));
+    $('edit-save')?.addEventListener('click', async () => {
+        const newName = $('edit-name').value.trim();
+        if (!newName) return;
+        await updateDoc(doc(db, "users", currentUser.uid), {
+            displayName: newName,
+            bio: $('edit-bio').value.trim()
+        });
+        currentUserData.displayName = newName;
+        currentUserData.bio = $('edit-bio').value.trim();
+        updateSelfUI();
+        hideModal(editModal);
+    });
 
     // ===== AUTH =====
     onAuthStateChanged(auth, async (user) => {
@@ -1290,12 +1141,11 @@
                 uid: user.uid,
                 email: user.email || '',
                 displayName: user.displayName || user.email?.split('@')[0] || 'User',
-                username: (user.displayName || user.email?.split('@')[0] || 'user').toLowerCase().replace(/\s+/g, ''),
-                photoURL: "", bio: "", status: "online",
+                username: (user.displayName || user.email?.split('@')[0] || 'user').toLowerCase(),
+                bio: "", status: "online",
                 createdAt: serverTimestamp(),
                 lastLogin: serverTimestamp(),
-                searchKeywords: [], contacts: [],
-                pinnedChats: []
+                searchKeywords: [], pinnedChats: []
             };
             currentUserData.searchKeywords = [currentUserData.username, currentUserData.displayName.toLowerCase()];
             await setDoc(userRef, currentUserData);
@@ -1306,15 +1156,12 @@
         await cacheUsers();
         listenToConversations();
         
-        if (Notification.permission === 'default') {
-            Notification.requestPermission();
-        }
+        if (Notification.permission === 'default') Notification.requestPermission();
     });
 
     function updateSelfUI() {
-        $('self-name').textContent = currentUserData.displayName;
-        $('self-avatar').textContent = currentUserData.displayName.charAt(0).toUpperCase();
-        $('edit-avatar').textContent = currentUserData.displayName.charAt(0).toUpperCase();
+        $('self-name') && ($('self-name').textContent = currentUserData.displayName);
+        $('self-avatar') && ($('self-avatar').textContent = currentUserData.displayName.charAt(0).toUpperCase());
     }
 
     async function cacheUsers() {
@@ -1323,51 +1170,28 @@
         snap.forEach(d => {
             if (d.data().uid !== currentUser?.uid) usersCache.push(d.data());
         });
-        updateOnlineCount();
-    }
-
-    function updateOnlineCount() {
-        const count = usersCache.filter(u => u.status === 'online').length;
-        $('online-count').textContent = count > 0 ? `${count} online` : '';
     }
 
     // ===== CONVERSATIONS =====
     function listenToConversations() {
         if (convsUnsub) convsUnsub();
 
-        const q = query(
-            collection(db, "conversations"),
-            where("participants", "array-contains", currentUser.uid)
-        );
+        const q = query(collection(db, "conversations"), where("participants", "array-contains", currentUser.uid));
 
         convsUnsub = onSnapshot(q, async (snapshot) => {
             const docs = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-            
             const pinned = docs.filter(d => currentUserData.pinnedChats?.includes(d.id));
             const unpinned = docs.filter(d => !currentUserData.pinnedChats?.includes(d.id));
-            
-            const sortFn = (a, b) => {
-                const timeA = a.updatedAt?.toDate?.() || new Date(0);
-                const timeB = b.updatedAt?.toDate?.() || new Date(0);
-                return timeB - timeA;
-            };
-            pinned.sort(sortFn);
-            unpinned.sort(sortFn);
-            
-            const sorted = [...pinned, ...unpinned];
+            pinned.sort((a, b) => (b.updatedAt?.toDate?.() || 0) - (a.updatedAt?.toDate?.() || 0));
+            unpinned.sort((a, b) => (b.updatedAt?.toDate?.() || 0) - (a.updatedAt?.toDate?.() || 0));
             
             conversationsList.innerHTML = '';
-
-            if (sorted.length === 0) {
-                conversationsList.innerHTML = `
-                    <div style="padding:24px;text-align:center;color:var(--text-muted);font-size:13px;">
-                        <iconify-icon icon="mdi:message-text-outline" style="font-size:36px;opacity:0.3;display:block;margin:0 auto 8px;"></iconify-icon>
-                        No conversations yet
-                    </div>`;
+            if ([...pinned, ...unpinned].length === 0) {
+                conversationsList.innerHTML = '<div style="padding:40px;text-align:center;color:var(--whatsapp-text-secondary);">No conversations yet</div>';
                 return;
             }
 
-            for (const conv of sorted) {
+            for (const conv of [...pinned, ...unpinned]) {
                 const otherId = conv.participants.find(id => id !== currentUser.uid);
                 if (!otherId) continue;
 
@@ -1379,639 +1203,380 @@
                 }
 
                 const item = document.createElement('div');
-                item.className = 'chat-item';
-                if (conv.id === activeChatId) item.classList.add('active');
-                if (currentUserData.pinnedChats?.includes(conv.id)) item.classList.add('pinned');
-                item.dataset.convId = conv.id;
-
-                const lastMsg = conv.lastMessage || 'Start chatting...';
-                const truncated = lastMsg.length > 25 ? lastMsg.substring(0, 25) + '...' : lastMsg;
+                item.className = `chat-item ${conv.id === activeChatId ? 'active' : ''}`;
                 const isOnline = otherUser.status === 'online';
-                const lastTime = conv.updatedAt?.toDate ? formatShortTime(conv.updatedAt.toDate()) : '';
-                const unreadCount = conv.unread?.[currentUser.uid] || 0;
+                const lastMsg = conv.lastMessage || 'Start chatting...';
+                const unread = conv.unread?.[currentUser.uid] || 0;
                 const isTyping = conv.typing?.[otherId] === true;
 
                 item.innerHTML = `
-                    <div class="avatar sm ${isOnline ? 'online' : ''}">${otherUser.displayName.charAt(0).toUpperCase()}</div>
+                    <div class="avatar ${isOnline ? 'online' : ''}">${otherUser.displayName.charAt(0).toUpperCase()}</div>
                     <div class="chat-info">
-                        <div style="display:flex;justify-content:space-between;align-items:center;">
-                            <div class="name">
-                                ${currentUserData.pinnedChats?.includes(conv.id) ? '<iconify-icon icon="mdi:pin" class="pin-icon"></iconify-icon> ' : ''}
-                                ${otherUser.displayName}
-                            </div>
-                            <div style="font-size:10px;color:var(--text-muted);flex-shrink:0;">${lastTime}</div>
+                        <div class="chat-info-top">
+                            <span class="chat-name">${escapeHtml(otherUser.displayName)}</span>
+                            <span class="chat-time">${formatTime(conv.updatedAt?.toDate?.())}</span>
                         </div>
-                        <div class="preview ${isTyping ? 'typing' : ''}">${isTyping ? 'typing...' : truncated}</div>
+                        <div class="chat-preview ${isTyping ? 'typing' : ''}">
+                            ${isTyping ? 'typing...' : (lastMsg.length > 30 ? lastMsg.substring(0, 30) + '...' : lastMsg)}
+                        </div>
                     </div>
-                    ${unreadCount > 0 && conv.id !== activeChatId ? `<div class="unread-badge">${unreadCount > 99 ? '99+' : unreadCount}</div>` : ''}
+                    ${unread > 0 && conv.id !== activeChatId ? `<div class="unread-badge">${unread > 99 ? '99+' : unread}</div>` : ''}
                 `;
 
-                item.addEventListener('click', () => {
-                    openChat(conv.id, otherUser);
-                    if (window.innerWidth <= 768) {
-                        sidebar.classList.remove('open');
-                        overlay.classList.remove('show');
-                    }
+                item.addEventListener('click', () => openChat(conv.id, otherUser));
+                
+                // Long press for delete conversation
+                let pressTimer;
+                item.addEventListener('touchstart', (e) => {
+                    pressTimer = setTimeout(() => {
+                        if (confirm('Delete this conversation?')) deleteDoc(doc(db, "conversations", conv.id));
+                    }, 500);
                 });
-
-                let touchStartX = 0;
-                item.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
-                item.addEventListener('touchend', async (e) => {
-                    const diff = e.changedTouches[0].clientX - touchStartX;
-                    if (diff > 80 && window.innerWidth <= 768) {
-                        if (confirm('Delete this conversation?')) {
-                            await deleteDoc(doc(db, "conversations", conv.id));
-                        }
-                    }
-                });
-
-                item.addEventListener('contextmenu', (e) => {
-                    e.preventDefault();
-                    if (confirm(currentUserData.pinnedChats?.includes(conv.id) ? 'Unpin this chat?' : 'Pin this chat?')) {
-                        togglePinChat(conv.id);
-                    }
-                });
-
+                item.addEventListener('touchend', () => clearTimeout(pressTimer));
+                
                 conversationsList.appendChild(item);
             }
         });
     }
 
-    // ===== PIN CHAT =====
-    async function togglePinChat(convId) {
-        const pinned = currentUserData.pinnedChats || [];
-        const index = pinned.indexOf(convId);
+    // ===== OPEN CHAT =====
+    function openChat(convId, otherUser) {
+        if (messagesUnsub) messagesUnsub();
+        activeChatId = convId;
+        activeChatUser = otherUser;
         
-        if (index > -1) {
-            pinned.splice(index, 1);
-        } else {
-            pinned.unshift(convId);
-        }
+        welcomeScreen.style.display = 'none';
+        chatScreen.style.display = 'flex';
         
-        await updateDoc(doc(db, "users", currentUser.uid), { pinnedChats: pinned });
-        currentUserData.pinnedChats = pinned;
+        $('chat-avatar').textContent = otherUser.displayName.charAt(0).toUpperCase();
+        $('chat-name').textContent = otherUser.displayName;
+        const statusEl = $('chat-status');
+        statusEl.textContent = otherUser.status === 'online' ? 'Online' : 'Offline';
+        statusEl.className = otherUser.status === 'online' ? 'chat-header-status online' : 'chat-header-status';
+        
+        markSeen(convId);
+        
+        const msgsQuery = query(collection(db, "conversations", convId, "messages"), orderBy("timestamp", "asc"));
+        messagesUnsub = onSnapshot(msgsQuery, (snap) => {
+            messagesArea.innerHTML = '';
+            if (snap.empty) {
+                messagesArea.innerHTML = '<div style="text-align:center;color:var(--whatsapp-text-secondary);padding:40px;">No messages yet</div>';
+                return;
+            }
+            
+            let lastDate = '';
+            snap.forEach((msgDoc) => {
+                const msg = msgDoc.data();
+                const isMine = msg.senderId === currentUser.uid;
+                const msgDate = msg.timestamp?.toDate();
+                
+                if (msgDate) {
+                    const dateStr = msgDate.toLocaleDateString();
+                    if (dateStr !== lastDate) {
+                        lastDate = dateStr;
+                        const divider = document.createElement('div');
+                        divider.className = 'date-divider';
+                        divider.innerHTML = `<span>${msgDate.toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric' })}</span>`;
+                        messagesArea.appendChild(divider);
+                    }
+                }
+                
+                const el = document.createElement('div');
+                el.className = `msg ${isMine ? 'out' : 'in'}`;
+                el.dataset.msgId = msgDoc.id;
+                
+                let quoteHtml = '';
+                if (msg.replyTo) {
+                    quoteHtml = `<div class="quote" data-quote-id="${msg.replyTo.id}"><iconify-icon icon="mdi:reply"></iconify-icon> ${escapeHtml(msg.replyTo.senderName)}: ${escapeHtml(msg.replyTo.text.substring(0, 40))}</div>`;
+                }
+                
+                el.innerHTML = `
+                    <div class="msg-bubble">
+                        ${quoteHtml}
+                        ${escapeHtml(msg.text || '')}
+                        ${msg.edited ? '<span class="msg-edited">edited</span>' : ''}
+                    </div>
+                    <div class="msg-time">
+                        ${msgDate ? msgDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}
+                        ${isMine ? `<iconify-icon icon="mdi:check${msg.seen ? '-all' : (msg.delivered ? '-all' : '')}" class="msg-status ${msg.seen ? 'seen' : (msg.delivered ? 'delivered' : 'sent')}"></iconify-icon>` : ''}
+                    </div>
+                `;
+                
+                // Long press for context menu
+                el.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                    showContextMenu(e, msgDoc.id, msg.text, isMine, msg.timestamp?.toDate?.()?.getTime());
+                });
+                el.addEventListener('touchstart', (e) => {
+                    let timer = setTimeout(() => {
+                        showContextMenu(e, msgDoc.id, msg.text, isMine, msg.timestamp?.toDate?.()?.getTime());
+                    }, 500);
+                    el.addEventListener('touchend', () => clearTimeout(timer), { once: true });
+                    el.addEventListener('touchmove', () => clearTimeout(timer), { once: true });
+                });
+                
+                // Click on quote to scroll
+                const quote = el.querySelector('.quote');
+                if (quote && msg.replyTo?.id) {
+                    quote.addEventListener('click', () => scrollToMessage(msg.replyTo.id));
+                }
+                
+                messagesArea.appendChild(el);
+            });
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+        });
+        
+        if (window.innerWidth <= 768) closeSidebarMobile();
     }
 
-    $('pin-chat-btn').addEventListener('click', async () => {
-        if (activeChatId) {
-            await togglePinChat(activeChatId);
-            const icon = $('pin-chat-btn').querySelector('iconify-icon');
-            const isPinned = currentUserData.pinnedChats?.includes(activeChatId);
-            icon.setAttribute('icon', isPinned ? 'mdi:pin' : 'mdi:pin-outline');
-        }
-    });
+    function closeChat() {
+        if (messagesUnsub) messagesUnsub();
+        activeChatId = null;
+        activeChatUser = null;
+        replyingTo = null;
+        $('reply-bar').style.display = 'none';
+        welcomeScreen.style.display = 'flex';
+        chatScreen.style.display = 'none';
+    }
 
+    // ===== CONTEXT MENU =====
+    function showContextMenu(e, msgId, text, isMine, timestamp) {
+        const existing = document.querySelector('.context-menu');
+        if (existing) existing.remove();
+        
+        const menu = document.createElement('div');
+        menu.className = 'context-menu';
+        
+        const x = e.clientX || (e.touches ? e.touches[0].clientX : 0);
+        const y = e.clientY || (e.touches ? e.touches[0].clientY : 0);
+        menu.style.left = x + 'px';
+        menu.style.top = y + 'px';
+        
+        // Reply button
+        const replyBtn = document.createElement('button');
+        replyBtn.innerHTML = '<iconify-icon icon="mdi:reply"></iconify-icon> Reply';
+        replyBtn.onclick = () => {
+            replyingTo = { id: msgId, text: text, senderName: isMine ? 'You' : activeChatUser?.displayName };
+            $('reply-who').textContent = `Replying to ${replyingTo.senderName}`;
+            $('reply-what').textContent = text.length > 60 ? text.substring(0, 60) + '...' : text;
+            $('reply-bar').style.display = 'flex';
+            menu.remove();
+            messageInput.focus();
+        };
+        menu.appendChild(replyBtn);
+        
+        // Copy button
+        const copyBtn = document.createElement('button');
+        copyBtn.innerHTML = '<iconify-icon icon="mdi:content-copy"></iconify-icon> Copy';
+        copyBtn.onclick = () => {
+            navigator.clipboard.writeText(text);
+            menu.remove();
+            alert('Copied!');
+        };
+        menu.appendChild(copyBtn);
+        
+        if (isMine) {
+            const now = Date.now();
+            if (now - (timestamp || 0) < 15 * 60 * 1000) {
+                const editBtn = document.createElement('button');
+                editBtn.innerHTML = '<iconify-icon icon="mdi:pencil"></iconify-icon> Edit';
+                editBtn.onclick = () => {
+                    editingMessageId = msgId;
+                    const newText = prompt('Edit message:', text);
+                    if (newText && newText.trim()) {
+                        updateDoc(doc(db, "conversations", activeChatId, "messages", msgId), {
+                            text: newText.trim(),
+                            edited: true
+                        });
+                    }
+                    menu.remove();
+                };
+                menu.appendChild(editBtn);
+            }
+            
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'danger';
+            deleteBtn.innerHTML = '<iconify-icon icon="mdi:delete"></iconify-icon> Delete';
+            deleteBtn.onclick = () => {
+                if (confirm('Delete this message?')) {
+                    deleteDoc(doc(db, "conversations", activeChatId, "messages", msgId));
+                }
+                menu.remove();
+            };
+            menu.appendChild(deleteBtn);
+        }
+        
+        // Reactions
+        const reactions = ['❤️', '😂', '🔥', '👍', '😮', '🎉'];
+        reactions.forEach(emoji => {
+            const reactionBtn = document.createElement('button');
+            reactionBtn.innerHTML = `<span style="font-size:20px;">${emoji}</span>`;
+            reactionBtn.style.justifyContent = 'center';
+            reactionBtn.onclick = () => {
+                addReaction(msgId, emoji);
+                menu.remove();
+            };
+            menu.appendChild(reactionBtn);
+        });
+        
+        document.body.appendChild(menu);
+        
+        const removeMenu = (e) => {
+            if (!menu.contains(e.target)) menu.remove();
+            document.removeEventListener('click', removeMenu);
+            document.removeEventListener('touchstart', removeMenu);
+        };
+        setTimeout(() => {
+            document.addEventListener('click', removeMenu);
+            document.addEventListener('touchstart', removeMenu);
+        }, 100);
+    }
+    
+    async function addReaction(msgId, emoji) {
+        if (!activeChatId) return;
+        const msgRef = doc(db, "conversations", activeChatId, "messages", msgId);
+        const snap = await getDoc(msgRef);
+        if (!snap.exists()) return;
+        const reactions = snap.data().reactions || {};
+        if (!reactions[emoji]) reactions[emoji] = [];
+        const idx = reactions[emoji].indexOf(currentUser.uid);
+        if (idx > -1) reactions[emoji].splice(idx, 1);
+        else reactions[emoji].push(currentUser.uid);
+        if (reactions[emoji].length === 0) delete reactions[emoji];
+        await updateDoc(msgRef, { reactions });
+    }
+    
+    function scrollToMessage(msgId) {
+        const target = document.querySelector(`[data-msg-id="${msgId}"]`);
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            target.style.background = 'rgba(37, 211, 102, 0.2)';
+            setTimeout(() => target.style.background = '', 1500);
+        }
+    }
+    
+    // ===== SEND MESSAGE =====
+    async function sendMessage() {
+        const text = messageInput.value.trim();
+        if (!text || !activeChatId) return;
+        
+        const msgData = {
+            senderId: currentUser.uid,
+            text: text,
+            timestamp: serverTimestamp(),
+            delivered: false,
+            seen: false,
+            reactions: {}
+        };
+        if (replyingTo) {
+            msgData.replyTo = replyingTo;
+        }
+        
+        await addDoc(collection(db, "conversations", activeChatId, "messages"), msgData);
+        await setDoc(doc(db, "conversations", activeChatId), {
+            lastMessage: text,
+            lastMessageSender: currentUser.uid,
+            updatedAt: serverTimestamp(),
+            [`unread.${activeChatUser.uid}`]: increment(1)
+        }, { merge: true });
+        
+        messageInput.value = '';
+        replyingTo = null;
+        $('reply-bar').style.display = 'none';
+        updateSendButton();
+        updateCharCounter();
+        
+        const convRef = doc(db, "conversations", activeChatId);
+        await updateDoc(convRef, { [`typing.${currentUser.uid}`]: false });
+    }
+    
+    $('send-btn').addEventListener('click', sendMessage);
+    messageInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
+    $('cancel-reply').addEventListener('click', () => {
+        replyingTo = null;
+        $('reply-bar').style.display = 'none';
+    });
+    
+    // ===== TYPING =====
+    messageInput.addEventListener('input', async () => {
+        if (!activeChatId) return;
+        const convRef = doc(db, "conversations", activeChatId);
+        await updateDoc(convRef, { [`typing.${currentUser.uid}`]: true });
+        clearTimeout(typingTimeout);
+        typingTimeout = setTimeout(async () => {
+            await updateDoc(convRef, { [`typing.${currentUser.uid}`]: false });
+        }, 2000);
+    });
+    
     // ===== SEARCH =====
     searchInput.addEventListener('input', () => {
         const term = searchInput.value.trim().toLowerCase();
         searchResults.innerHTML = '';
         if (term.length < 2) return;
-
-        const filtered = usersCache.filter(u => 
-            u.searchKeywords && u.searchKeywords.some(k => k.includes(term))
-        ).slice(0, 6);
-
-        if (filtered.length === 0) {
-            searchResults.innerHTML = '<div style="padding:14px;text-align:center;color:var(--text-muted);font-size:13px;">No users found</div>';
-            return;
-        }
-
+        const filtered = usersCache.filter(u => u.displayName?.toLowerCase().includes(term)).slice(0, 6);
         filtered.forEach(u => {
             const div = document.createElement('div');
             div.className = 'chat-item';
-            div.innerHTML = `
-                <div class="avatar sm">${u.displayName.charAt(0).toUpperCase()}</div>
-                <div class="chat-info">
-                    <div class="name">${u.displayName}</div>
-                    <div class="preview">@${u.username}</div>
-                </div>
-            `;
+            div.innerHTML = `<div class="avatar">${u.displayName.charAt(0).toUpperCase()}</div><div class="chat-info"><div class="chat-name">${escapeHtml(u.displayName)}</div></div>`;
             div.addEventListener('click', async () => {
+                const ids = [currentUser.uid, u.uid].sort();
+                const convId = ids.join('_');
+                const convRef = doc(db, "conversations", convId);
+                if (!(await getDoc(convRef)).exists()) {
+                    await setDoc(convRef, { participants: [currentUser.uid, u.uid], createdAt: serverTimestamp(), updatedAt: serverTimestamp(), unread: { [currentUser.uid]: 0, [u.uid]: 0 } });
+                }
+                openChat(convId, u);
                 searchInput.value = '';
                 searchResults.innerHTML = '';
-                await startChat(u);
-                if (window.innerWidth <= 768) closeSidebarMobile();
+                closeSidebarMobile();
             });
             searchResults.appendChild(div);
         });
     });
-
-    // ===== TYPING INDICATOR =====
-    messageInput.addEventListener('input', async () => {
+    
+    // ===== PIN CHAT =====
+    $('pin-chat-btn')?.addEventListener('click', async () => {
         if (!activeChatId) return;
-        
-        const convRef = doc(db, "conversations", activeChatId);
-        await updateDoc(convRef, {
-            [`typing.${currentUser.uid}`]: true
-        });
-        
-        clearTimeout(typingTimeout);
-        typingTimeout = setTimeout(async () => {
-            await updateDoc(convRef, {
-                [`typing.${currentUser.uid}`]: false
-            });
-        }, 2000);
-        
-        localStorage.setItem(`draft_${activeChatId}`, messageInput.value);
+        const pinned = currentUserData.pinnedChats || [];
+        const idx = pinned.indexOf(activeChatId);
+        if (idx > -1) pinned.splice(idx, 1);
+        else pinned.unshift(activeChatId);
+        await updateDoc(doc(db, "users", currentUser.uid), { pinnedChats: pinned });
+        currentUserData.pinnedChats = pinned;
+        const icon = $('pin-chat-btn').querySelector('iconify-icon');
+        icon.setAttribute('icon', idx > -1 ? 'mdi:pin-outline' : 'mdi:pin');
     });
-
-    // ===== START CHAT =====
-    async function startChat(otherUser) {
-        const ids = [currentUser.uid, otherUser.uid].sort();
-        const convId = ids.join('_');
-        const convRef = doc(db, "conversations", convId);
-        const snap = await getDoc(convRef);
-
-        if (!snap.exists()) {
-            await setDoc(convRef, {
-                participants: [currentUser.uid, otherUser.uid],
-                createdAt: serverTimestamp(),
-                updatedAt: serverTimestamp(),
-                lastMessage: "",
-                lastMessageSender: "",
-                typing: {},
-                unread: { [currentUser.uid]: 0, [otherUser.uid]: 0 }
-            });
-        }
-
-        const currentContacts = currentUserData.contacts || [];
-        if (!currentContacts.some(c => c.uid === otherUser.uid)) {
-            currentContacts.push({
-                uid: otherUser.uid,
-                displayName: otherUser.displayName,
-                username: otherUser.username,
-                lastInteraction: new Date().toISOString()
-            });
-            await updateDoc(doc(db, "users", currentUser.uid), { contacts: currentContacts });
-            currentUserData.contacts = currentContacts;
-        }
-
-        openChat(convId, otherUser);
-    }
-
-    // ===== OPEN CHAT =====
-    function openChat(convId, otherUser) {
-        if (messagesUnsub) { messagesUnsub(); messagesUnsub = null; }
-
-        activeChatId = convId;
-        activeChatUser = otherUser;
-
-        welcomeScreen.style.display = 'none';
-        chatScreen.style.display = 'flex';
-
-        $('chat-avatar').textContent = otherUser.displayName.charAt(0).toUpperCase();
-        $('chat-name').textContent = otherUser.displayName;
-        
-        const statusEl = $('chat-status');
-        if (otherUser.status === 'online') {
-            statusEl.textContent = 'Online';
-            statusEl.className = 'status-text online';
-        } else {
-            statusEl.textContent = 'Offline';
-            statusEl.className = 'status-text offline';
-        }
-
-        const draft = localStorage.getItem(`draft_${convId}`);
-        messageInput.value = draft || '';
-        messageInput.focus();
-        updateSendButton();
-        updateCharCounter();
-
-        document.querySelectorAll('#conversations-list .chat-item').forEach(item => {
-            item.classList.toggle('active', item.dataset.convId === convId);
-        });
-
-        const isPinned = currentUserData.pinnedChats?.includes(convId);
-        $('pin-chat-btn').querySelector('iconify-icon').setAttribute('icon', isPinned ? 'mdi:pin' : 'mdi:pin-outline');
-
-        const msgsQuery = query(
-            collection(db, "conversations", convId, "messages"),
-            orderBy("timestamp", "asc")
-        );
-
-        messagesUnsub = onSnapshot(msgsQuery, async (snap) => {
-            messagesArea.innerHTML = '';
-            
-            await markSeen(convId);
-
-            if (snap.empty) {
-                messagesArea.innerHTML = `
-                    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:16px;padding:40px;text-align:center;min-height:300px;">
-                        <div style="width:70px;height:70px;border-radius:50%;background:rgba(124,58,237,0.1);border:1px solid var(--border-color);display:flex;align-items:center;justify-content:center;">
-                            <iconify-icon icon="mdi:chat-processing-outline" style="font-size:32px;color:var(--accent);opacity:0.6;"></iconify-icon>
-                        </div>
-                        <div>
-                            <p style="font-size:15px;font-weight:600;color:var(--text-primary);margin-bottom:6px;">Start the conversation</p>
-                            <p style="font-size:13px;color:var(--text-secondary);">Say hi to ${escapeHtml(otherUser.displayName)} 👋</p>
-                        </div>
-                    </div>`;
-                return;
-            }
-
-            let lastDate = '';
-            snap.forEach((msgDoc) => {
-                const msg = msgDoc.data();
-                const isMine = msg.senderId === currentUser.uid;
-
-                if (msg.timestamp) {
-                    const d = msg.timestamp.toDate();
-                    const dateStr = d.toLocaleDateString();
-                    if (dateStr !== lastDate) {
-                        lastDate = dateStr;
-                        const sep = document.createElement('div');
-                        sep.className = 'date-divider';
-                        const now = new Date();
-                        const yesterday = new Date(now);
-                        yesterday.setDate(yesterday.getDate() - 1);
-                        
-                        if (dateStr === now.toLocaleDateString()) sep.textContent = 'Today';
-                        else if (dateStr === yesterday.toLocaleDateString()) sep.textContent = 'Yesterday';
-                        else sep.textContent = d.toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric' });
-                        
-                        messagesArea.appendChild(sep);
-                    }
-                }
-
-                const el = document.createElement('div');
-                el.className = `msg ${isMine ? 'out' : 'in'}`;
-                el.dataset.msgId = msgDoc.id;
-                el.dataset.senderId = msg.senderId;
-
-                let time = '';
-                if (msg.timestamp) {
-                    time = msg.timestamp.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                }
-
-                let statusIcon = '';
-                if (isMine) {
-                    if (msg.seen) {
-                        statusIcon = '<iconify-icon icon="mdi:check-all" class="msg-status seen"></iconify-icon>';
-                    } else if (msg.delivered) {
-                        statusIcon = '<iconify-icon icon="mdi:check-all" class="msg-status delivered"></iconify-icon>';
-                    } else {
-                        statusIcon = '<iconify-icon icon="mdi:check" class="msg-status sent"></iconify-icon>';
-                    }
-                }
-
-                let reactionsHtml = '';
-                if (msg.reactions && Object.keys(msg.reactions).length > 0) {
-                    reactionsHtml = '<div class="msg-reactions">';
-                    for (const [emoji, users] of Object.entries(msg.reactions)) {
-                        reactionsHtml += `<span onclick="window.addReaction('${msgDoc.id}', '${emoji}')" title="${users.join(', ')}">${emoji} ${users.length}</span>`;
-                    }
-                    reactionsHtml += '</div>';
-                }
-
-                let quoteHtml = '';
-                if (msg.replyTo) {
-                    quoteHtml = `
-                        <div class="quote" data-quote-id="${msg.replyTo.id}">
-                            <iconify-icon icon="mdi:reply" style="font-size:10px;"></iconify-icon>
-                            ${escapeHtml(msg.replyTo.senderName)}: ${escapeHtml(msg.replyTo.text.substring(0, 50))}${msg.replyTo.text.length > 50 ? '...' : ''}
-                        </div>
-                    `;
-                }
-
-                el.innerHTML = `
-                    <div class="msg-bubble">
-                        ${quoteHtml}
-                        ${escapeHtml(msg.text || '')}
-                        ${msg.edited ? '<div class="msg-edited">edited</div>' : ''}
-                    </div>
-                    ${reactionsHtml}
-                    <div class="msg-time">
-                        ${time}
-                        ${statusIcon}
-                    </div>
-                    ${isMine ? `
-                        <div class="msg-actions">
-                            <button class="msg-action-btn" onclick="window.addReaction('${msgDoc.id}', '❤️')" title="❤️">❤️</button>
-                            <button class="msg-action-btn" onclick="window.addReaction('${msgDoc.id}', '😂')" title="😂">😂</button>
-                            <button class="msg-action-btn" onclick="window.addReaction('${msgDoc.id}', '🔥')" title="🔥">🔥</button>
-                            <button class="msg-action-btn" onclick="window.addReaction('${msgDoc.id}', '👍')" title="👍">👍</button>
-                            <button class="msg-action-btn" onclick="window.editMessage('${msgDoc.id}', '${escapeHtml(msg.text || '')}', ${msg.timestamp?.toDate?.()?.getTime() || 0})" title="Edit">✏️</button>
-                            <button class="msg-action-btn danger" onclick="window.deleteMessage('${msgDoc.id}')" title="Delete">🗑️</button>
-                        </div>
-                    ` : `
-                        <div class="msg-actions">
-                            <button class="msg-action-btn" onclick="window.addReaction('${msgDoc.id}', '❤️')" title="❤️">❤️</button>
-                            <button class="msg-action-btn" onclick="window.addReaction('${msgDoc.id}', '😂')" title="😂">😂</button>
-                            <button class="msg-action-btn" onclick="window.addReaction('${msgDoc.id}', '🔥')" title="🔥">🔥</button>
-                            <button class="msg-action-btn" onclick="window.addReaction('${msgDoc.id}', '👍')" title="👍">👍</button>
-                        </div>
-                    `}
-                `;
-
-                const quoteDiv = el.querySelector('.quote');
-                if (quoteDiv && msg.replyTo?.id) {
-                    quoteDiv.addEventListener('click', () => scrollToMessage(msg.replyTo.id));
-                }
-
-                let touchStartX = 0;
-                el.addEventListener('touchstart', (e) => {
-                    touchStartX = e.touches[0].clientX;
-                }, { passive: true });
-
-                el.addEventListener('touchend', (e) => {
-                    const diff = e.changedTouches[0].clientX - touchStartX;
-                    if (diff > 60 && !isMine) {
-                        el.style.transform = 'translateX(8px)';
-                        el.style.transition = 'transform 0.15s';
-                        setTimeout(() => { el.style.transform = ''; }, 150);
-                        
-                        replyingTo = {
-                            id: msgDoc.id,
-                            text: msg.text,
-                            senderName: isMine ? 'You' : activeChatUser.displayName
-                        };
-                        $('reply-who').textContent = `Replying to ${replyingTo.senderName}`;
-                        $('reply-what').textContent = msg.text.length > 60 ? msg.text.substring(0, 60) + '...' : msg.text;
-                        $('reply-bar').style.display = 'flex';
-                        messageInput.focus();
-                    }
-                }, { passive: true });
-
-                el.addEventListener('dblclick', () => {
-                    window.addReaction(msgDoc.id, '❤️');
-                });
-
-                messagesArea.appendChild(el);
-            });
-
-            messagesArea.scrollTop = messagesArea.scrollHeight;
-        });
-    }
-
-    function closeChat() {
-        activeChatId = null;
-        activeChatUser = null;
-        replyingTo = null;
-        $('reply-bar').style.display = 'none';
-        if (messagesUnsub) { messagesUnsub(); messagesUnsub = null; }
-        welcomeScreen.style.display = 'flex';
-        chatScreen.style.display = 'none';
-    }
-
-    // ===== SEND MESSAGE =====
-    async function sendMessage() {
-        const text = messageInput.value.trim();
-        if (!text) return;
-
-        const now = Date.now();
-        if (now - lastMessageTime < SPAM_COOLDOWN) {
-            alert('Please wait before sending another message');
-            return;
-        }
-        lastMessageTime = now;
-
-        if (!activeChatId && activeChatUser) {
-            await startChat(activeChatUser);
-        }
-        if (!activeChatId) return;
-
-        const messageData = {
-            senderId: currentUser.uid,
-            text: text,
-            timestamp: serverTimestamp(),
-            type: "text",
-            delivered: false,
-            seen: false,
-            reactions: {}
-        };
-
-        if (replyingTo) {
-            messageData.replyTo = {
-                id: replyingTo.id,
-                text: replyingTo.text,
-                senderName: replyingTo.senderName
-            };
-        }
-
-        messageInput.value = '';
-        updateSendButton();
-        updateCharCounter();
-        localStorage.removeItem(`draft_${activeChatId}`);
-
-        await updateDoc(doc(db, "conversations", activeChatId), {
-            [`typing.${currentUser.uid}`]: false
-        });
-
-        try {
-            await addDoc(collection(db, "conversations", activeChatId, "messages"), messageData);
-
-            await setDoc(doc(db, "conversations", activeChatId), {
-                lastMessage: text,
-                lastMessageSender: currentUser.uid,
-                updatedAt: serverTimestamp(),
-                [`unread.${activeChatUser.uid}`]: increment(1)
-            }, { merge: true });
-
-            replyingTo = null;
-            $('reply-bar').style.display = 'none';
-            messageInput.focus();
-        } catch (e) {
-            console.error(e);
-            messageInput.value = text;
-            updateSendButton();
-            updateCharCounter();
-        }
-    }
-
-    $('send-btn').addEventListener('click', sendMessage);
-    messageInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendMessage();
-        }
-    });
-
-    $('cancel-reply').addEventListener('click', () => {
-        replyingTo = null;
-        $('reply-bar').style.display = 'none';
-    });
-
-    // ===== EMOJI PICKER SIMPLE =====
-    $('emoji-btn').addEventListener('click', () => {
-        const emojis = ['😀', '😂', '😍', '🔥', '👍', '❤️', '🎉', '✨'];
+    
+    // ===== EMOJI PICKER =====
+    $('emoji-btn')?.addEventListener('click', () => {
+        const existing = document.querySelector('.emoji-picker');
+        if (existing) { existing.remove(); return; }
         const picker = document.createElement('div');
-        picker.className = 'reaction-picker';
-        picker.style.position = 'absolute';
-        picker.style.bottom = '70px';
-        picker.style.left = '20px';
-        picker.style.background = 'var(--glass-bg)';
-        picker.style.backdropFilter = 'blur(10px)';
-        picker.style.borderRadius = '20px';
-        picker.style.border = '1px solid var(--glass-border)';
-        picker.style.zIndex = '200';
-        
+        picker.className = 'emoji-picker';
+        const emojis = ['😀', '😂', '😍', '🔥', '👍', '❤️', '🎉', '✨', '😢', '😎', '🥺', '🤣', '💀', '👋', '🙏', '💯'];
         emojis.forEach(emoji => {
             const span = document.createElement('span');
             span.textContent = emoji;
-            span.style.cursor = 'pointer';
-            span.addEventListener('click', () => {
+            span.onclick = () => {
                 messageInput.value += emoji;
                 updateSendButton();
                 updateCharCounter();
                 picker.remove();
-            });
+                messageInput.focus();
+            };
             picker.appendChild(span);
         });
-        
         document.body.appendChild(picker);
-        setTimeout(() => {
-            document.addEventListener('click', () => picker.remove(), { once: true });
-        }, 100);
-    });
-
-    // ===== REACTIONS =====
-    window.addReaction = async function(msgId, emoji) {
-        if (!activeChatId) return;
-        
-        const msgRef = doc(db, "conversations", activeChatId, "messages", msgId);
-        const snap = await getDoc(msgRef);
-        if (!snap.exists()) return;
-        
-        const msg = snap.data();
-        const reactions = msg.reactions || {};
-        
-        if (!reactions[emoji]) reactions[emoji] = [];
-        
-        const idx = reactions[emoji].indexOf(currentUser.uid);
-        if (idx > -1) {
-            reactions[emoji].splice(idx, 1);
-            if (reactions[emoji].length === 0) delete reactions[emoji];
-        } else {
-            reactions[emoji].push(currentUser.uid);
-        }
-        
-        await updateDoc(msgRef, { reactions });
-    };
-
-    // ===== EDIT MESSAGE =====
-    window.editMessage = function(msgId, currentText, timestamp) {
-        const msgTime = new Date(timestamp).getTime();
-        const now = Date.now();
-        
-        if (now - msgTime > EDIT_WINDOW) {
-            alert('You can only edit messages within 15 minutes');
-            return;
-        }
-        
-        editingMessageId = msgId;
-        $('edit-msg-input').value = currentText;
-        showModal(editMsgModal);
-        $('edit-msg-input').focus();
-    };
-
-    $('edit-msg-save').addEventListener('click', async () => {
-        const newText = $('edit-msg-input').value.trim();
-        if (!newText || !editingMessageId || !activeChatId) return;
-        
-        await updateDoc(doc(db, "conversations", activeChatId, "messages", editingMessageId), {
-            text: newText,
-            edited: true,
-            editedAt: serverTimestamp()
-        });
-        
-        hideModal(editMsgModal);
-        editingMessageId = null;
-    });
-
-    $('edit-msg-cancel').addEventListener('click', () => {
-        hideModal(editMsgModal);
-        editingMessageId = null;
-    });
-
-    // ===== DELETE MESSAGE =====
-    window.deleteMessage = async function(msgId) {
-        if (!activeChatId) return;
-        
-        if (confirm('Delete this message?')) {
-            await deleteDoc(doc(db, "conversations", activeChatId, "messages", msgId));
-        }
-    };
-
-    // ===== USER INFO =====
-    function showUserInfo(userData) {
-        $('user-avatar').textContent = (userData.displayName || 'U').charAt(0).toUpperCase();
-        $('user-name').textContent = userData.displayName || 'Unknown';
-        $('user-username').textContent = '@' + (userData.username || 'user');
-        $('user-email').textContent = userData.email || '-';
-        $('user-bio').textContent = userData.bio || 'No bio yet';
-        $('user-uid').textContent = userData.uid || '-';
-        
-        if (userData.createdAt?.toDate) {
-            $('user-created').textContent = userData.createdAt.toDate().toLocaleDateString();
-        } else {
-            $('user-created').textContent = '-';
-        }
-        
-        if (userData.lastLogin?.toDate) {
-            $('user-lastseen').textContent = userData.lastLogin.toDate().toLocaleString();
-        } else {
-            $('user-lastseen').textContent = 'Recently';
-        }
-        
-        showModal(userModal);
-    }
-
-    $('user-close-btn').addEventListener('click', () => hideModal(userModal));
-    $('chat-avatar').addEventListener('click', () => { if (activeChatUser) showUserInfo(activeChatUser); });
-    $('chat-info-btn').addEventListener('click', () => { if (activeChatUser) showUserInfo(activeChatUser); });
-
-    // ===== EDIT PROFILE =====
-    $('profile-section').addEventListener('click', () => {
-        $('edit-avatar').textContent = currentUserData.displayName.charAt(0).toUpperCase();
-        $('edit-username-display').textContent = '@' + currentUserData.username;
-        $('edit-name').value = currentUserData.displayName || '';
-        $('edit-bio').value = currentUserData.bio || '';
-        showModal(editModal);
-    });
-
-    $('edit-cancel').addEventListener('click', () => hideModal(editModal));
-
-    $('edit-save').addEventListener('click', async () => {
-        const newName = $('edit-name').value.trim();
-        const newBio = $('edit-bio').value.trim();
-        
-        if (!newName) { alert('Name cannot be empty'); return; }
-
-        const userRef = doc(db, "users", currentUser.uid);
-        const updates = {
-            displayName: newName,
-            bio: newBio,
-            searchKeywords: [currentUserData.username, newName.toLowerCase()]
-        };
-        
-        await updateDoc(userRef, updates);
-        currentUserData = { ...currentUserData, ...updates };
-        updateSelfUI();
-        hideModal(editModal);
-    });
-
-    // ===== LOGOUT =====
-    $('logout-btn').addEventListener('click', async () => {
-        if (!confirm('Sign out?')) return;
-        if (currentUser) {
-            await updateDoc(doc(db, "users", currentUser.uid), { status: "offline", lastLogin: serverTimestamp() });
-        }
-        await signOut(auth);
-        window.location.href = "auth.html";
-    });
-
-    // ===== ONLINE/OFFLINE =====
-    window.addEventListener('online', () => {
-        if (currentUser) updateDoc(doc(db, "users", currentUser.uid), { status: "online" });
+        const remove = (e) => { if (!picker.contains(e.target)) picker.remove(); document.removeEventListener('click', remove); };
+        setTimeout(() => document.addEventListener('click', remove), 100);
     });
     
+    // ===== ONLINE STATUS =====
     window.addEventListener('beforeunload', () => {
-        if (currentUser) {
-            updateDoc(doc(db, "users", currentUser.uid), { status: "offline", lastLogin: serverTimestamp() });
-        }
+        if (currentUser) updateDoc(doc(db, "users", currentUser.uid), { status: "offline" });
     });
-
-    console.log('🚀 NovaChat Pro Ready!');
-    console.log('✨ Features: Timestamps, Unread Badges, Reactions, Edit, Delete, Pin, Typing, Status, Online, Swipe to Reply, Scroll to Quote, Character Counter');
+    
+    console.log('🚀 NovaChat WhatsApp Style Ready!');
 </script>
 </body>
 </html>
