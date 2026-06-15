@@ -377,6 +377,7 @@
 
         .chat-header-info .status-text.online { color: var(--online-color); }
         .chat-header-info .status-text.offline { color: var(--text-muted); }
+        .chat-header-info .status-text.typing { color: var(--accent-light); }
 
         .messages-container {
             flex: 1;
@@ -1228,8 +1229,30 @@
     function showModal(modal) { modal.classList.add('show'); }
     function hideModal(modal) { modal.classList.remove('show'); }
 
+    // ========== Safe Unsubscribe Functions ==========
+    function safeUnsubscribe(fn) {
+        if (fn && typeof fn === 'function') {
+            try {
+                fn();
+            } catch(e) {
+                console.warn('Error in unsubscribe:', e);
+            }
+        }
+    }
+
+    function safeOff(ref) {
+        if (ref && typeof ref === 'object' && ref._key) {
+            try {
+                off(ref);
+            } catch(e) {
+                console.warn('Error in off():', e);
+            }
+        }
+    }
+
     // ========== Presence System (RTDB) ==========
     async function setUserStatus(userId, status) {
+        if (!userId) return;
         const statusRef = ref(rtdb, `presence/${userId}`);
         
         if (status === 'online') {
@@ -1250,12 +1273,19 @@
     }
 
     function watchUserStatus(userId, callback) {
+        if (!userId) {
+            console.warn('watchUserStatus: userId is undefined');
+            return () => {};
+        }
+        
         if (statusUnsubscribes.has(userId)) {
-            off(statusUnsubscribes.get(userId));
+            const oldUnsub = statusUnsubscribes.get(userId);
+            safeUnsubscribe(oldUnsub);
             statusUnsubscribes.delete(userId);
         }
         
         const statusRef = ref(rtdb, `presence/${userId}`);
+        
         const unsubscribe = onValue(statusRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
@@ -1266,6 +1296,9 @@
             } else {
                 callback({ isOnline: false, lastSeen: null });
             }
+        }, (error) => {
+            console.error('Error watching user status:', error);
+            callback({ isOnline: false, lastSeen: null });
         });
         
         statusUnsubscribes.set(userId, unsubscribe);
@@ -1274,6 +1307,8 @@
 
     // ========== Typing System (RTDB) ==========
     function sendTyping(conversationId, userId, isTyping) {
+        if (!conversationId || !userId) return;
+        
         const typingRef = ref(rtdb, `typing/${conversationId}/${userId}`);
         if (isTyping) {
             set(typingRef, { isTyping: true, timestamp: Date.now() });
@@ -1288,16 +1323,27 @@
     }
 
     function watchTyping(conversationId, userId, callback) {
+        if (!conversationId || !userId) {
+            console.warn('watchTyping: conversationId or userId is undefined');
+            return () => {};
+        }
+        
         const key = `${conversationId}_${userId}`;
+        
         if (typingUnsubscribes.has(key)) {
-            off(typingUnsubscribes.get(key));
+            const oldUnsub = typingUnsubscribes.get(key);
+            safeUnsubscribe(oldUnsub);
             typingUnsubscribes.delete(key);
         }
         
         const typingRef = ref(rtdb, `typing/${conversationId}/${userId}`);
+        
         const unsubscribe = onValue(typingRef, (snapshot) => {
             const data = snapshot.val();
             callback(data && data.isTyping === true);
+        }, (error) => {
+            console.error('Error watching typing:', error);
+            callback(false);
         });
         
         typingUnsubscribes.set(key, unsubscribe);
@@ -1308,21 +1354,25 @@
     async function markConversationSeen(convId) {
         if (!convId || !currentUser) return;
         
-        const convRef = doc(db, "conversations", convId);
-        await updateDoc(convRef, { [`unread.${currentUser.uid}`]: 0 });
-        
-        const q = query(
-            collection(db, "conversations", convId, "messages"),
-            where("seen", "==", false),
-            where("senderId", "!=", currentUser.uid),
-            limit(50)
-        );
-        const snap = await getDocs(q);
-        if (snap.empty) return;
-        
-        const batch = writeBatch(db);
-        snap.forEach(d => batch.update(d.ref, { seen: true, seenAt: serverTimestamp() }));
-        await batch.commit();
+        try {
+            const convRef = doc(db, "conversations", convId);
+            await updateDoc(convRef, { [`unread.${currentUser.uid}`]: 0 });
+            
+            const q = query(
+                collection(db, "conversations", convId, "messages"),
+                where("seen", "==", false),
+                where("senderId", "!=", currentUser.uid),
+                limit(50)
+            );
+            const snap = await getDocs(q);
+            if (snap.empty) return;
+            
+            const batch = writeBatch(db);
+            snap.forEach(d => batch.update(d.ref, { seen: true, seenAt: serverTimestamp() }));
+            await batch.commit();
+        } catch(e) {
+            console.warn('Error marking conversation seen:', e);
+        }
     }
 
     // ========== Scroll to Message ==========
@@ -1339,7 +1389,7 @@
 
     // ========== Update Send Button ==========
     function updateSendButton() {
-        sendBtn.disabled = messageInput.value.trim().length === 0;
+        if (sendBtn) sendBtn.disabled = messageInput.value.trim().length === 0;
     }
 
     function updateCharCounter() {
@@ -1357,53 +1407,77 @@
         updateSendButton();
     }
 
-    messageInput.addEventListener('input', updateCharCounter);
-    messageInput.addEventListener('input', updateSendButton);
-    updateSendButton();
+    if (messageInput) {
+        messageInput.addEventListener('input', updateCharCounter);
+        messageInput.addEventListener('input', updateSendButton);
+        updateSendButton();
+    }
 
     // ========== Theme ==========
     const savedTheme = localStorage.getItem('nova-theme') || 'dark';
     if (savedTheme === 'light') document.body.classList.add('light-theme');
     
-    $('theme-btn').addEventListener('click', () => {
-        document.body.classList.toggle('light-theme');
-        localStorage.setItem('nova-theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
-    });
+    const themeBtn = $('theme-btn');
+    if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            localStorage.setItem('nova-theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+        });
+    }
 
     // ========== Mobile Navigation ==========
-    $('menu-btn').addEventListener('click', () => {
-        sidebar.classList.add('open');
-        overlay.classList.add('show');
-    });
-    overlay.addEventListener('click', () => {
-        sidebar.classList.remove('open');
-        overlay.classList.remove('show');
-    });
-    $('back-btn').addEventListener('click', closeChat);
-
-    $('settings-btn').addEventListener('click', () => {
-        window.location.href = "settings.html";
-    });
-    $('nav-settings').addEventListener('click', () => {
-        window.location.href = "settings.html";
-    });
-    $('nav-chats').addEventListener('click', () => {
-        if (window.innerWidth <= 768) {
+    const menuBtn = $('menu-btn');
+    if (menuBtn) {
+        menuBtn.addEventListener('click', () => {
             sidebar.classList.add('open');
             overlay.classList.add('show');
-        }
-        document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-        $('nav-chats').classList.add('active');
-    });
+        });
+    }
+    
+    if (overlay) {
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+        });
+    }
+    
+    const backBtn = $('back-btn');
+    if (backBtn) backBtn.addEventListener('click', closeChat);
+
+    const settingsBtn = $('settings-btn');
+    if (settingsBtn) {
+        settingsBtn.addEventListener('click', () => {
+            window.location.href = "settings.html";
+        });
+    }
+    
+    const navSettings = $('nav-settings');
+    if (navSettings) {
+        navSettings.addEventListener('click', () => {
+            window.location.href = "settings.html";
+        });
+    }
+    
+    const navChats = $('nav-chats');
+    if (navChats) {
+        navChats.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.add('open');
+                overlay.classList.add('show');
+            }
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            navChats.classList.add('active');
+        });
+    }
 
     // ========== Modals ==========
     const userModal = $('user-modal');
     const editModal = $('edit-modal');
     const editMsgModal = $('edit-msg-modal');
     
-    userModal.addEventListener('click', (e) => { if (e.target === userModal) hideModal(userModal); });
-    editModal.addEventListener('click', (e) => { if (e.target === editModal) hideModal(editModal); });
-    editMsgModal.addEventListener('click', (e) => { if (e.target === editMsgModal) hideModal(editMsgModal); });
+    if (userModal) userModal.addEventListener('click', (e) => { if (e.target === userModal) hideModal(userModal); });
+    if (editModal) editModal.addEventListener('click', (e) => { if (e.target === editModal) hideModal(editModal); });
+    if (editMsgModal) editMsgModal.addEventListener('click', (e) => { if (e.target === editMsgModal) hideModal(editMsgModal); });
 
     // ========== Authentication ==========
     onAuthStateChanged(auth, async (user) => {
@@ -1442,16 +1516,24 @@
     });
 
     function updateSelfUI() {
-        $('self-name').textContent = currentUserData.displayName;
-        $('self-avatar').textContent = currentUserData.displayName.charAt(0).toUpperCase();
-        $('edit-avatar').textContent = currentUserData.displayName.charAt(0).toUpperCase();
-        $('edit-username-display').textContent = '@' + currentUserData.username;
-        $('edit-name').value = currentUserData.displayName || '';
-        $('edit-bio').value = currentUserData.bio || '';
+        const selfName = $('self-name');
+        const selfAvatar = $('self-avatar');
+        const editAvatar = $('edit-avatar');
+        const editUsernameDisplay = $('edit-username-display');
+        const editName = $('edit-name');
+        const editBio = $('edit-bio');
+        
+        if (selfName) selfName.textContent = currentUserData.displayName;
+        if (selfAvatar) selfAvatar.textContent = currentUserData.displayName.charAt(0).toUpperCase();
+        if (editAvatar) editAvatar.textContent = currentUserData.displayName.charAt(0).toUpperCase();
+        if (editUsernameDisplay) editUsernameDisplay.textContent = '@' + currentUserData.username;
+        if (editName) editName.value = currentUserData.displayName || '';
+        if (editBio) editBio.value = currentUserData.bio || '';
     }
 
     // ========== Search Users ==========
     function displaySearchResults(results) {
+        if (!searchResults) return;
         searchResults.innerHTML = '';
         if (results.length === 0) {
             searchResults.innerHTML = '<div style="padding:14px;text-align:center;color:var(--text-muted);font-size:13px;">No users found</div>';
@@ -1469,8 +1551,8 @@
                 </div>
             `;
             div.addEventListener('click', async () => {
-                searchInput.value = '';
-                searchResults.innerHTML = '';
+                if (searchInput) searchInput.value = '';
+                if (searchResults) searchResults.innerHTML = '';
                 await startChat(u);
                 if (window.innerWidth <= 768) closeSidebarMobile();
             });
@@ -1478,36 +1560,41 @@
         });
     }
 
-    searchInput.addEventListener('input', () => {
-        clearTimeout(searchTimer);
-        const term = searchInput.value.trim().toLowerCase();
-        if (!term || term.length < 2) {
-            searchResults.innerHTML = '';
-            return;
-        }
-        
-        searchTimer = setTimeout(async () => {
-            try {
-                const q = query(
-                    collection(db, 'users'),
-                    where('searchKeywords', 'array-contains', term),
-                    limit(10)
-                );
-                const snap = await getDocs(q);
-                const results = [];
-                snap.forEach(d => {
-                    if (d.data().uid !== currentUser.uid) results.push(d.data());
-                });
-                displaySearchResults(results);
-            } catch (e) {
-                console.error("Search error:", e);
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            clearTimeout(searchTimer);
+            const term = searchInput.value.trim().toLowerCase();
+            if (!term || term.length < 2) {
+                if (searchResults) searchResults.innerHTML = '';
+                return;
             }
-        }, 350);
-    });
+            
+            searchTimer = setTimeout(async () => {
+                try {
+                    const q = query(
+                        collection(db, 'users'),
+                        where('searchKeywords', 'array-contains', term),
+                        limit(10)
+                    );
+                    const snap = await getDocs(q);
+                    const results = [];
+                    snap.forEach(d => {
+                        if (d.data().uid !== currentUser.uid) results.push(d.data());
+                    });
+                    displaySearchResults(results);
+                } catch (e) {
+                    console.error("Search error:", e);
+                }
+            }, 350);
+        });
+    }
 
     // ========== Conversations List ==========
     function listenToConversations() {
-        if (conversationsUnsubscribe) conversationsUnsubscribe();
+        if (conversationsUnsubscribe) {
+            safeUnsubscribe(conversationsUnsubscribe);
+            conversationsUnsubscribe = null;
+        }
 
         const q = query(
             collection(db, "conversations"),
@@ -1516,6 +1603,8 @@
         );
 
         conversationsUnsubscribe = onSnapshot(q, async (snapshot) => {
+            if (!conversationsList) return;
+            
             const docs = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
             const pinned = docs.filter(d => currentUserData.pinnedChats?.includes(d.id));
             const unpinned = docs.filter(d => !currentUserData.pinnedChats?.includes(d.id));
@@ -1550,7 +1639,7 @@
                 const unreadCount = conv.unread?.[currentUser.uid] || 0;
 
                 let isOnline = false;
-                watchUserStatus(otherId, (status) => {
+                const statusUnsub = watchUserStatus(otherId, (status) => {
                     isOnline = status.isOnline;
                     const avatarDiv = item.querySelector('.avatar');
                     if (avatarDiv) {
@@ -1560,7 +1649,7 @@
                 });
 
                 let isTyping = false;
-                watchTyping(conv.id, otherId, (typing) => {
+                const typingUnsub = watchTyping(conv.id, otherId, (typing) => {
                     isTyping = typing;
                     const previewDiv = item.querySelector('.preview');
                     if (previewDiv) {
@@ -1587,6 +1676,8 @@
                 `;
 
                 item.addEventListener('click', () => {
+                    safeUnsubscribe(statusUnsub);
+                    safeUnsubscribe(typingUnsub);
                     openChat(conv.id, otherUser);
                     if (window.innerWidth <= 768) closeSidebarMobile();
                 });
@@ -1608,14 +1699,17 @@
         currentUserData.pinnedChats = pinned;
     }
 
-    $('pin-chat-btn').addEventListener('click', async () => {
-        if (activeChatId) {
-            await togglePinChat(activeChatId);
-            const icon = $('pin-chat-btn').querySelector('iconify-icon');
-            const isPinned = currentUserData.pinnedChats?.includes(activeChatId);
-            icon.setAttribute('icon', isPinned ? 'mdi:pin' : 'mdi:pin-outline');
-        }
-    });
+    const pinChatBtn = $('pin-chat-btn');
+    if (pinChatBtn) {
+        pinChatBtn.addEventListener('click', async () => {
+            if (activeChatId) {
+                await togglePinChat(activeChatId);
+                const icon = pinChatBtn.querySelector('iconify-icon');
+                const isPinned = currentUserData.pinnedChats?.includes(activeChatId);
+                if (icon) icon.setAttribute('icon', isPinned ? 'mdi:pin' : 'mdi:pin-outline');
+            }
+        });
+    }
 
     // ========== Start Chat ==========
     async function startChat(otherUser) {
@@ -1638,7 +1732,7 @@
         openChat(convId, otherUser);
     }
 
-    // ========== Create Message Element (no innerHTML replacement) ==========
+    // ========== Create Message Element ==========
     function createMessageElement(msgDoc, msg, isMine, otherUser) {
         const el = document.createElement('div');
         el.className = `msg ${isMine ? 'out' : 'in'}`;
@@ -1691,7 +1785,6 @@
             quoteDiv.addEventListener('click', () => scrollToMessage(msg.replyTo.id));
         }
 
-        // Context menu
         el.addEventListener('contextmenu', (e) => {
             e.preventDefault();
             showContextMenu(e, msgDoc.id, msg.text, isMine, msg.timestamp?.toDate?.()?.getTime());
@@ -1706,7 +1799,6 @@
         el.addEventListener('touchend', () => clearTimeout(pressTimer));
         el.addEventListener('touchmove', () => clearTimeout(pressTimer));
 
-        // Swipe to reply
         let touchStartX = 0;
         el.addEventListener('touchstart', (e) => {
             touchStartX = e.touches[0].clientX;
@@ -1717,10 +1809,13 @@
                 el.style.transform = 'translateX(8px)';
                 setTimeout(() => { el.style.transform = ''; }, 150);
                 replyingTo = { id: msgDoc.id, text: msg.text, senderName: isMine ? 'You' : otherUser.displayName };
-                $('reply-who').textContent = `Replying to ${replyingTo.senderName}`;
-                $('reply-what').textContent = msg.text.length > 60 ? msg.text.substring(0, 60) + '...' : msg.text;
-                $('reply-bar').style.display = 'flex';
-                messageInput.focus();
+                const replyWho = $('reply-who');
+                const replyWhat = $('reply-what');
+                const replyBar = $('reply-bar');
+                if (replyWho) replyWho.textContent = `Replying to ${replyingTo.senderName}`;
+                if (replyWhat) replyWhat.textContent = msg.text.length > 60 ? msg.text.substring(0, 60) + '...' : msg.text;
+                if (replyBar) replyBar.style.display = 'flex';
+                if (messageInput) messageInput.focus();
             }
         }, { passive: true });
 
@@ -1733,64 +1828,62 @@
 
     // ========== Open Chat ==========
     function openChat(convId, otherUser) {
-        // Clean up previous subscriptions
-        if (currentUnsubscribes.messages) currentUnsubscribes.messages();
-        if (currentUnsubscribes.typing) currentUnsubscribes.typing();
-        if (currentUnsubscribes.status) currentUnsubscribes.status();
+        if (!convId || !otherUser || !otherUser.uid) {
+            console.error('openChat: invalid parameters', { convId, otherUser });
+            return;
+        }
+        
+        if (currentUnsubscribes.messages) safeUnsubscribe(currentUnsubscribes.messages);
+        if (currentUnsubscribes.typing) safeUnsubscribe(currentUnsubscribes.typing);
+        if (currentUnsubscribes.status) safeUnsubscribe(currentUnsubscribes.status);
         
         activeChatId = convId;
         activeChatUser = otherUser;
         
         document.body.classList.add('chat-open');
 
-        welcomeScreen.style.display = 'none';
-        chatScreen.style.display = 'flex';
-        messagesContainer.innerHTML = '';
+        if (welcomeScreen) welcomeScreen.style.display = 'none';
+        if (chatScreen) chatScreen.style.display = 'flex';
+        if (messagesContainer) messagesContainer.innerHTML = '';
 
-        $('chat-avatar').textContent = otherUser.displayName.charAt(0).toUpperCase();
-        $('chat-name').textContent = otherUser.displayName;
+        const chatAvatar = $('chat-avatar');
+        const chatName = $('chat-name');
         
-        // Watch user status
-        currentUnsubscribes.status = watchUserStatus(otherUser.uid, (status) => {
-            const statusEl = $('chat-status');
-            if (status.isOnline) {
-                statusEl.textContent = 'Online';
-                statusEl.className = 'status-text online';
-            } else {
-                statusEl.textContent = 'Offline';
-                statusEl.className = 'status-text offline';
-            }
-        });
+        if (chatAvatar) chatAvatar.textContent = otherUser.displayName.charAt(0).toUpperCase();
+        if (chatName) chatName.textContent = otherUser.displayName;
+        
+        if (otherUser.uid) {
+            currentUnsubscribes.status = watchUserStatus(otherUser.uid, (status) => {
+                const statusEl = $('chat-status');
+                if (!statusEl) return;
+                if (status.isOnline) {
+                    statusEl.textContent = 'Online';
+                    statusEl.className = 'status-text online';
+                } else {
+                    statusEl.textContent = 'Offline';
+                    statusEl.className = 'status-text offline';
+                }
+            });
+        }
 
-        // Watch typing
-        currentUnsubscribes.typing = watchTyping(convId, otherUser.uid, (isTyping) => {
-            const statusEl = $('chat-status');
-            if (isTyping) {
-                statusEl.textContent = 'typing...';
-                statusEl.className = 'status-text typing';
-                setTimeout(() => {
-                    if (!isTyping) {
-                        const currentStatus = statusEl.textContent;
-                        if (currentStatus === 'typing...') {
-                            const onlineStatus = statusEl.classList.contains('online') ? 'Online' : 'Offline';
-                            statusEl.textContent = onlineStatus;
-                            statusEl.className = `status-text ${statusEl.classList.contains('online') ? 'online' : 'offline'}`;
-                        }
-                    }
-                }, 3000);
-            } else {
-                const currentStatus = statusEl.textContent;
-                if (currentStatus === 'typing...') {
+        if (convId && otherUser.uid) {
+            currentUnsubscribes.typing = watchTyping(convId, otherUser.uid, (isTyping) => {
+                const statusEl = $('chat-status');
+                if (!statusEl) return;
+                if (isTyping) {
+                    statusEl.textContent = 'typing...';
+                    statusEl.className = 'status-text typing';
+                } else {
                     const isOnline = statusEl.classList.contains('online');
                     statusEl.textContent = isOnline ? 'Online' : 'Offline';
                     statusEl.className = `status-text ${isOnline ? 'online' : 'offline'}`;
                 }
-            }
-        });
+            });
+        }
 
         const draft = localStorage.getItem(`draft_${convId}`);
-        messageInput.value = draft || '';
-        messageInput.focus();
+        if (messageInput) messageInput.value = draft || '';
+        if (messageInput) messageInput.focus();
         updateSendButton();
         updateCharCounter();
 
@@ -1799,9 +1892,9 @@
         });
 
         const isPinned = currentUserData.pinnedChats?.includes(convId);
-        $('pin-chat-btn').querySelector('iconify-icon').setAttribute('icon', isPinned ? 'mdi:pin' : 'mdi:pin-outline');
+        const pinIcon = pinChatBtn?.querySelector('iconify-icon');
+        if (pinIcon) pinIcon.setAttribute('icon', isPinned ? 'mdi:pin' : 'mdi:pin-outline');
 
-        // Load messages with incremental updates
         const msgsQuery = query(
             collection(db, "conversations", convId, "messages"),
             orderBy("timestamp", "asc")
@@ -1819,12 +1912,10 @@
                 const isMine = msg.senderId === currentUser.uid;
                 
                 if (change.type === 'added') {
-                    // Add new message
                     const msgDate = msg.timestamp?.toDate();
                     const dateStr = msgDate ? msgDate.toLocaleDateString() : '';
                     
-                    // Add date divider if needed
-                    if (dateStr && dateStr !== lastDate) {
+                    if (dateStr && dateStr !== lastDate && messagesContainer) {
                         lastDate = dateStr;
                         const divider = document.createElement('div');
                         divider.className = 'date-divider';
@@ -1839,10 +1930,9 @@
                     
                     const msgElement = createMessageElement(msgDoc, msg, isMine, otherUser);
                     messageElements.set(msgDoc.id, msgElement);
-                    messagesContainer.appendChild(msgElement);
+                    if (messagesContainer) messagesContainer.appendChild(msgElement);
                     
                 } else if (change.type === 'modified') {
-                    // Update existing message
                     const existingElement = messageElements.get(msgDoc.id);
                     if (existingElement) {
                         const newElement = createMessageElement(msgDoc, msg, isMine, otherUser);
@@ -1851,7 +1941,6 @@
                     }
                     
                 } else if (change.type === 'removed') {
-                    // Remove message
                     const existingElement = messageElements.get(msgDoc.id);
                     if (existingElement) {
                         existingElement.remove();
@@ -1860,7 +1949,7 @@
                 }
             });
             
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            if (messagesContainer) messagesContainer.scrollTop = messagesContainer.scrollHeight;
         });
     }
 
@@ -1891,11 +1980,14 @@
         replyBtn.innerHTML = '<iconify-icon icon="mdi:reply"></iconify-icon> Reply';
         replyBtn.onclick = () => {
             replyingTo = { id: msgId, text: text, senderName: isMine ? 'You' : activeChatUser?.displayName };
-            $('reply-who').textContent = `Replying to ${replyingTo.senderName}`;
-            $('reply-what').textContent = text.length > 60 ? text.substring(0, 60) + '...' : text;
-            $('reply-bar').style.display = 'flex';
+            const replyWho = $('reply-who');
+            const replyWhat = $('reply-what');
+            const replyBar = $('reply-bar');
+            if (replyWho) replyWho.textContent = `Replying to ${replyingTo.senderName}`;
+            if (replyWhat) replyWhat.textContent = text.length > 60 ? text.substring(0, 60) + '...' : text;
+            if (replyBar) replyBar.style.display = 'flex';
             menu.remove();
-            messageInput.focus();
+            if (messageInput) messageInput.focus();
         };
         menu.appendChild(replyBtn);
         
@@ -1911,7 +2003,8 @@
                 editBtn.innerHTML = '<iconify-icon icon="mdi:pencil"></iconify-icon> Edit';
                 editBtn.onclick = () => {
                     editingMessageId = msgId;
-                    $('edit-msg-input').value = text;
+                    const editMsgInput = $('edit-msg-input');
+                    if (editMsgInput) editMsgInput.value = text;
                     showModal(editMsgModal);
                     menu.remove();
                 };
@@ -1958,18 +2051,21 @@
     }
 
     function closeChat() {
-        // Clean up all subscriptions
-        if (currentUnsubscribes.messages) currentUnsubscribes.messages();
-        if (currentUnsubscribes.typing) currentUnsubscribes.typing();
-        if (currentUnsubscribes.status) currentUnsubscribes.status();
+        if (currentUnsubscribes.messages) safeUnsubscribe(currentUnsubscribes.messages);
+        if (currentUnsubscribes.typing) safeUnsubscribe(currentUnsubscribes.typing);
+        if (currentUnsubscribes.status) safeUnsubscribe(currentUnsubscribes.status);
         
         activeChatId = null;
         activeChatUser = null;
         replyingTo = null;
-        $('reply-bar').style.display = 'none';
-        welcomeScreen.style.display = 'flex';
-        chatScreen.style.display = 'none';
-        messagesContainer.innerHTML = '';
+        
+        const replyBar = $('reply-bar');
+        if (replyBar) replyBar.style.display = 'none';
+        
+        if (welcomeScreen) welcomeScreen.style.display = 'flex';
+        if (chatScreen) chatScreen.style.display = 'none';
+        if (messagesContainer) messagesContainer.innerHTML = '';
+        
         document.body.classList.remove('chat-open');
     }
 
@@ -1980,8 +2076,10 @@
 
         const now = Date.now();
         if (now - lastMessageTime < SPAM_COOLDOWN) {
-            sendBtn.classList.add('shake');
-            setTimeout(() => sendBtn.classList.remove('shake'), 300);
+            if (sendBtn) sendBtn.classList.add('shake');
+            setTimeout(() => {
+                if (sendBtn) sendBtn.classList.remove('shake');
+            }, 300);
             return;
         }
         lastMessageTime = now;
@@ -2005,7 +2103,7 @@
             };
         }
 
-        messageInput.value = '';
+        if (messageInput) messageInput.value = '';
         updateSendButton();
         updateCharCounter();
         localStorage.removeItem(`draft_${activeChatId}`);
@@ -2021,70 +2119,79 @@
                 [`unread.${activeChatUser.uid}`]: increment(1)
             });
             replyingTo = null;
-            $('reply-bar').style.display = 'none';
-            messageInput.focus();
+            const replyBar = $('reply-bar');
+            if (replyBar) replyBar.style.display = 'none';
+            if (messageInput) messageInput.focus();
         } catch (e) {
             console.error(e);
-            messageInput.value = text;
+            if (messageInput) messageInput.value = text;
             updateSendButton();
             updateCharCounter();
         }
     }
 
-    $('send-btn').addEventListener('click', sendMessage);
-    messageInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendMessage();
-        }
-    });
-    
-    // Typing indicator
-    messageInput.addEventListener('input', () => {
-        if (!activeChatId) return;
-        sendTyping(activeChatId, currentUser.uid, true);
-        clearTimeout(typingTimeout);
-        typingTimeout = setTimeout(() => {
-            sendTyping(activeChatId, currentUser.uid, false);
-        }, 2000);
-        localStorage.setItem(`draft_${activeChatId}`, messageInput.value);
-    });
+    if (sendBtn) sendBtn.addEventListener('click', sendMessage);
+    if (messageInput) {
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        
+        messageInput.addEventListener('input', () => {
+            if (!activeChatId) return;
+            sendTyping(activeChatId, currentUser.uid, true);
+            clearTimeout(typingTimeout);
+            typingTimeout = setTimeout(() => {
+                sendTyping(activeChatId, currentUser.uid, false);
+            }, 2000);
+            localStorage.setItem(`draft_${activeChatId}`, messageInput.value);
+        });
+    }
 
-    $('cancel-reply').addEventListener('click', () => {
-        replyingTo = null;
-        $('reply-bar').style.display = 'none';
-    });
+    const cancelReply = $('cancel-reply');
+    if (cancelReply) {
+        cancelReply.addEventListener('click', () => {
+            replyingTo = null;
+            const replyBar = $('reply-bar');
+            if (replyBar) replyBar.style.display = 'none';
+        });
+    }
 
     // ========== Emoji Picker ==========
-    $('emoji-btn').addEventListener('click', () => {
-        const existing = document.querySelector('.emoji-picker');
-        if (existing) { existing.remove(); return; }
-        const picker = document.createElement('div');
-        picker.className = 'emoji-picker';
-        const emojis = ['😀', '😂', '😍', '🔥', '👍', '❤️', '🎉', '✨', '😢', '😎', '🥺', '🤣', '💀', '👋', '🙏', '💯'];
-        emojis.forEach(emoji => {
-            const span = document.createElement('span');
-            span.textContent = emoji;
-            span.onclick = () => {
-                messageInput.value += emoji;
-                updateSendButton();
-                updateCharCounter();
-                picker.remove();
-                messageInput.focus();
+    const emojiBtn = $('emoji-btn');
+    if (emojiBtn) {
+        emojiBtn.addEventListener('click', () => {
+            const existing = document.querySelector('.emoji-picker');
+            if (existing) { existing.remove(); return; }
+            const picker = document.createElement('div');
+            picker.className = 'emoji-picker';
+            const emojis = ['😀', '😂', '😍', '🔥', '👍', '❤️', '🎉', '✨', '😢', '😎', '🥺', '🤣', '💀', '👋', '🙏', '💯'];
+            emojis.forEach(emoji => {
+                const span = document.createElement('span');
+                span.textContent = emoji;
+                span.onclick = () => {
+                    if (messageInput) messageInput.value += emoji;
+                    updateSendButton();
+                    updateCharCounter();
+                    picker.remove();
+                    if (messageInput) messageInput.focus();
+                };
+                picker.appendChild(span);
+            });
+            document.body.appendChild(picker);
+            const removePicker = (e) => {
+                if (!picker.contains(e.target)) picker.remove();
+                document.removeEventListener('click', removePicker);
+                document.removeEventListener('touchstart', removePicker);
             };
-            picker.appendChild(span);
+            setTimeout(() => {
+                document.addEventListener('click', removePicker);
+                document.addEventListener('touchstart', removePicker);
+            }, 100);
         });
-        document.body.appendChild(picker);
-        const removePicker = (e) => {
-            if (!picker.contains(e.target)) picker.remove();
-            document.removeEventListener('click', removePicker);
-            document.removeEventListener('touchstart', removePicker);
-        };
-        setTimeout(() => {
-            document.addEventListener('click', removePicker);
-            document.addEventListener('touchstart', removePicker);
-        }, 100);
-    });
+    }
 
     // ========== Reactions ==========
     window.addReaction = async function(msgId, emoji) {
@@ -2102,86 +2209,120 @@
     };
 
     // ========== Edit Message ==========
-    $('edit-msg-save').addEventListener('click', async () => {
-        const newText = $('edit-msg-input').value.trim();
-        if (!newText || !editingMessageId || !activeChatId) return;
-        await updateDoc(doc(db, "conversations", activeChatId, "messages", editingMessageId), {
-            text: newText,
-            edited: true,
-            editedAt: serverTimestamp()
+    const editMsgSave = $('edit-msg-save');
+    if (editMsgSave) {
+        editMsgSave.addEventListener('click', async () => {
+            const newTextInput = $('edit-msg-input');
+            const newText = newTextInput ? newTextInput.value.trim() : '';
+            if (!newText || !editingMessageId || !activeChatId) return;
+            await updateDoc(doc(db, "conversations", activeChatId, "messages", editingMessageId), {
+                text: newText,
+                edited: true,
+                editedAt: serverTimestamp()
+            });
+            hideModal(editMsgModal);
+            editingMessageId = null;
         });
-        hideModal(editMsgModal);
-        editingMessageId = null;
-    });
+    }
 
-    $('edit-msg-cancel').addEventListener('click', () => {
-        hideModal(editMsgModal);
-        editingMessageId = null;
-    });
+    const editMsgCancel = $('edit-msg-cancel');
+    if (editMsgCancel) {
+        editMsgCancel.addEventListener('click', () => {
+            hideModal(editMsgModal);
+            editingMessageId = null;
+        });
+    }
 
     // ========== User Info ==========
     function showUserInfo(userData) {
-        $('user-avatar').textContent = (userData.displayName || 'U').charAt(0).toUpperCase();
-        $('user-name').textContent = userData.displayName || 'Unknown';
-        $('user-username').textContent = '@' + (userData.username || 'user');
-        $('user-email').textContent = userData.email || '-';
-        $('user-bio').textContent = userData.bio || 'No bio yet';
-        $('user-uid').textContent = userData.uid || '-';
-        $('user-created').textContent = userData.createdAt?.toDate ? userData.createdAt.toDate().toLocaleDateString() : '-';
-        $('user-lastseen').textContent = userData.lastLogin?.toDate ? userData.lastLogin.toDate().toLocaleString() : 'Recently';
+        const userAvatar = $('user-avatar');
+        const userName = $('user-name');
+        const userUsername = $('user-username');
+        const userEmail = $('user-email');
+        const userBio = $('user-bio');
+        const userUid = $('user-uid');
+        const userCreated = $('user-created');
+        const userLastseen = $('user-lastseen');
+        
+        if (userAvatar) userAvatar.textContent = (userData.displayName || 'U').charAt(0).toUpperCase();
+        if (userName) userName.textContent = userData.displayName || 'Unknown';
+        if (userUsername) userUsername.textContent = '@' + (userData.username || 'user');
+        if (userEmail) userEmail.textContent = userData.email || '-';
+        if (userBio) userBio.textContent = userData.bio || 'No bio yet';
+        if (userUid) userUid.textContent = userData.uid || '-';
+        if (userCreated) userCreated.textContent = userData.createdAt?.toDate ? userData.createdAt.toDate().toLocaleDateString() : '-';
+        if (userLastseen) userLastseen.textContent = userData.lastLogin?.toDate ? userData.lastLogin.toDate().toLocaleString() : 'Recently';
         showModal(userModal);
     }
 
-    $('user-close-btn').addEventListener('click', () => hideModal(userModal));
-    $('chat-avatar').addEventListener('click', () => { if (activeChatUser) showUserInfo(activeChatUser); });
-    $('chat-info-btn').addEventListener('click', () => { if (activeChatUser) showUserInfo(activeChatUser); });
+    const userCloseBtn = $('user-close-btn');
+    if (userCloseBtn) userCloseBtn.addEventListener('click', () => hideModal(userModal));
+    
+    const chatAvatar = $('chat-avatar');
+    if (chatAvatar) chatAvatar.addEventListener('click', () => { if (activeChatUser) showUserInfo(activeChatUser); });
+    
+    const chatInfoBtn = $('chat-info-btn');
+    if (chatInfoBtn) chatInfoBtn.addEventListener('click', () => { if (activeChatUser) showUserInfo(activeChatUser); });
 
     // ========== Edit Profile ==========
-    $('profile-section').addEventListener('click', () => {
-        $('edit-name').value = currentUserData.displayName || '';
-        $('edit-bio').value = currentUserData.bio || '';
-        showModal(editModal);
-    });
-
-    $('edit-cancel').addEventListener('click', () => hideModal(editModal));
-
-    $('edit-save').addEventListener('click', async () => {
-        const newName = $('edit-name').value.trim();
-        const newBio = $('edit-bio').value.trim();
-        if (!newName) { alert('Name cannot be empty'); return; }
-        const userRef = doc(db, "users", currentUser.uid);
-        await updateDoc(userRef, {
-            displayName: newName,
-            bio: newBio,
-            searchKeywords: [currentUserData.username, newName.toLowerCase()]
+    const profileSection = $('profile-section');
+    if (profileSection) {
+        profileSection.addEventListener('click', () => {
+            const editName = $('edit-name');
+            const editBio = $('edit-bio');
+            if (editName) editName.value = currentUserData.displayName || '';
+            if (editBio) editBio.value = currentUserData.bio || '';
+            showModal(editModal);
         });
-        currentUserData = { ...currentUserData, displayName: newName, bio: newBio };
-        updateSelfUI();
-        hideModal(editModal);
-    });
+    }
+
+    const editCancel = $('edit-cancel');
+    if (editCancel) editCancel.addEventListener('click', () => hideModal(editModal));
+
+    const editSave = $('edit-save');
+    if (editSave) {
+        editSave.addEventListener('click', async () => {
+            const editName = $('edit-name');
+            const editBio = $('edit-bio');
+            const newName = editName ? editName.value.trim() : '';
+            const newBio = editBio ? editBio.value.trim() : '';
+            if (!newName) { alert('Name cannot be empty'); return; }
+            const userRef = doc(db, "users", currentUser.uid);
+            await updateDoc(userRef, {
+                displayName: newName,
+                bio: newBio,
+                searchKeywords: [currentUserData.username, newName.toLowerCase()]
+            });
+            currentUserData = { ...currentUserData, displayName: newName, bio: newBio };
+            updateSelfUI();
+            hideModal(editModal);
+        });
+    }
 
     // ========== Logout ==========
-    $('logout-btn').addEventListener('click', async () => {
-        if (!confirm('Sign out?')) return;
-        if (currentUser) {
-            await setUserStatus(currentUser.uid, 'offline');
-        }
-        await signOut(auth);
-        window.location.href = "auth.html";
-    });
+    const logoutBtn = $('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+            if (!confirm('Sign out?')) return;
+            if (currentUser) {
+                await setUserStatus(currentUser.uid, 'offline');
+            }
+            await signOut(auth);
+            window.location.href = "auth.html";
+        });
+    }
 
     // ========== Cleanup on page unload ==========
     window.addEventListener('beforeunload', () => {
         if (currentUser) {
             setUserStatus(currentUser.uid, 'offline');
         }
-        // Clean up all subscriptions
-        if (conversationsUnsubscribe) conversationsUnsubscribe();
-        if (currentUnsubscribes.messages) currentUnsubscribes.messages();
-        if (currentUnsubscribes.typing) currentUnsubscribes.typing();
-        if (currentUnsubscribes.status) currentUnsubscribes.status();
-        for (const unsub of statusUnsubscribes.values()) unsub();
-        for (const unsub of typingUnsubscribes.values()) unsub();
+        if (conversationsUnsubscribe) safeUnsubscribe(conversationsUnsubscribe);
+        if (currentUnsubscribes.messages) safeUnsubscribe(currentUnsubscribes.messages);
+        if (currentUnsubscribes.typing) safeUnsubscribe(currentUnsubscribes.typing);
+        if (currentUnsubscribes.status) safeUnsubscribe(currentUnsubscribes.status);
+        for (const unsub of statusUnsubscribes.values()) safeUnsubscribe(unsub);
+        for (const unsub of typingUnsubscribes.values()) safeUnsubscribe(unsub);
     });
 
     console.log('✅ NovaChat Ready');
