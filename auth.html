@@ -18,11 +18,11 @@
 
         body {
             font-family: 'Segoe UI', sans-serif;
-            background: #0F172A;         /* خلفية داكنة - ثيم بنفسجي */
+            background: #0F172A;
             min-height: 100vh;
-            display: flex;                /* لتمركز الكارد في منتصف الشاشة */
-            align-items: center;          /* توسيط عمودي */
-            justify-content: center;      /* توسيط أفقي */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         /* ========== حاوية الصفحة ========== */
@@ -31,36 +31,53 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;                /* مسافة داخلية حتى لا يلتصق الكارد بالحواف على الموبايل */
+            padding: 20px;
         }
 
         /* ========== الكارد الأساسي ========== */
         .card {
-            background: #1E293B;          /* أغمق قليلاً من الخلفية */
-            border-radius: 24px;          /* زوايا مدورة واضحة */
+            background: #1E293B;
+            border-radius: 24px;
             padding: 40px 36px;
             width: 100%;
-            max-width: 380px;             /* عرض الكارد كما في التصميم تقريباً */
+            max-width: 380px;
             display: flex;
-            flex-direction: column;       /* ترتيب العناصر عمودياً */
+            flex-direction: column;
             align-items: center;
-            gap: 16px;                    /* مسافة منتظمة بين العناصر */
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5); /* ظل ليبدو الكارد طافياً فوق الخلفية */
-            border: 1px solid rgba(124, 58, 237, 0.3);  /* حدود بنفسجية خفيفة */
+            gap: 16px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        /* تنسيق شريط التمرير */
+        .card::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .card::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .card::-webkit-scrollbar-thumb {
+            background: rgba(124, 58, 237, 0.3);
+            border-radius: 3px;
         }
 
         /* ========== الأيقونة الدائرية العلوية ========== */
         .avatar-icon {
             width: 80px;
             height: 80px;
-            border-radius: 50%;           /* شكل دائري كامل */
-            background: linear-gradient(135deg, #7C3AED, #1F2937); /* تدرج بنفسجي */
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7C3AED, #1F2937);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 36px;
             margin-bottom: 8px;
             color: #ffffff;
+            flex-shrink: 0;
         }
 
         /* ========== العنوان ========== */
@@ -71,26 +88,32 @@
             margin-bottom: 4px;
         }
 
-        /* ========== حقل الإدخال (حاوية الأيقونة + الإدخال) ========== */
+        /* ========== حقل الإدخال ========== */
         .field {
             width: 100%;
-            display: flex;                /* لجعل الأيقونة وحقل الإدخال في سطر واحد */
+            display: flex;
             align-items: center;
             gap: 10px;
-            background: #1F2937;          /* خلفية الحقل - ثيم بنفسجي */
+            background: #1F2937;
             border-radius: 12px;
             padding: 12px 16px;
-            border: 1px solid rgba(124, 58, 237, 0.35); /* حدود بنفسجية */
+            border: 1px solid rgba(124, 58, 237, 0.35);
+            transition: border-color 0.2s;
+        }
+
+        .field:focus-within {
+            border-color: #7C3AED;
         }
 
         .field iconify-icon {
             font-size: 20px;
-            color: #9D5CF6;              /* لون بنفسجي فاتح للأيقونات */
-            flex-shrink: 0;              /* الأيقونة تحافظ على حجمها ولا تنضغط */
+            color: #9D5CF6;
+            flex-shrink: 0;
         }
 
-        .field input {
-            background: transparent;      /* شفاف ليظهر خلفية الحقل الأب */
+        .field input,
+        .field select {
+            background: transparent;
             border: none;
             outline: none;
             color: #ffffff;
@@ -99,56 +122,104 @@
         }
 
         .field input::placeholder {
-            color: #6b7280;               /* لون باهت للنص الإرشادي */
+            color: #6b7280;
+        }
+
+        .field select {
+            cursor: pointer;
+        }
+
+        .field select option {
+            background: #1E293B;
+            color: #ffffff;
+        }
+
+        /* ========== حقول الصف الواحد (الجنس + العمر) ========== */
+        .row-fields {
+            width: 100%;
+            display: flex;
+            gap: 12px;
+        }
+
+        .row-fields .field {
+            flex: 1;
+        }
+
+        /* ========== مؤشر التحقق من اسم المستخدم ========== */
+        .username-status {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            min-height: 18px;
+            padding: 0 4px;
+        }
+
+        .username-status.available {
+            color: #34D399;
+        }
+
+        .username-status.taken {
+            color: #F87171;
+        }
+
+        .username-status.checking {
+            color: #9CA3AF;
         }
 
         /* ========== رابط نسيت كلمة المرور ========== */
         .forgot {
             width: 100%;
-            text-align: right;            /* محاذاة لليمين */
-            margin-top: -8px;             /* تقريبه من حقل كلمة المرور أعلاه */
+            text-align: right;
+            margin-top: -8px;
         }
 
         .forgot a {
-            color: #9D5CF6;              /* بنفسجي فاتح */
+            color: #9D5CF6;
             font-size: 13px;
             text-decoration: none;
         }
 
         .forgot a:hover {
-            color: #C4B5FD;              /* أفتح عند التحويم */
+            color: #C4B5FD;
         }
 
         /* ========== الأزرار ========== */
         button {
             width: 100%;
             padding: 14px;
-            background: #7C3AED;          /* بنفسجي أساسي */
+            background: #7C3AED;
             color: #ffffff;
             font-size: 16px;
             font-weight: 600;
             border: none;
             border-radius: 12px;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.2s;
         }
 
-        button:hover {
-            background: #5B21B6;          /* بنفسجي أغمق عند التحويم */
+        button:hover:not(:disabled) {
+            background: #5B21B6;
         }
 
-        button:active {
-            transform: scale(0.98);       /* تأثير ضغط الزر */
+        button:active:not(:disabled) {
+            transform: scale(0.98);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         /* ========== نص التبديل بين النماذج ========== */
         .switch {
             font-size: 13px;
-            color: #9CA3AF;              /* رمادي فاتح */
+            color: #9CA3AF;
         }
 
         .switch span {
-            color: #9D5CF6;              /* بنفسجي فاتح */
+            color: #9D5CF6;
             cursor: pointer;
             font-weight: 600;
         }
@@ -163,8 +234,20 @@
             width: 100%;
             color: #f87171;
             font-size: 13px;
-            min-height: 16px;             /* يحافظ على المساحة حتى لو كانت فارغة فلا يتحرك الكارد */
+            min-height: 16px;
             text-align: center;
+        }
+
+        /* ========== تنسيقات Responsive ========== */
+        @media (max-width: 400px) {
+            .card {
+                padding: 30px 20px;
+            }
+            
+            .row-fields {
+                flex-direction: column;
+                gap: 12px;
+            }
         }
     </style>
 </head>
@@ -181,12 +264,12 @@
 
         <div class="field">
             <iconify-icon icon="mdi:email-outline"></iconify-icon>
-            <input type="email" id="login-email" placeholder="jane.doe@example.com">
+            <input type="email" id="login-email" placeholder="jane.doe@example.com" autocomplete="email">
         </div>
 
         <div class="field">
             <iconify-icon icon="mdi:lock-outline"></iconify-icon>
-            <input type="password" id="login-password" placeholder="••••••">
+            <input type="password" id="login-password" placeholder="••••••" autocomplete="current-password">
         </div>
 
         <p class="error" id="login-error"></p>
@@ -207,24 +290,50 @@
         </div>
         <h2>Create Account</h2>
 
+        <!-- اسم العرض -->
         <div class="field">
             <iconify-icon icon="mdi:card-account-details-outline"></iconify-icon>
-            <input type="text" id="signup-displayname" placeholder="Display Name">
+            <input type="text" id="signup-displayname" placeholder="Display Name" maxlength="30">
         </div>
 
+        <!-- اسم المستخدم -->
         <div class="field">
             <iconify-icon icon="mdi:account-outline"></iconify-icon>
-            <input type="text" id="signup-username" placeholder="Username">
+            <input type="text" id="signup-username" placeholder="Username" maxlength="20" autocomplete="off">
+        </div>
+        
+        <!-- حالة اسم المستخدم (متاح/محجوز) -->
+        <div class="username-status" id="username-status"></div>
+
+        <!-- الجنس + العمر في صف واحد -->
+        <div class="row-fields">
+            <!-- اختيار الجنس -->
+            <div class="field">
+                <iconify-icon icon="mdi:gender-male-female"></iconify-icon>
+                <select id="signup-gender">
+                    <option value="">Gender</option>
+                    <option value="male">♂ Male</option>
+                    <option value="female">♀ Female</option>
+                </select>
+            </div>
+
+            <!-- إدخال العمر -->
+            <div class="field">
+                <iconify-icon icon="mdi:cake-variant-outline"></iconify-icon>
+                <input type="number" id="signup-age" placeholder="Age" min="15" max="120">
+            </div>
         </div>
 
+        <!-- البريد الإلكتروني -->
         <div class="field">
             <iconify-icon icon="mdi:email-outline"></iconify-icon>
-            <input type="email" id="signup-email" placeholder="Email">
+            <input type="email" id="signup-email" placeholder="Email" autocomplete="email">
         </div>
 
+        <!-- كلمة المرور -->
         <div class="field">
             <iconify-icon icon="mdi:lock-outline"></iconify-icon>
-            <input type="password" id="signup-password" placeholder="Password">
+            <input type="password" id="signup-password" placeholder="Password" autocomplete="new-password">
         </div>
 
         <p class="error" id="signup-error"></p>
@@ -244,21 +353,24 @@
         createUserWithEmailAndPassword,
         signInWithEmailAndPassword,
         onAuthStateChanged,
-        updateProfile  // ← جديد: لتحديث البروفايل
+        updateProfile
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
     import {
         doc, 
         setDoc, 
-        getDoc,     // ← جديد: للتحقق من وجود الوثيقة
+        getDoc,
         serverTimestamp,
-        updateDoc   // ← جديد: لتحديث آخر تسجيل دخول
+        updateDoc,
+        collection,
+        query,
+        where,
+        getDocs
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     // ========== التحقق التلقائي عند فتح الصفحة ==========
     onAuthStateChanged(auth, async (user) => {
         if (user) {
-            // ← جديد: التأكد من وجود بيانات المستخدم في Firestore
             await ensureUserDataInFirestore(user);
             window.location.href = "index.html";
         }
@@ -269,6 +381,13 @@
     const signupForm  = document.getElementById('signup-form');
     const loginError  = document.getElementById('login-error');
     const signupError = document.getElementById('signup-error');
+    const usernameStatus = document.getElementById('username-status');
+    const signupUsername = document.getElementById('signup-username');
+    const btnSignup = document.getElementById('btn-signup');
+
+    // ========== متغيرات للتحكم في التحقق من اسم المستخدم ==========
+    let usernameCheckTimeout;
+    let isUsernameAvailable = false;
 
     // ========== التبديل بين الفورمين ==========
     document.getElementById('go-signup').addEventListener('click', () => {
@@ -276,6 +395,7 @@
         signupForm.style.display = 'flex';
         loginError.textContent   = '';
         signupError.textContent  = '';
+        resetSignupForm();
     });
 
     document.getElementById('go-login').addEventListener('click', () => {
@@ -283,7 +403,22 @@
         loginForm.style.display  = 'flex';
         loginError.textContent   = '';
         signupError.textContent  = '';
+        resetSignupForm();
     });
+
+    // ========== دالة إعادة تعيين نموذج التسجيل ==========
+    function resetSignupForm() {
+        document.getElementById('signup-displayname').value = '';
+        signupUsername.value = '';
+        document.getElementById('signup-gender').value = '';
+        document.getElementById('signup-age').value = '';
+        document.getElementById('signup-email').value = '';
+        document.getElementById('signup-password').value = '';
+        usernameStatus.textContent = '';
+        usernameStatus.className = 'username-status';
+        isUsernameAvailable = false;
+        updateSignupButton();
+    }
 
     // ========== دالة التحقق من صحة البريد الإلكتروني ==========
     function isValidEmail(email) {
@@ -291,25 +426,106 @@
     }
 
     /**
-     * ========== دالة التأكد من وجود بيانات المستخدم في Firestore ==========
+     * ========== التحقق من توفر اسم المستخدم في Firestore ==========
      * 
      * شرح الدالة:
-     * 1. نحاول نجيب بيانات المستخدم من Firestore باستخدام uid
-     * 2. لو البيانات مش موجودة (مثلاً المستخدم اتحذف من Firestore أو حصل خطأ)
-     * 3. بنضيف البيانات تلقائياً من معلومات حساب Firebase Auth
-     * 
-     * @param {object} user - كائن المستخدم من Firebase Auth
+     * - بتتعمل تلقائياً بعد ما المستخدم يكتب اسم مستخدم
+     * - بتستنى 500ms عشان متعملش طلبات كتير (debounce)
+     * - بتبحث في Firestore لو اسم المستخدم ده مستخدم قبل كده
+     * - بتعرض رسالة للمستخدم (متاح ✅ / محجوز ❌)
      */
+    async function checkUsernameAvailability(username) {
+        // لو فاضي، منظهرش حاجة
+        if (!username || username.trim().length < 3) {
+            usernameStatus.textContent = '';
+            usernameStatus.className = 'username-status';
+            isUsernameAvailable = false;
+            updateSignupButton();
+            return;
+        }
+
+        // عرض حالة البحث
+        usernameStatus.textContent = '🔄 Checking availability...';
+        usernameStatus.className = 'username-status checking';
+        isUsernameAvailable = false;
+        updateSignupButton();
+
+        try {
+            // البحث في Firestore عن اسم المستخدم
+            const usersRef = collection(db, "users");
+            const q = query(usersRef, where("username", "==", username.toLowerCase()));
+            const querySnapshot = await getDocs(q);
+
+            if (querySnapshot.empty) {
+                // اسم المستخدم متاح
+                usernameStatus.innerHTML = '<iconify-icon icon="mdi:check-circle" style="font-size:16px;"></iconify-icon> Username is available!';
+                usernameStatus.className = 'username-status available';
+                isUsernameAvailable = true;
+            } else {
+                // اسم المستخدم محجوز
+                usernameStatus.innerHTML = '<iconify-icon icon="mdi:close-circle" style="font-size:16px;"></iconify-icon> Username is already taken';
+                usernameStatus.className = 'username-status taken';
+                isUsernameAvailable = false;
+            }
+        } catch (error) {
+            console.error("❌ خطأ في التحقق من اسم المستخدم:", error);
+            usernameStatus.textContent = '⚠️ Could not verify username';
+            usernameStatus.className = 'username-status taken';
+            isUsernameAvailable = false;
+        }
+        
+        updateSignupButton();
+    }
+
+    // ========== حدث كتابة اسم المستخدم (مع debounce) ==========
+    signupUsername.addEventListener('input', (e) => {
+        // السماح بالأحرف الإنجليزية والأرقام والشرطة السفلية فقط
+        const filteredValue = e.target.value.replace(/[^a-zA-Z0-9_]/g, '');
+        e.target.value = filteredValue;
+
+        // إلغاء المؤقت السابق
+        clearTimeout(usernameCheckTimeout);
+        
+        // تعيين مؤقت جديد (500ms delay)
+        usernameCheckTimeout = setTimeout(() => {
+            checkUsernameAvailability(filteredValue);
+        }, 500);
+    });
+
+    // ========== دالة تحديث حالة زر التسجيل ==========
+    function updateSignupButton() {
+        const displayName = document.getElementById('signup-displayname').value.trim();
+        const username = signupUsername.value.trim();
+        const gender = document.getElementById('signup-gender').value;
+        const age = document.getElementById('signup-age').value;
+        const email = document.getElementById('signup-email').value.trim();
+        const password = document.getElementById('signup-password').value;
+
+        const isValid = displayName && 
+                       username.length >= 3 && 
+                       isUsernameAvailable && 
+                       gender && 
+                       age >= 15 && 
+                       isValidEmail(email) && 
+                       password.length >= 6;
+
+        btnSignup.disabled = !isValid;
+    }
+
+    // ========== مراقبة جميع حقول التسجيل ==========
+    ['signup-displayname', 'signup-gender', 'signup-age', 'signup-email', 'signup-password'].forEach(id => {
+        document.getElementById(id).addEventListener('input', updateSignupButton);
+    });
+
+    // ========== التأكد من وجود بيانات المستخدم في Firestore ==========
     async function ensureUserDataInFirestore(user) {
         try {
             const userRef = doc(db, "users", user.uid);
             const userSnap = await getDoc(userRef);
 
             if (!userSnap.exists()) {
-                // البيانات مش موجودة → نضيفها تلقائياً
-                console.log("⚠️ بيانات المستخدم مش موجودة في Firestore. جاري إضافتها...");
+                console.log("⚠️ بيانات المستخدم مش موجودة. جاري إضافتها...");
                 
-                // استخراج اسم المستخدم من الإيميل (قبل علامة @)
                 const usernameFromEmail = user.email ? user.email.split('@')[0] : 'user';
                 
                 await setDoc(userRef, {
@@ -318,6 +534,8 @@
                     username:       usernameFromEmail.toLowerCase(),
                     displayName:    user.displayName || usernameFromEmail,
                     photoURL:       user.photoURL || '',
+                    gender:         'male',  // ← جديد
+                    age:            18,       // ← جديد (قيمة افتراضية)
                     theme:          "dark",
                     bio:            "",
                     status:         "online",
@@ -329,10 +547,8 @@
                     ]
                 });
                 
-                console.log("✅ تم إضافة بيانات المستخدم بنجاح إلى Firestore");
+                console.log("✅ تم إضافة بيانات المستخدم بنجاح");
             } else {
-                // البيانات موجودة → نحدث آخر تسجيل دخول
-                console.log("✅ بيانات المستخدم موجودة بالفعل. جاري تحديث آخر تسجيل دخول...");
                 await updateDoc(userRef, {
                     lastLogin: serverTimestamp(),
                     status: "online"
@@ -340,30 +556,26 @@
             }
         } catch (error) {
             console.error("❌ خطأ في التأكد من بيانات المستخدم:", error);
-            // حتى لو حصل خطأ، نكمل تسجيل الدخول عادي
         }
     }
 
     /**
      * ========== دالة إنشاء بيانات المستخدم الكاملة ==========
      * 
-     * شرح الدالة:
-     * تُستخدم عند التسجيل لأول مرة أو عند تسجيل الدخول لمستخدم
-     * تم حذف بياناته من Firestore لأي سبب
-     * 
      * @param {object} user - كائن المستخدم من Firebase Auth
-     * @param {object} extraData - بيانات إضافية (username, displayName)
+     * @param {object} extraData - بيانات إضافية (username, displayName, gender, age)
      */
     async function createUserData(user, extraData = {}) {
         const userRef = doc(db, "users", user.uid);
         
-        // دمج البيانات الأساسية مع البيانات الإضافية
         const userData = {
             uid:            user.uid,
             email:          user.email || '',
             username:       extraData.username || user.email.split('@')[0].toLowerCase(),
             displayName:    extraData.displayName || user.displayName || user.email.split('@')[0],
             photoURL:       user.photoURL || '',
+            gender:         extraData.gender || 'male',      // ← جديد
+            age:            parseInt(extraData.age) || 18,    // ← جديد
             theme:          "dark",
             bio:            "",
             status:         "online",
@@ -376,7 +588,7 @@
         };
 
         await setDoc(userRef, userData);
-        console.log("✅ تم إنشاء بيانات المستخدم في Firestore:", userData);
+        console.log("✅ تم إنشاء بيانات المستخدم:", userData);
         return userData;
     }
 
@@ -387,34 +599,26 @@
 
         loginError.textContent = '';
 
-        // التحقق من الحقول الفارغة
         if (!email || !password) {
             loginError.textContent = 'Please fill in all fields.';
             return;
         }
 
-        // التحقق من صحة البريد الإلكتروني
         if (!isValidEmail(email)) {
             loginError.textContent = 'Please enter a valid email address.';
             return;
         }
 
         try {
-            // تسجيل الدخول عبر Firebase Auth
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
             
-            // ← جديد: التأكد من وجود بيانات المستخدم في Firestore
-            // لو مش موجودة، هتتضاف تلقائياً
             await ensureUserDataInFirestore(user);
-            
-            // التوجيه للصفحة الرئيسية
             window.location.href = "index.html";
             
         } catch (err) {
             console.error("❌ Login error:", err.code);
             
-            // رسائل خطأ مخصصة حسب نوع الخطأ
             switch (err.code) {
                 case 'auth/invalid-credential':
                 case 'auth/user-not-found':
@@ -437,17 +641,41 @@
     });
 
     // ========== معالجة إنشاء الحساب ==========
-    document.getElementById('btn-signup').addEventListener('click', async () => {
+    btnSignup.addEventListener('click', async () => {
         const displayName = document.getElementById('signup-displayname').value.trim();
-        const username    = document.getElementById('signup-username').value.trim().toLowerCase();
+        const username    = signupUsername.value.trim().toLowerCase();
+        const gender      = document.getElementById('signup-gender').value;
+        const age         = parseInt(document.getElementById('signup-age').value);
         const email       = document.getElementById('signup-email').value.trim();
         const password    = document.getElementById('signup-password').value;
 
         signupError.textContent = '';
 
         // التحقق من الحقول الفارغة
-        if (!displayName || !username || !email || !password) {
+        if (!displayName || !username || !gender || !age || !email || !password) {
             signupError.textContent = 'Please fill in all fields.';
+            return;
+        }
+
+        // التحقق من اسم المستخدم
+        if (username.length < 3) {
+            signupError.textContent = 'Username must be at least 3 characters.';
+            return;
+        }
+
+        if (!isUsernameAvailable) {
+            signupError.textContent = 'Please choose an available username.';
+            return;
+        }
+
+        // التحقق من العمر
+        if (age < 15) {
+            signupError.textContent = 'You must be at least 15 years old to register.';
+            return;
+        }
+
+        if (age > 120) {
+            signupError.textContent = 'Please enter a valid age.';
             return;
         }
 
@@ -463,18 +691,12 @@
             return;
         }
 
-        // التحقق من طول اسم المستخدم
-        if (username.length < 3) {
-            signupError.textContent = 'Username must be at least 3 characters.';
-            return;
-        }
-
         try {
             // 1. إنشاء الحساب في Firebase Auth
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
-            // 2. تحديث البروفايل في Firebase Auth (إضافة اسم العرض)
+            // 2. تحديث البروفايل في Firebase Auth
             await updateProfile(user, {
                 displayName: displayName
             });
@@ -482,14 +704,18 @@
             // 3. إنشاء بيانات المستخدم في Firestore
             await createUserData(user, {
                 username: username,
-                displayName: displayName
+                displayName: displayName,
+                gender: gender,      // ← جديد
+                age: age             // ← جديد
             });
 
             console.log("✅ تم إنشاء الحساب بنجاح:", {
                 uid: user.uid,
                 email: email,
                 username: username,
-                displayName: displayName
+                displayName: displayName,
+                gender: gender,
+                age: age
             });
 
             // 4. التوجيه إلى الصفحة الرئيسية
@@ -498,7 +724,6 @@
         } catch (err) {
             console.error("❌ Signup error:", err.code);
             
-            // رسائل خطأ مخصصة حسب نوع الخطأ
             switch (err.code) {
                 case 'auth/email-already-in-use':
                     signupError.textContent = 'This email is already registered.';
@@ -523,11 +748,12 @@
         if (e.key === 'Enter') {
             if (loginForm.style.display !== 'none') {
                 document.getElementById('btn-login').click();
-            } else if (signupForm.style.display !== 'none') {
-                document.getElementById('btn-signup').click();
+            } else if (signupForm.style.display !== 'none' && !btnSignup.disabled) {
+                btnSignup.click();
             }
         }
     });
 </script>
+
 </body>
 </html>
