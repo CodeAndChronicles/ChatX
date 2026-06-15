@@ -185,12 +185,6 @@
             transition: all 0.2s ease;
             margin-bottom: 2px;
             position: relative;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-10px); }
-            to { opacity: 1; transform: translateX(0); }
         }
 
         .chat-item:hover { background: var(--hover-bg); }
@@ -234,12 +228,6 @@
             background: var(--online-color);
             border-radius: 50%;
             border: 2px solid var(--bg-secondary);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.4); }
-            50% { box-shadow: 0 0 0 6px rgba(52, 211, 153, 0); }
         }
 
         .chat-info { flex: 1; overflow: hidden; }
@@ -265,12 +253,6 @@
         .chat-info .typing {
             color: var(--accent-light);
             font-style: italic;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
         }
 
         .unread-badge {
@@ -282,12 +264,6 @@
             border-radius: 12px;
             min-width: 22px;
             text-align: center;
-            animation: popIn 0.3s ease;
-        }
-
-        @keyframes popIn {
-            from { transform: scale(0); }
-            to { transform: scale(1); }
         }
 
         .pin-icon {
@@ -348,14 +324,12 @@
             justify-content: center;
             transition: all 0.2s;
             font-size: 18px;
-            position: relative;
         }
 
         .icon-btn:hover {
             background: var(--hover-bg);
             border-color: var(--accent-light);
             color: var(--accent);
-            transform: translateY(-1px);
         }
 
         .icon-btn:active { transform: scale(0.95); }
@@ -372,7 +346,6 @@
             flex-direction: column;
             background: var(--bg-primary);
             min-width: 0;
-            transition: background 0.3s;
         }
 
         .chat-header {
@@ -383,12 +356,6 @@
             background: var(--glass-bg);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--glass-border);
-            animation: slideDown 0.3s ease;
-        }
-
-        @keyframes slideDown {
-            from { transform: translateY(-100%); }
-            to { transform: translateY(0); }
         }
 
         .chat-header .avatar { cursor: pointer; }
@@ -411,7 +378,7 @@
         .chat-header-info .status-text.online { color: var(--online-color); }
         .chat-header-info .status-text.offline { color: var(--text-muted); }
 
-        .messages-area {
+        .messages-container {
             flex: 1;
             overflow-y: auto;
             padding: 20px;
@@ -421,8 +388,8 @@
             scroll-behavior: smooth;
         }
 
-        .messages-area::-webkit-scrollbar { width: 5px; }
-        .messages-area::-webkit-scrollbar-thumb {
+        .messages-container::-webkit-scrollbar { width: 5px; }
+        .messages-container::-webkit-scrollbar-thumb {
             background: rgba(124, 58, 237, 0.2);
             border-radius: 10px;
         }
@@ -433,21 +400,13 @@
             color: var(--text-muted);
             padding: 16px 0 8px;
             font-weight: 500;
-            animation: fadeIn 0.5s ease;
         }
 
         .msg {
             display: flex;
             flex-direction: column;
             max-width: 68%;
-            animation: msgSlide 0.3s ease;
             position: relative;
-            transition: all 0.3s;
-        }
-
-        @keyframes msgSlide {
-            from { opacity: 0; transform: translateY(10px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .msg.in { align-self: flex-start; }
@@ -459,12 +418,7 @@
             font-size: 14px;
             line-height: 1.5;
             word-wrap: break-word;
-            font-weight: 400;
-            transition: all 0.3s;
-            position: relative;
         }
-
-        .msg-bubble:hover { transform: translateY(-1px); }
 
         .msg.in .msg-bubble {
             background: var(--bubble-received);
@@ -486,7 +440,6 @@
             background: rgba(124, 58, 237, 0.1);
             border-radius: 10px;
             cursor: pointer;
-            transition: background 0.2s;
         }
 
         .quote:hover {
@@ -505,10 +458,7 @@
 
         .msg.out .msg-time { justify-content: flex-end; }
 
-        .msg-status {
-            font-size: 12px;
-        }
-
+        .msg-status { font-size: 12px; }
         .msg-status.sent { color: var(--text-muted); }
         .msg-status.delivered { color: var(--text-muted); }
         .msg-status.seen { color: var(--accent-light); }
@@ -523,8 +473,6 @@
             border: 1px solid var(--glass-border);
             border-radius: 12px;
             font-size: 16px;
-            animation: popIn 0.3s ease;
-            cursor: pointer;
         }
 
         .msg-reactions span {
@@ -560,7 +508,6 @@
             padding: 4px 8px;
             border-radius: 8px;
             font-size: 16px;
-            transition: all 0.2s;
         }
 
         .msg-action-btn:hover {
@@ -643,7 +590,6 @@
             font-size: 14px;
             outline: none;
             font-family: 'Poppins', sans-serif;
-            transition: all 0.3s;
         }
 
         .input-wrapper input:focus {
@@ -677,7 +623,7 @@
         }
 
         .send-btn:hover:not(:disabled) {
-            transform: scale(1.1) translateY(-2px);
+            transform: scale(1.1);
             box-shadow: 0 8px 25px rgba(124, 58, 237, 0.5);
         }
 
@@ -685,7 +631,6 @@
         .send-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            transform: scale(0.95);
         }
 
         @keyframes shake {
@@ -707,12 +652,11 @@
             gap: 16px;
             text-align: center;
             padding: 30px;
-            animation: fadeIn 0.5s ease;
         }
 
         .welcome iconify-icon { font-size: 80px; opacity: 0.25; color: var(--accent); }
         .welcome h2 { font-size: 24px; font-weight: 700; color: var(--text-primary); }
-        .welcome p { font-size: 14px; color: var(--text-secondary); max-width: 320px; font-weight: 400; }
+        .welcome p { font-size: 14px; color: var(--text-secondary); max-width: 320px; }
 
         .context-menu {
             position: fixed;
@@ -724,12 +668,6 @@
             box-shadow: var(--shadow);
             z-index: 1000;
             min-width: 160px;
-            animation: menuFade 0.15s ease;
-        }
-
-        @keyframes menuFade {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
         }
 
         .context-menu button {
@@ -745,16 +683,13 @@
             font-family: 'Poppins', sans-serif;
             cursor: pointer;
             border-radius: 10px;
-            transition: background 0.2s;
         }
 
         .context-menu button:hover {
             background: var(--hover-bg);
         }
 
-        .context-menu button.danger {
-            color: var(--danger);
-        }
+        .context-menu button.danger { color: var(--danger); }
 
         .bottom-nav {
             display: none;
@@ -782,7 +717,6 @@
             cursor: pointer;
             padding: 6px 12px;
             border-radius: 24px;
-            transition: all 0.2s;
             font-size: 11px;
             font-family: 'Poppins', sans-serif;
         }
@@ -792,9 +726,7 @@
             background: var(--active-bg);
         }
 
-        .nav-item iconify-icon {
-            font-size: 22px;
-        }
+        .nav-item iconify-icon { font-size: 22px; }
 
         .modal-overlay {
             display: none;
@@ -805,15 +737,9 @@
             align-items: center;
             justify-content: center;
             backdrop-filter: blur(6px);
-            animation: fadeIn 0.3s ease;
         }
 
         .modal-overlay.show { display: flex; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
 
         .modal {
             background: var(--glass-bg);
@@ -824,15 +750,9 @@
             width: 92%;
             max-width: 420px;
             text-align: center;
-            animation: modalSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: var(--shadow);
             max-height: 90vh;
             overflow-y: auto;
-        }
-
-        @keyframes modalSlide {
-            from { opacity: 0; transform: scale(0.8) translateY(40px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         .modal .modal-avatar {
@@ -908,7 +828,6 @@
             font-size: 14px;
             font-weight: 600;
             font-family: 'Poppins', sans-serif;
-            transition: all 0.2s;
             border: 1px solid var(--border-color);
         }
 
@@ -925,8 +844,7 @@
             border: none;
         }
 
-        .modal .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
-        .modal .btn-primary:active { transform: scale(0.98); }
+        .modal .btn-primary:hover { opacity: 0.9; }
 
         .modal .edit-input, .modal .edit-textarea {
             width: 100%;
@@ -939,7 +857,6 @@
             font-family: 'Poppins', sans-serif;
             outline: none;
             margin-top: 4px;
-            transition: border-color 0.3s;
         }
 
         .modal .edit-input:focus, .modal .edit-textarea:focus {
@@ -966,13 +883,7 @@
             gap: 8px;
             z-index: 200;
             box-shadow: var(--shadow);
-            animation: slideUp 0.2s ease;
             width: min(340px, 92vw);
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translate(-50%, 20px); }
-            to { opacity: 1; transform: translate(-50%, 0); }
         }
 
         .emoji-picker span {
@@ -980,7 +891,6 @@
             cursor: pointer;
             padding: 8px;
             border-radius: 12px;
-            transition: all 0.2s;
             text-align: center;
         }
 
@@ -1050,13 +960,8 @@
             .msg-actions { display: flex !important; position: static; margin-top: 4px; }
             .input-area { flex-wrap: wrap; }
             .input-wrapper { width: calc(100% - 56px); }
-            .sidebar-header {
-                padding-top: env(safe-area-inset-top, 16px);
-            }
-            .emoji-picker {
-                width: 90vw;
-                bottom: 70px;
-            }
+            .sidebar-header { padding-top: env(safe-area-inset-top, 16px); }
+            .emoji-picker { width: 90vw; bottom: 70px; }
         }
 
         @media (max-width: 480px) {
@@ -1206,7 +1111,7 @@
                     <iconify-icon icon="mdi:information-outline"></iconify-icon>
                 </button>
             </div>
-            <div class="messages-area" id="messages-area"></div>
+            <div class="messages-container" id="messages-container"></div>
             <div class="reply-bar" id="reply-bar" style="display:none;">
                 <iconify-icon icon="mdi:reply" style="color:var(--accent);"></iconify-icon>
                 <div class="reply-content">
@@ -1248,29 +1153,36 @@
     import { 
         collection, doc, getDoc, getDocs, setDoc, addDoc, 
         query, where, orderBy, onSnapshot, serverTimestamp,
-        updateDoc, deleteDoc, increment, limit
+        updateDoc, deleteDoc, increment, limit, writeBatch
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
     import { 
-        ref, set, onValue, onDisconnect, 
+        ref, set, onValue, onDisconnect, off,
         serverTimestamp as rtServerTimestamp 
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-    // ===== STATE =====
+    // ========== STATE ==========
     let currentUser = null;
     let currentUserData = null;
     let activeChatId = null;
     let activeChatUser = null;
-    let messagesUnsub = null;
-    let convsUnsub = null;
+    let currentUnsubscribes = {
+        messages: null,
+        typing: null,
+        status: null
+    };
+    let conversationsUnsubscribe = null;
     let typingTimeout = null;
     let lastMessageTime = 0;
     let searchTimer = null;
+    let statusUnsubscribes = new Map();
+    let typingUnsubscribes = new Map();
+    
     const SPAM_COOLDOWN = 1000;
     const EDIT_WINDOW = 15 * 60 * 1000;
     let editingMessageId = null;
     let replyingTo = null;
 
-    // ===== DOM =====
+    // ========== DOM Elements ==========
     const $ = (id) => document.getElementById(id);
     const sidebar = $('sidebar');
     const overlay = $('sidebar-overlay');
@@ -1279,13 +1191,13 @@
     const searchInput = $('search-input');
     const searchResults = $('search-results');
     const conversationsList = $('conversations-list');
-    const messagesArea = $('messages-area');
+    const messagesContainer = $('messages-container');
     const messageInput = $('message-input');
     const sendBtn = $('send-btn');
     const charCounter = $('char-counter');
     const MAX_CHARS = 500;
 
-    // ===== HELPER FUNCTIONS =====
+    // ========== Helper Functions ==========
     function formatShortTime(date) {
         if (!date) return '';
         const now = new Date();
@@ -1302,6 +1214,7 @@
     }
 
     function escapeHtml(text) {
+        if (!text) return '';
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
@@ -1315,12 +1228,11 @@
     function showModal(modal) { modal.classList.add('show'); }
     function hideModal(modal) { modal.classList.remove('show'); }
 
-    // ===== ONLINE STATUS USING RTDB =====
+    // ========== Presence System (RTDB) ==========
     async function setUserStatus(userId, status) {
-        const statusRef = ref(rtdb, `status/${userId}`);
+        const statusRef = ref(rtdb, `presence/${userId}`);
         
         if (status === 'online') {
-            // لما يقطع النت، السيرفر يكتب offline تلقائياً
             onDisconnect(statusRef).set({
                 state: 'offline',
                 lastSeen: rtServerTimestamp()
@@ -1337,41 +1249,68 @@
         }
     }
 
-    // Listen to user status changes
-    function listenToUserStatus(userId, callback) {
-        const statusRef = ref(rtdb, `status/${userId}`);
-        return onValue(statusRef, (snapshot) => {
+    function watchUserStatus(userId, callback) {
+        if (statusUnsubscribes.has(userId)) {
+            off(statusUnsubscribes.get(userId));
+            statusUnsubscribes.delete(userId);
+        }
+        
+        const statusRef = ref(rtdb, `presence/${userId}`);
+        const unsubscribe = onValue(statusRef, (snapshot) => {
             const data = snapshot.val();
-            callback(data ? data.state : 'offline', data?.lastSeen);
+            if (data) {
+                callback({
+                    isOnline: data.state === 'online',
+                    lastSeen: data.lastSeen
+                });
+            } else {
+                callback({ isOnline: false, lastSeen: null });
+            }
         });
+        
+        statusUnsubscribes.set(userId, unsubscribe);
+        return unsubscribe;
     }
 
-    // ===== TYPING USING RTDB =====
-    function setTyping(convId, userId, isTyping) {
-        const typRef = ref(rtdb, `typing/${convId}/${userId}`);
+    // ========== Typing System (RTDB) ==========
+    function sendTyping(conversationId, userId, isTyping) {
+        const typingRef = ref(rtdb, `typing/${conversationId}/${userId}`);
         if (isTyping) {
-            set(typRef, true);
+            set(typingRef, { isTyping: true, timestamp: Date.now() });
+            if (typingTimeout) clearTimeout(typingTimeout);
+            typingTimeout = setTimeout(() => {
+                set(typingRef, null);
+            }, 3000);
         } else {
-            set(typRef, null);
+            set(typingRef, null);
+            if (typingTimeout) clearTimeout(typingTimeout);
         }
     }
 
-    function listenToTyping(convId, userId, callback) {
-        const typRef = ref(rtdb, `typing/${convId}/${userId}`);
-        return onValue(typRef, (snapshot) => {
-            callback(snapshot.val() === true);
+    function watchTyping(conversationId, userId, callback) {
+        const key = `${conversationId}_${userId}`;
+        if (typingUnsubscribes.has(key)) {
+            off(typingUnsubscribes.get(key));
+            typingUnsubscribes.delete(key);
+        }
+        
+        const typingRef = ref(rtdb, `typing/${conversationId}/${userId}`);
+        const unsubscribe = onValue(typingRef, (snapshot) => {
+            const data = snapshot.val();
+            callback(data && data.isTyping === true);
         });
+        
+        typingUnsubscribes.set(key, unsubscribe);
+        return unsubscribe;
     }
 
-    // ===== MARK AS SEEN (Fixed - updates seen:true on messages) =====
-    async function markSeen(convId) {
+    // ========== Mark Messages as Seen ==========
+    async function markConversationSeen(convId) {
         if (!convId || !currentUser) return;
         
-        // 1. Clear unread counter
         const convRef = doc(db, "conversations", convId);
         await updateDoc(convRef, { [`unread.${currentUser.uid}`]: 0 });
         
-        // 2. Mark all unseen messages as seen
         const q = query(
             collection(db, "conversations", convId, "messages"),
             where("seen", "==", false),
@@ -1379,23 +1318,26 @@
             limit(50)
         );
         const snap = await getDocs(q);
-        const updates = [];
-        snap.forEach(d => updates.push(updateDoc(d.ref, { seen: true, seenAt: serverTimestamp() })));
-        if (updates.length) await Promise.all(updates);
+        if (snap.empty) return;
+        
+        const batch = writeBatch(db);
+        snap.forEach(d => batch.update(d.ref, { seen: true, seenAt: serverTimestamp() }));
+        await batch.commit();
     }
 
-    // ===== SCROLL TO MESSAGE =====
+    // ========== Scroll to Message ==========
     function scrollToMessage(msgId) {
         const target = document.querySelector(`[data-msg-id="${msgId}"]`);
         if (target) {
             target.scrollIntoView({ behavior: 'smooth', block: 'center' });
             target.style.backgroundColor = 'rgba(124, 58, 237, 0.2)';
-            target.style.transition = 'background-color 0.3s';
-            setTimeout(() => { target.style.backgroundColor = ''; }, 1500);
+            setTimeout(() => {
+                target.style.backgroundColor = '';
+            }, 1500);
         }
     }
 
-    // ===== UPDATE SEND BUTTON =====
+    // ========== Update Send Button ==========
     function updateSendButton() {
         sendBtn.disabled = messageInput.value.trim().length === 0;
     }
@@ -1419,7 +1361,7 @@
     messageInput.addEventListener('input', updateSendButton);
     updateSendButton();
 
-    // ===== THEME =====
+    // ========== Theme ==========
     const savedTheme = localStorage.getItem('nova-theme') || 'dark';
     if (savedTheme === 'light') document.body.classList.add('light-theme');
     
@@ -1428,14 +1370,23 @@
         localStorage.setItem('nova-theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
     });
 
-    // ===== MOBILE MENU =====
-    $('menu-btn').addEventListener('click', () => { sidebar.classList.add('open'); overlay.classList.add('show'); });
-    overlay.addEventListener('click', () => { sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+    // ========== Mobile Navigation ==========
+    $('menu-btn').addEventListener('click', () => {
+        sidebar.classList.add('open');
+        overlay.classList.add('show');
+    });
+    overlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
+    });
     $('back-btn').addEventListener('click', closeChat);
 
-    // ===== SETTINGS BUTTON =====
-    $('settings-btn').addEventListener('click', () => { window.location.href = "settings.html"; });
-    $('nav-settings').addEventListener('click', () => { window.location.href = "settings.html"; });
+    $('settings-btn').addEventListener('click', () => {
+        window.location.href = "settings.html";
+    });
+    $('nav-settings').addEventListener('click', () => {
+        window.location.href = "settings.html";
+    });
     $('nav-chats').addEventListener('click', () => {
         if (window.innerWidth <= 768) {
             sidebar.classList.add('open');
@@ -1445,17 +1396,21 @@
         $('nav-chats').classList.add('active');
     });
 
-    // ===== MODALS =====
+    // ========== Modals ==========
     const userModal = $('user-modal');
     const editModal = $('edit-modal');
     const editMsgModal = $('edit-msg-modal');
+    
     userModal.addEventListener('click', (e) => { if (e.target === userModal) hideModal(userModal); });
     editModal.addEventListener('click', (e) => { if (e.target === editModal) hideModal(editModal); });
     editMsgModal.addEventListener('click', (e) => { if (e.target === editMsgModal) hideModal(editMsgModal); });
 
-    // ===== AUTH =====
+    // ========== Authentication ==========
     onAuthStateChanged(auth, async (user) => {
-        if (!user) { window.location.href = "auth.html"; return; }
+        if (!user) {
+            window.location.href = "auth.html";
+            return;
+        }
         currentUser = user;
         
         const userRef = doc(db, "users", user.uid);
@@ -1469,19 +1424,15 @@
                 email: user.email || '',
                 displayName: user.displayName || user.email?.split('@')[0] || 'User',
                 username: (user.displayName || user.email?.split('@')[0] || 'user').toLowerCase().replace(/\s+/g, ''),
-                photoURL: "", bio: "", status: "online",
-                createdAt: serverTimestamp(),
-                lastLogin: serverTimestamp(),
-                searchKeywords: [], contacts: [],
+                bio: "",
+                searchKeywords: [],
                 pinnedChats: []
             };
             currentUserData.searchKeywords = [currentUserData.username, currentUserData.displayName.toLowerCase()];
             await setDoc(userRef, currentUserData);
         }
 
-        // Set online status in RTDB
         await setUserStatus(currentUser.uid, 'online');
-        
         updateSelfUI();
         listenToConversations();
         
@@ -1499,7 +1450,7 @@
         $('edit-bio').value = currentUserData.bio || '';
     }
 
-    // ===== SEARCH - Direct Firestore with array-contains =====
+    // ========== Search Users ==========
     function displaySearchResults(results) {
         searchResults.innerHTML = '';
         if (results.length === 0) {
@@ -1554,23 +1505,9 @@
         }, 350);
     });
 
-    // ===== TYPING INDICATOR WITH RTDB =====
-    messageInput.addEventListener('input', () => {
-        if (!activeChatId) return;
-        
-        setTyping(activeChatId, currentUser.uid, true);
-        
-        clearTimeout(typingTimeout);
-        typingTimeout = setTimeout(() => {
-            setTyping(activeChatId, currentUser.uid, false);
-        }, 2000);
-        
-        localStorage.setItem(`draft_${activeChatId}`, messageInput.value);
-    });
-
-    // ===== CONVERSATIONS LIST (Fixed orderBy) =====
+    // ========== Conversations List ==========
     function listenToConversations() {
-        if (convsUnsub) convsUnsub();
+        if (conversationsUnsubscribe) conversationsUnsubscribe();
 
         const q = query(
             collection(db, "conversations"),
@@ -1578,17 +1515,18 @@
             orderBy("updatedAt", "desc")
         );
 
-        convsUnsub = onSnapshot(q, async (snapshot) => {
+        conversationsUnsubscribe = onSnapshot(q, async (snapshot) => {
             const docs = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-            
-            // Separate pinned and unpinned
             const pinned = docs.filter(d => currentUserData.pinnedChats?.includes(d.id));
             const unpinned = docs.filter(d => !currentUserData.pinnedChats?.includes(d.id));
             
             conversationsList.innerHTML = '';
             
             if (docs.length === 0) {
-                conversationsList.innerHTML = `<div style="padding:24px;text-align:center;color:var(--text-muted);font-size:13px;"><iconify-icon icon="mdi:message-text-outline" style="font-size:36px;opacity:0.3;display:block;margin:0 auto 8px;"></iconify-icon>No conversations yet</div>`;
+                conversationsList.innerHTML = `<div style="padding:24px;text-align:center;color:var(--text-muted);font-size:13px;">
+                    <iconify-icon icon="mdi:message-text-outline" style="font-size:36px;opacity:0.3;display:block;margin:0 auto 8px;"></iconify-icon>
+                    No conversations yet
+                </div>`;
                 return;
             }
 
@@ -1596,7 +1534,6 @@
                 const otherId = conv.participants.find(id => id !== currentUser.uid);
                 if (!otherId) continue;
 
-                // Get other user data
                 const userRef = doc(db, "users", otherId);
                 const userSnap = await getDoc(userRef);
                 if (!userSnap.exists()) continue;
@@ -1611,21 +1548,19 @@
                 const truncated = lastMsg.length > 25 ? lastMsg.substring(0, 25) + '...' : lastMsg;
                 const lastTime = conv.updatedAt?.toDate ? formatShortTime(conv.updatedAt.toDate()) : '';
                 const unreadCount = conv.unread?.[currentUser.uid] || 0;
-                
-                // Listen to online status from RTDB
+
                 let isOnline = false;
-                const unsubscribeStatus = listenToUserStatus(otherId, (state) => {
-                    isOnline = state === 'online';
+                watchUserStatus(otherId, (status) => {
+                    isOnline = status.isOnline;
                     const avatarDiv = item.querySelector('.avatar');
                     if (avatarDiv) {
                         if (isOnline) avatarDiv.classList.add('online');
                         else avatarDiv.classList.remove('online');
                     }
                 });
-                
-                // Listen to typing status from RTDB
+
                 let isTyping = false;
-                const unsubscribeTyping = listenToTyping(conv.id, otherId, (typing) => {
+                watchTyping(conv.id, otherId, (typing) => {
                     isTyping = typing;
                     const previewDiv = item.querySelector('.preview');
                     if (previewDiv) {
@@ -1652,8 +1587,6 @@
                 `;
 
                 item.addEventListener('click', () => {
-                    unsubscribeStatus();
-                    unsubscribeTyping();
                     openChat(conv.id, otherUser);
                     if (window.innerWidth <= 768) closeSidebarMobile();
                 });
@@ -1662,13 +1595,10 @@
             }
         }, (error) => {
             console.error("Conversations error:", error);
-            if (error.code === 'failed-precondition') {
-                console.log("Need to create index in Firebase Console");
-            }
         });
     }
 
-    // ===== PIN CHAT =====
+    // ========== Pin Chat ==========
     async function togglePinChat(convId) {
         const pinned = currentUserData.pinnedChats || [];
         const index = pinned.indexOf(convId);
@@ -1687,7 +1617,7 @@
         }
     });
 
-    // ===== START CHAT =====
+    // ========== Start Chat ==========
     async function startChat(otherUser) {
         const ids = [currentUser.uid, otherUser.uid].sort();
         const convId = ids.join('_');
@@ -1705,46 +1635,156 @@
             });
         }
 
-        const currentContacts = currentUserData.contacts || [];
-        if (!currentContacts.some(c => c.uid === otherUser.uid)) {
-            currentContacts.push({
-                uid: otherUser.uid,
-                displayName: otherUser.displayName,
-                username: otherUser.username,
-                lastInteraction: new Date().toISOString()
-            });
-            await updateDoc(doc(db, "users", currentUser.uid), { contacts: currentContacts });
-            currentUserData.contacts = currentContacts;
-        }
-
         openChat(convId, otherUser);
     }
 
-    // ===== OPEN CHAT =====
-    function openChat(convId, otherUser) {
-        if (messagesUnsub) { messagesUnsub(); messagesUnsub = null; }
+    // ========== Create Message Element (no innerHTML replacement) ==========
+    function createMessageElement(msgDoc, msg, isMine, otherUser) {
+        const el = document.createElement('div');
+        el.className = `msg ${isMine ? 'out' : 'in'}`;
+        el.dataset.msgId = msgDoc.id;
 
+        let time = '';
+        if (msg.timestamp) {
+            time = msg.timestamp.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        let statusIcon = '';
+        if (isMine) {
+            if (msg.seen) statusIcon = '<iconify-icon icon="mdi:check-all" class="msg-status seen"></iconify-icon>';
+            else if (msg.delivered) statusIcon = '<iconify-icon icon="mdi:check-all" class="msg-status delivered"></iconify-icon>';
+            else statusIcon = '<iconify-icon icon="mdi:check" class="msg-status sent"></iconify-icon>';
+        }
+
+        let reactionsHtml = '';
+        if (msg.reactions && Object.keys(msg.reactions).length > 0) {
+            reactionsHtml = '<div class="msg-reactions">';
+            for (const [emoji, users] of Object.entries(msg.reactions)) {
+                reactionsHtml += `<span onclick="window.addReaction('${msgDoc.id}', '${emoji}')" title="${users.join(', ')}">${emoji} ${users.length}</span>`;
+            }
+            reactionsHtml += '</div>';
+        }
+
+        let quoteHtml = '';
+        if (msg.replyTo) {
+            quoteHtml = `<div class="quote" data-quote-id="${msg.replyTo.id}">
+                <iconify-icon icon="mdi:reply" style="font-size:10px;"></iconify-icon>
+                ${escapeHtml(msg.replyTo.senderName)}: ${escapeHtml(msg.replyTo.text.substring(0, 50))}${msg.replyTo.text.length > 50 ? '...' : ''}
+            </div>`;
+        }
+
+        el.innerHTML = `
+            <div class="msg-bubble">
+                ${quoteHtml}
+                ${escapeHtml(msg.text || '')}
+                ${msg.edited ? '<div class="msg-edited">edited</div>' : ''}
+            </div>
+            ${reactionsHtml}
+            <div class="msg-time">
+                ${time}
+                ${statusIcon}
+            </div>
+        `;
+
+        const quoteDiv = el.querySelector('.quote');
+        if (quoteDiv && msg.replyTo?.id) {
+            quoteDiv.addEventListener('click', () => scrollToMessage(msg.replyTo.id));
+        }
+
+        // Context menu
+        el.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            showContextMenu(e, msgDoc.id, msg.text, isMine, msg.timestamp?.toDate?.()?.getTime());
+        });
+        
+        let pressTimer;
+        el.addEventListener('touchstart', (e) => {
+            pressTimer = setTimeout(() => {
+                showContextMenu(e, msgDoc.id, msg.text, isMine, msg.timestamp?.toDate?.()?.getTime());
+            }, 500);
+        });
+        el.addEventListener('touchend', () => clearTimeout(pressTimer));
+        el.addEventListener('touchmove', () => clearTimeout(pressTimer));
+
+        // Swipe to reply
+        let touchStartX = 0;
+        el.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+        }, { passive: true });
+        el.addEventListener('touchend', (e) => {
+            const diff = e.changedTouches[0].clientX - touchStartX;
+            if (diff > 60 && !isMine) {
+                el.style.transform = 'translateX(8px)';
+                setTimeout(() => { el.style.transform = ''; }, 150);
+                replyingTo = { id: msgDoc.id, text: msg.text, senderName: isMine ? 'You' : otherUser.displayName };
+                $('reply-who').textContent = `Replying to ${replyingTo.senderName}`;
+                $('reply-what').textContent = msg.text.length > 60 ? msg.text.substring(0, 60) + '...' : msg.text;
+                $('reply-bar').style.display = 'flex';
+                messageInput.focus();
+            }
+        }, { passive: true });
+
+        el.addEventListener('dblclick', () => {
+            window.addReaction(msgDoc.id, '❤️');
+        });
+
+        return el;
+    }
+
+    // ========== Open Chat ==========
+    function openChat(convId, otherUser) {
+        // Clean up previous subscriptions
+        if (currentUnsubscribes.messages) currentUnsubscribes.messages();
+        if (currentUnsubscribes.typing) currentUnsubscribes.typing();
+        if (currentUnsubscribes.status) currentUnsubscribes.status();
+        
         activeChatId = convId;
         activeChatUser = otherUser;
         
-        // Add class to hide bottom nav on mobile
         document.body.classList.add('chat-open');
 
         welcomeScreen.style.display = 'none';
         chatScreen.style.display = 'flex';
+        messagesContainer.innerHTML = '';
 
         $('chat-avatar').textContent = otherUser.displayName.charAt(0).toUpperCase();
         $('chat-name').textContent = otherUser.displayName;
         
-        // Listen to online status
-        listenToUserStatus(otherUser.uid, (state) => {
+        // Watch user status
+        currentUnsubscribes.status = watchUserStatus(otherUser.uid, (status) => {
             const statusEl = $('chat-status');
-            if (state === 'online') {
+            if (status.isOnline) {
                 statusEl.textContent = 'Online';
                 statusEl.className = 'status-text online';
             } else {
                 statusEl.textContent = 'Offline';
                 statusEl.className = 'status-text offline';
+            }
+        });
+
+        // Watch typing
+        currentUnsubscribes.typing = watchTyping(convId, otherUser.uid, (isTyping) => {
+            const statusEl = $('chat-status');
+            if (isTyping) {
+                statusEl.textContent = 'typing...';
+                statusEl.className = 'status-text typing';
+                setTimeout(() => {
+                    if (!isTyping) {
+                        const currentStatus = statusEl.textContent;
+                        if (currentStatus === 'typing...') {
+                            const onlineStatus = statusEl.classList.contains('online') ? 'Online' : 'Offline';
+                            statusEl.textContent = onlineStatus;
+                            statusEl.className = `status-text ${statusEl.classList.contains('online') ? 'online' : 'offline'}`;
+                        }
+                    }
+                }, 3000);
+            } else {
+                const currentStatus = statusEl.textContent;
+                if (currentStatus === 'typing...') {
+                    const isOnline = statusEl.classList.contains('online');
+                    statusEl.textContent = isOnline ? 'Online' : 'Offline';
+                    statusEl.className = `status-text ${isOnline ? 'online' : 'offline'}`;
+                }
             }
         });
 
@@ -1761,135 +1801,70 @@
         const isPinned = currentUserData.pinnedChats?.includes(convId);
         $('pin-chat-btn').querySelector('iconify-icon').setAttribute('icon', isPinned ? 'mdi:pin' : 'mdi:pin-outline');
 
+        // Load messages with incremental updates
         const msgsQuery = query(
             collection(db, "conversations", convId, "messages"),
             orderBy("timestamp", "asc")
         );
 
-        messagesUnsub = onSnapshot(msgsQuery, async (snap) => {
-            messagesArea.innerHTML = '';
+        let lastDate = '';
+        let messageElements = new Map();
+
+        currentUnsubscribes.messages = onSnapshot(msgsQuery, async (snapshot) => {
+            await markConversationSeen(convId);
             
-            // Mark as seen
-            await markSeen(convId);
-
-            if (snap.empty) {
-                messagesArea.innerHTML = `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:16px;padding:40px;text-align:center;min-height:300px;"><div style="width:70px;height:70px;border-radius:50%;background:rgba(124,58,237,0.1);border:1px solid var(--border-color);display:flex;align-items:center;justify-content:center;"><iconify-icon icon="mdi:chat-processing-outline" style="font-size:32px;color:var(--accent);opacity:0.6;"></iconify-icon></div><div><p style="font-size:15px;font-weight:600;color:var(--text-primary);margin-bottom:6px;">Start the conversation</p><p style="font-size:13px;color:var(--text-secondary);">Say hi to ${escapeHtml(otherUser.displayName)} 👋</p></div></div>`;
-                return;
-            }
-
-            let lastDate = '';
-            snap.forEach((msgDoc) => {
+            snapshot.docChanges().forEach((change) => {
+                const msgDoc = change.doc;
                 const msg = msgDoc.data();
                 const isMine = msg.senderId === currentUser.uid;
-
-                if (msg.timestamp) {
-                    const d = msg.timestamp.toDate();
-                    const dateStr = d.toLocaleDateString();
-                    if (dateStr !== lastDate) {
+                
+                if (change.type === 'added') {
+                    // Add new message
+                    const msgDate = msg.timestamp?.toDate();
+                    const dateStr = msgDate ? msgDate.toLocaleDateString() : '';
+                    
+                    // Add date divider if needed
+                    if (dateStr && dateStr !== lastDate) {
                         lastDate = dateStr;
-                        const sep = document.createElement('div');
-                        sep.className = 'date-divider';
+                        const divider = document.createElement('div');
+                        divider.className = 'date-divider';
                         const now = new Date();
                         const yesterday = new Date(now);
                         yesterday.setDate(yesterday.getDate() - 1);
-                        if (dateStr === now.toLocaleDateString()) sep.textContent = 'Today';
-                        else if (dateStr === yesterday.toLocaleDateString()) sep.textContent = 'Yesterday';
-                        else sep.textContent = d.toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric' });
-                        messagesArea.appendChild(sep);
+                        if (dateStr === now.toLocaleDateString()) divider.textContent = 'Today';
+                        else if (dateStr === yesterday.toLocaleDateString()) divider.textContent = 'Yesterday';
+                        else divider.textContent = msgDate.toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric' });
+                        messagesContainer.appendChild(divider);
+                    }
+                    
+                    const msgElement = createMessageElement(msgDoc, msg, isMine, otherUser);
+                    messageElements.set(msgDoc.id, msgElement);
+                    messagesContainer.appendChild(msgElement);
+                    
+                } else if (change.type === 'modified') {
+                    // Update existing message
+                    const existingElement = messageElements.get(msgDoc.id);
+                    if (existingElement) {
+                        const newElement = createMessageElement(msgDoc, msg, isMine, otherUser);
+                        existingElement.replaceWith(newElement);
+                        messageElements.set(msgDoc.id, newElement);
+                    }
+                    
+                } else if (change.type === 'removed') {
+                    // Remove message
+                    const existingElement = messageElements.get(msgDoc.id);
+                    if (existingElement) {
+                        existingElement.remove();
+                        messageElements.delete(msgDoc.id);
                     }
                 }
-
-                const el = document.createElement('div');
-                el.className = `msg ${isMine ? 'out' : 'in'}`;
-                el.dataset.msgId = msgDoc.id;
-
-                let time = '';
-                if (msg.timestamp) {
-                    time = msg.timestamp.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                }
-
-                let statusIcon = '';
-                if (isMine) {
-                    if (msg.seen) statusIcon = '<iconify-icon icon="mdi:check-all" class="msg-status seen"></iconify-icon>';
-                    else if (msg.delivered) statusIcon = '<iconify-icon icon="mdi:check-all" class="msg-status delivered"></iconify-icon>';
-                    else statusIcon = '<iconify-icon icon="mdi:check" class="msg-status sent"></iconify-icon>';
-                }
-
-                let reactionsHtml = '';
-                if (msg.reactions && Object.keys(msg.reactions).length > 0) {
-                    reactionsHtml = '<div class="msg-reactions">';
-                    for (const [emoji, users] of Object.entries(msg.reactions)) {
-                        reactionsHtml += `<span onclick="window.addReaction('${msgDoc.id}', '${emoji}')" title="${users.join(', ')}">${emoji} ${users.length}</span>`;
-                    }
-                    reactionsHtml += '</div>';
-                }
-
-                let quoteHtml = '';
-                if (msg.replyTo) {
-                    quoteHtml = `<div class="quote" data-quote-id="${msg.replyTo.id}"><iconify-icon icon="mdi:reply" style="font-size:10px;"></iconify-icon> ${escapeHtml(msg.replyTo.senderName)}: ${escapeHtml(msg.replyTo.text.substring(0, 50))}${msg.replyTo.text.length > 50 ? '...' : ''}</div>`;
-                }
-
-                el.innerHTML = `
-                    <div class="msg-bubble">
-                        ${quoteHtml}
-                        ${escapeHtml(msg.text || '')}
-                        ${msg.edited ? '<div class="msg-edited">edited</div>' : ''}
-                    </div>
-                    ${reactionsHtml}
-                    <div class="msg-time">
-                        ${time}
-                        ${statusIcon}
-                    </div>
-                `;
-
-                const quoteDiv = el.querySelector('.quote');
-                if (quoteDiv && msg.replyTo?.id) {
-                    quoteDiv.addEventListener('click', () => scrollToMessage(msg.replyTo.id));
-                }
-
-                // Context menu on right click / long press
-                el.addEventListener('contextmenu', (e) => {
-                    e.preventDefault();
-                    showContextMenu(e, msgDoc.id, msg.text, isMine, msg.timestamp?.toDate?.()?.getTime());
-                });
-                
-                let pressTimer;
-                el.addEventListener('touchstart', (e) => {
-                    pressTimer = setTimeout(() => {
-                        showContextMenu(e, msgDoc.id, msg.text, isMine, msg.timestamp?.toDate?.()?.getTime());
-                    }, 500);
-                });
-                el.addEventListener('touchend', () => clearTimeout(pressTimer));
-                el.addEventListener('touchmove', () => clearTimeout(pressTimer));
-
-                // Swipe to reply
-                let touchStartX = 0;
-                el.addEventListener('touchstart', (e) => {
-                    touchStartX = e.touches[0].clientX;
-                }, { passive: true });
-                el.addEventListener('touchend', (e) => {
-                    const diff = e.changedTouches[0].clientX - touchStartX;
-                    if (diff > 60 && !isMine) {
-                        el.style.transform = 'translateX(8px)';
-                        el.style.transition = 'transform 0.15s';
-                        setTimeout(() => { el.style.transform = ''; }, 150);
-                        replyingTo = { id: msgDoc.id, text: msg.text, senderName: isMine ? 'You' : activeChatUser.displayName };
-                        $('reply-who').textContent = `Replying to ${replyingTo.senderName}`;
-                        $('reply-what').textContent = msg.text.length > 60 ? msg.text.substring(0, 60) + '...' : msg.text;
-                        $('reply-bar').style.display = 'flex';
-                        messageInput.focus();
-                    }
-                }, { passive: true });
-
-                el.addEventListener('dblclick', () => { window.addReaction(msgDoc.id, '❤️'); });
-
-                messagesArea.appendChild(el);
             });
-            messagesArea.scrollTop = messagesArea.scrollHeight;
+            
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
         });
     }
 
-    // ===== CONTEXT MENU (Fixed position) =====
+    // ========== Context Menu ==========
     function showContextMenu(e, msgId, text, isMine, timestamp) {
         const existing = document.querySelector('.context-menu');
         if (existing) existing.remove();
@@ -1902,24 +1877,16 @@
         
         document.body.appendChild(menu);
         
-        // Get menu dimensions after adding to DOM
         const rect = menu.getBoundingClientRect();
         let left = x, top = y;
-        
-        // Fix position if out of screen
-        if (left + rect.width > window.innerWidth) {
-            left = window.innerWidth - rect.width - 10;
-        }
-        if (top + rect.height > window.innerHeight) {
-            top = window.innerHeight - rect.height - 10;
-        }
+        if (left + rect.width > window.innerWidth) left = window.innerWidth - rect.width - 10;
+        if (top + rect.height > window.innerHeight) top = window.innerHeight - rect.height - 10;
         if (left < 10) left = 10;
         if (top < 10) top = 10;
         
         menu.style.left = left + 'px';
         menu.style.top = top + 'px';
         
-        // Reply button
         const replyBtn = document.createElement('button');
         replyBtn.innerHTML = '<iconify-icon icon="mdi:reply"></iconify-icon> Reply';
         replyBtn.onclick = () => {
@@ -1932,7 +1899,6 @@
         };
         menu.appendChild(replyBtn);
         
-        // Copy button
         const copyBtn = document.createElement('button');
         copyBtn.innerHTML = '<iconify-icon icon="mdi:content-copy"></iconify-icon> Copy';
         copyBtn.onclick = () => { navigator.clipboard.writeText(text); menu.remove(); };
@@ -1955,13 +1921,14 @@
             deleteBtn.className = 'danger';
             deleteBtn.innerHTML = '<iconify-icon icon="mdi:delete"></iconify-icon> Delete';
             deleteBtn.onclick = () => {
-                if (confirm('Delete this message?')) deleteDoc(doc(db, "conversations", activeChatId, "messages", msgId));
+                if (confirm('Delete this message?')) {
+                    deleteDoc(doc(db, "conversations", activeChatId, "messages", msgId));
+                }
                 menu.remove();
             };
             menu.appendChild(deleteBtn);
         }
         
-        // Reactions row
         const reactionsRow = document.createElement('div');
         reactionsRow.style.display = 'flex';
         reactionsRow.style.gap = '8px';
@@ -1991,17 +1958,22 @@
     }
 
     function closeChat() {
+        // Clean up all subscriptions
+        if (currentUnsubscribes.messages) currentUnsubscribes.messages();
+        if (currentUnsubscribes.typing) currentUnsubscribes.typing();
+        if (currentUnsubscribes.status) currentUnsubscribes.status();
+        
         activeChatId = null;
         activeChatUser = null;
         replyingTo = null;
         $('reply-bar').style.display = 'none';
-        if (messagesUnsub) { messagesUnsub(); messagesUnsub = null; }
         welcomeScreen.style.display = 'flex';
         chatScreen.style.display = 'none';
+        messagesContainer.innerHTML = '';
         document.body.classList.remove('chat-open');
     }
 
-    // ===== SEND MESSAGE =====
+    // ========== Send Message ==========
     async function sendMessage() {
         const text = messageInput.value.trim();
         if (!text) return;
@@ -2021,7 +1993,6 @@
             senderId: currentUser.uid,
             text: text,
             timestamp: serverTimestamp(),
-            type: "text",
             delivered: false,
             seen: false,
             reactions: {}
@@ -2039,17 +2010,16 @@
         updateCharCounter();
         localStorage.removeItem(`draft_${activeChatId}`);
         
-        // Clear typing
-        setTyping(activeChatId, currentUser.uid, false);
+        sendTyping(activeChatId, currentUser.uid, false);
 
         try {
             await addDoc(collection(db, "conversations", activeChatId, "messages"), messageData);
-            await setDoc(doc(db, "conversations", activeChatId), {
+            await updateDoc(doc(db, "conversations", activeChatId), {
                 lastMessage: text,
                 lastMessageSender: currentUser.uid,
                 updatedAt: serverTimestamp(),
                 [`unread.${activeChatUser.uid}`]: increment(1)
-            }, { merge: true });
+            });
             replyingTo = null;
             $('reply-bar').style.display = 'none';
             messageInput.focus();
@@ -2062,10 +2032,30 @@
     }
 
     $('send-btn').addEventListener('click', sendMessage);
-    messageInput.addEventListener('keypress', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
-    $('cancel-reply').addEventListener('click', () => { replyingTo = null; $('reply-bar').style.display = 'none'; });
+    messageInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+    
+    // Typing indicator
+    messageInput.addEventListener('input', () => {
+        if (!activeChatId) return;
+        sendTyping(activeChatId, currentUser.uid, true);
+        clearTimeout(typingTimeout);
+        typingTimeout = setTimeout(() => {
+            sendTyping(activeChatId, currentUser.uid, false);
+        }, 2000);
+        localStorage.setItem(`draft_${activeChatId}`, messageInput.value);
+    });
 
-    // ===== EMOJI PICKER =====
+    $('cancel-reply').addEventListener('click', () => {
+        replyingTo = null;
+        $('reply-bar').style.display = 'none';
+    });
+
+    // ========== Emoji Picker ==========
     $('emoji-btn').addEventListener('click', () => {
         const existing = document.querySelector('.emoji-picker');
         if (existing) { existing.remove(); return; }
@@ -2090,10 +2080,13 @@
             document.removeEventListener('click', removePicker);
             document.removeEventListener('touchstart', removePicker);
         };
-        setTimeout(() => { document.addEventListener('click', removePicker); document.addEventListener('touchstart', removePicker); }, 100);
+        setTimeout(() => {
+            document.addEventListener('click', removePicker);
+            document.addEventListener('touchstart', removePicker);
+        }, 100);
     });
 
-    // ===== REACTIONS =====
+    // ========== Reactions ==========
     window.addReaction = async function(msgId, emoji) {
         if (!activeChatId) return;
         const msgRef = doc(db, "conversations", activeChatId, "messages", msgId);
@@ -2108,18 +2101,25 @@
         await updateDoc(msgRef, { reactions });
     };
 
-    // ===== EDIT MESSAGE =====
+    // ========== Edit Message ==========
     $('edit-msg-save').addEventListener('click', async () => {
         const newText = $('edit-msg-input').value.trim();
         if (!newText || !editingMessageId || !activeChatId) return;
-        await updateDoc(doc(db, "conversations", activeChatId, "messages", editingMessageId), { text: newText, edited: true, editedAt: serverTimestamp() });
+        await updateDoc(doc(db, "conversations", activeChatId, "messages", editingMessageId), {
+            text: newText,
+            edited: true,
+            editedAt: serverTimestamp()
+        });
         hideModal(editMsgModal);
         editingMessageId = null;
     });
 
-    $('edit-msg-cancel').addEventListener('click', () => { hideModal(editMsgModal); editingMessageId = null; });
+    $('edit-msg-cancel').addEventListener('click', () => {
+        hideModal(editMsgModal);
+        editingMessageId = null;
+    });
 
-    // ===== USER INFO =====
+    // ========== User Info ==========
     function showUserInfo(userData) {
         $('user-avatar').textContent = (userData.displayName || 'U').charAt(0).toUpperCase();
         $('user-name').textContent = userData.displayName || 'Unknown';
@@ -2136,7 +2136,7 @@
     $('chat-avatar').addEventListener('click', () => { if (activeChatUser) showUserInfo(activeChatUser); });
     $('chat-info-btn').addEventListener('click', () => { if (activeChatUser) showUserInfo(activeChatUser); });
 
-    // ===== EDIT PROFILE =====
+    // ========== Edit Profile ==========
     $('profile-section').addEventListener('click', () => {
         $('edit-name').value = currentUserData.displayName || '';
         $('edit-bio').value = currentUserData.bio || '';
@@ -2150,13 +2150,17 @@
         const newBio = $('edit-bio').value.trim();
         if (!newName) { alert('Name cannot be empty'); return; }
         const userRef = doc(db, "users", currentUser.uid);
-        await updateDoc(userRef, { displayName: newName, bio: newBio, searchKeywords: [currentUserData.username, newName.toLowerCase()] });
+        await updateDoc(userRef, {
+            displayName: newName,
+            bio: newBio,
+            searchKeywords: [currentUserData.username, newName.toLowerCase()]
+        });
         currentUserData = { ...currentUserData, displayName: newName, bio: newBio };
         updateSelfUI();
         hideModal(editModal);
     });
 
-    // ===== LOGOUT =====
+    // ========== Logout ==========
     $('logout-btn').addEventListener('click', async () => {
         if (!confirm('Sign out?')) return;
         if (currentUser) {
@@ -2166,19 +2170,22 @@
         window.location.href = "auth.html";
     });
 
-    // ===== ONLINE/OFFLINE =====
-    window.addEventListener('online', () => {
-        if (currentUser) setUserStatus(currentUser.uid, 'online');
-    });
-    
+    // ========== Cleanup on page unload ==========
     window.addEventListener('beforeunload', () => {
         if (currentUser) {
             setUserStatus(currentUser.uid, 'offline');
         }
+        // Clean up all subscriptions
+        if (conversationsUnsubscribe) conversationsUnsubscribe();
+        if (currentUnsubscribes.messages) currentUnsubscribes.messages();
+        if (currentUnsubscribes.typing) currentUnsubscribes.typing();
+        if (currentUnsubscribes.status) currentUnsubscribes.status();
+        for (const unsub of statusUnsubscribes.values()) unsub();
+        for (const unsub of typingUnsubscribes.values()) unsub();
     });
 
-    console.log('✅ NovaChat Pro Ready with all fixes!');
-    console.log('📌 Fixed: RTDB typing, RTDB online status, markSeen with seen:true, orderBy with index, search without cacheUsers, context menu position, emoji picker position, bottom nav hidden on chat, spam cooldown animation');
+    console.log('✅ NovaChat Ready');
+    console.log('📌 Features: No page refresh, Incremental message updates, RTDB presence, RTDB typing, Offline support');
 </script>
 </body>
 </html>
