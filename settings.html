@@ -635,7 +635,7 @@
   </div>
 
   <script type="module">
-    import { auth, db, rtdb } from "./firebase-config.js";
+    import { auth, db, rtdb, startPresence, claimUsername, buildSearchKeywords, normalizeUsername, isValidUsername } from "./firebase-config.js";
 
     import {
       onAuthStateChanged, signOut,
@@ -645,15 +645,16 @@
 
     import {
       doc, getDoc, updateDoc, collection,
-      query, where, getDocs, deleteDoc
+      query, where, getDocs, deleteDoc, limit,
+      writeBatch, runTransaction, serverTimestamp, getCountFromServer
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     import {
-      ref, set, serverTimestamp as rtTS
+      ref, remove
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
     // ── STATE ──
-    let currentUser = null, currentUserData = null;
+    let currentUser = null, currentUserData = null, stopPresence = null;
     const $ = id => document.getElementById(id);
     const html = document.documentElement;
 
@@ -715,9 +716,8 @@
 
       currentUserData = snap.data();
 
-      set(ref(rtdb, 'status/' + user.uid), {
-        state: 'online', lastSeen: rtTS()
-      });
+      // presence/{uid}/connections/* (one node per open page; offline while this tab is hidden, as in V1)
+      stopPresence = startPresence(user.uid, { trackVisibility: true });
 
       populateUI();
       loadStats();
@@ -750,21 +750,28 @@
     // ── LOAD STATS ──
     async function loadStats() {
       try {
-        const convQ  = query(
+        const uid = currentUser.uid;
+        const convSnap = await getDocs(query(
           collection(db, 'conversations'),
-          where('participants', 'array-contains', currentUser.uid)
-        );
-        const convSnap = await getDocs(convQ);
+          where('participants', 'array-contains', uid)
+        ));
         $('stat-chats').textContent = convSnap.size;
 
+        // V2: conversations/{id}.sentCount[uid] is maintained on send/delete -> a single query, zero message reads.
         let total = 0;
-        for (const c of convSnap.docs) {
-          const mq   = query(
-            collection(db, 'conversations', c.id, 'messages'),
-            where('senderId', '==', currentUser.uid)
-          );
-          const ms = await getDocs(mq);
-          total   += ms.size;
+        const notMigrated = [];
+        convSnap.docs.forEach(c => {
+          const n = (c.data().sentCount || {})[uid];
+          if (Number.isFinite(n)) total += Math.max(n, 0);
+          else notMigrated.push(c.id);
+        });
+        // fallback for conversations the migration has not reached yet: server-side count (not a document read per message)
+        if (notMigrated.length) {
+          const counts = await Promise.all(notMigrated.map(id => getCountFromServer(query(
+            collection(db, 'conversations', id, 'messages'),
+            where('senderId', '==', uid)
+          ))));
+          counts.forEach(r => { total += r.data().count; });
         }
         $('stat-messages').textContent = total;
 
@@ -801,7 +808,7 @@
       try {
         await updateDoc(doc(db, 'users', currentUser.uid), {
           displayName   : name,
-          searchKeywords: [currentUserData.username || '', name.toLowerCase()]
+          searchKeywords: buildSearchKeywords(currentUserData.username, name)
         });
         currentUserData.displayName   = name;
         $('profile-name').textContent = name;
@@ -813,10 +820,9 @@
 
     // ── SAVE USERNAME ──
     $('save-username').addEventListener('click', async () => {
-      const raw      = $('input-username').value.trim().toLowerCase();
-      const username = raw.replace(/[^a-z0-9_]/g, '');
+      const username = normalizeUsername($('input-username').value);
 
-      if (!username || username.length < 3) {
+      if (!isValidUsername(username)) {
         showToast('Min 3 characters (a-z, 0-9, _)', 'error'); return;
       }
       if (username === currentUserData.username) {
@@ -826,15 +832,18 @@
       const btn = $('save-username');
       setLoading(btn, true);
       try {
-        await updateDoc(doc(db, 'users', currentUser.uid), {
-          username      : username,
-          searchKeywords: [username, (currentUserData.displayName || '').toLowerCase()]
+        // transaction: usernames/{name} reserved for this uid, old reservation released, user doc updated - atomically
+        await claimUsername(currentUser.uid, username, {
+          previous   : normalizeUsername(currentUserData.username) || null,
+          displayName: currentUserData.displayName || ''
         });
         currentUserData.username          = username;
         $('profile-username').textContent = '@' + username;
         $('input-username').value         = username;
         showToast('Username updated!');
-      } catch { showToast('Failed to update', 'error'); }
+      } catch (e) {
+        showToast(e.code === 'username-taken' ? 'Username is already taken' : 'Failed to update', 'error');
+      }
       finally  { setLoading(btn, false); }
     });
 
@@ -883,9 +892,7 @@
 
     // ── SIGN OUT ──
     $('signout-btn').addEventListener('click', async () => {
-      await set(ref(rtdb, 'status/' + currentUser.uid), {
-        state: 'offline', lastSeen: rtTS()
-      });
+      if (stopPresence) { await stopPresence(); stopPresence = null; }
       await signOut(auth);
       window.location.href = 'auth.html';
     });
@@ -904,17 +911,70 @@
         $('delete-modal').classList.remove('show');
     });
 
+    // Delete every message of a conversation nobody can access anymore, then the conversation itself.
+    async function deleteConversationTree(convRef) {
+      for (;;) {
+        const snap = await getDocs(query(collection(convRef, 'messages'), limit(400)));
+        if (snap.empty) break;
+        const batch = writeBatch(db);
+        snap.docs.forEach(d => batch.delete(d.ref));
+        await batch.commit();
+      }
+      await deleteDoc(convRef);
+    }
+
+    // Account/data lifecycle (shared data is never removed while another participant still needs it):
+    //   1. conversations : mark me as deleted (the other user keeps their history);
+    //                      delete the conversation + messages only when the other participant is gone too
+    //   2. usernames/{name} : released (only if it is mine)
+    //   3. RTDB presence/typing : removed
+    //   4. users/{uid} : removed          5. Firebase Auth user : removed
+    async function deleteAccountData(uid) {
+      const convSnap = await getDocs(query(
+        collection(db, 'conversations'),
+        where('participants', 'array-contains', uid)
+      ));
+      for (const c of convSnap.docs) {
+        const conv    = c.data();
+        const otherId = (conv.participants || []).find(id => id !== uid);
+        let otherGone = !otherId || !!(conv.deletedUsers && conv.deletedUsers[otherId]);
+        if (!otherGone) otherGone = !(await getDoc(doc(db, 'users', otherId))).exists();   // V1 deletions left no marker
+        if (otherGone) await deleteConversationTree(c.ref);
+        else await updateDoc(c.ref, { ['deletedUsers.' + uid]: serverTimestamp(), ['unread.' + uid]: 0 });
+        await remove(ref(rtdb, 'typing/' + c.id + '/' + uid)).catch(() => {});
+      }
+
+      const uname = normalizeUsername(currentUserData.username);
+      if (isValidUsername(uname)) {
+        const nameRef = doc(db, 'usernames', uname);
+        await runTransaction(db, async tx => {
+          const snap = await tx.get(nameRef);
+          if (snap.exists() && snap.data().uid === uid) tx.delete(nameRef);
+        });
+      }
+
+      if (stopPresence) { await stopPresence(); stopPresence = null; }
+      await remove(ref(rtdb, 'presence/' + uid));
+      await remove(ref(rtdb, 'status/' + uid)).catch(() => {});   // legacy V1 node
+
+      await deleteDoc(doc(db, 'users', uid));
+    }
+
     $('delete-confirm').addEventListener('click', async () => {
       const btn = $('delete-confirm');
       setLoading(btn, true);
       try {
         const uid = currentUser.uid;
-        await set(ref(rtdb, 'status/' + uid), { state: 'offline', lastSeen: rtTS() });
-        await deleteDoc(doc(db, 'users', uid));
-        await set(ref(rtdb, 'status/' + uid), null);
+        // fail BEFORE touching any data if Firebase would refuse deleteUser() afterwards
+        const lastSignIn = Date.parse(currentUser.metadata.lastSignInTime || '') || 0;
+        if (Date.now() - lastSignIn > 5 * 60 * 1000) {
+          throw Object.assign(new Error('recent login required'), { code: 'auth/requires-recent-login' });
+        }
+        await deleteAccountData(uid);
         await deleteUser(currentUser);
         window.location.href = 'auth.html';
       } catch (e) {
+        if (!stopPresence && currentUser) stopPresence = startPresence(currentUser.uid, { trackVisibility: true });
         showToast(
           e.code === 'auth/requires-recent-login'
             ? 'Sign out and sign in again first'
@@ -929,16 +989,6 @@
     // ── BACK ──
     $('back-btn').addEventListener('click', () => {
       window.location.href = 'index.html';
-    });
-
-    // ── VISIBILITY ──
-    document.addEventListener('visibilitychange', () => {
-      if (!currentUser) return;
-      const s = ref(rtdb, 'status/' + currentUser.uid);
-      set(s, {
-        state   : document.hidden ? 'offline' : 'online',
-        lastSeen: rtTS()
-      });
     });
   </script>
 </body>

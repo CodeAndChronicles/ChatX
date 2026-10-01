@@ -347,7 +347,7 @@
 
 <script type="module">
     // ========== استيراد Firebase ==========
-    import { auth, db } from "./firebase-config.js";
+    import { auth, db, createUserProfile, normalizeUsername, isValidUsername } from "./firebase-config.js";
 
     import {
         createUserWithEmailAndPassword,
@@ -369,8 +369,11 @@
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     // ========== التحقق التلقائي عند فتح الصفحة ==========
+    // true while the signup handler is creating the profile itself (avoids a double profile/redirect race)
+    let signupInProgress = false;
+
     onAuthStateChanged(auth, async (user) => {
-        if (user) {
+        if (user && !signupInProgress) {
             await ensureUserDataInFirestore(user);
             window.location.href = "index.html";
         }
@@ -436,7 +439,7 @@
      */
     async function checkUsernameAvailability(username) {
         // لو فاضي، منظهرش حاجة
-        if (!username || username.trim().length < 3) {
+        if (!username || normalizeUsername(username).length < 3) {
             usernameStatus.textContent = '';
             usernameStatus.className = 'username-status';
             isUsernameAvailable = false;
@@ -451,12 +454,11 @@
         updateSignupButton();
 
         try {
-            // البحث في Firestore عن اسم المستخدم
-            const usersRef = collection(db, "users");
-            const q = query(usersRef, where("username", "==", username.toLowerCase()));
-            const querySnapshot = await getDocs(q);
+            // usernames/{name} is the single source of truth for who owns a username
+            const name = normalizeUsername(username);
+            const reservation = await getDoc(doc(db, "usernames", name));
 
-            if (querySnapshot.empty) {
+            if (!reservation.exists()) {
                 // اسم المستخدم متاح
                 usernameStatus.innerHTML = '<iconify-icon icon="mdi:check-circle" style="font-size:16px;"></iconify-icon> Username is available!';
                 usernameStatus.className = 'username-status available';
@@ -480,7 +482,7 @@
     // ========== حدث كتابة اسم المستخدم (مع debounce) ==========
     signupUsername.addEventListener('input', (e) => {
         // السماح بالأحرف الإنجليزية والأرقام والشرطة السفلية فقط
-        const filteredValue = e.target.value.replace(/[^a-zA-Z0-9_]/g, '');
+        const filteredValue = normalizeUsername(e.target.value);
         e.target.value = filteredValue;
 
         // إلغاء المؤقت السابق
@@ -524,35 +526,10 @@
             const userSnap = await getDoc(userRef);
 
             if (!userSnap.exists()) {
-                console.log("⚠️ بيانات المستخدم مش موجودة. جاري إضافتها...");
-                
-                const usernameFromEmail = user.email ? user.email.split('@')[0] : 'user';
-                
-                await setDoc(userRef, {
-                    uid:            user.uid,
-                    email:          user.email || '',
-                    username:       usernameFromEmail.toLowerCase(),
-                    displayName:    user.displayName || usernameFromEmail,
-                    photoURL:       user.photoURL || '',
-                    gender:         'male',  // ← جديد
-                    age:            18,       // ← جديد (قيمة افتراضية)
-                    theme:          "dark",
-                    bio:            "",
-                    status:         "online",
-                    createdAt:      serverTimestamp(),
-                    lastLogin:      serverTimestamp(),
-                    searchKeywords: [
-                        usernameFromEmail.toLowerCase(), 
-                        (user.displayName || usernameFromEmail).toLowerCase()
-                    ]
-                });
-                
-                console.log("✅ تم إضافة بيانات المستخدم بنجاح");
+                // reserves usernames/{name} atomically (random suffix if the email-based name is taken)
+                await createUserProfile(user);
             } else {
-                await updateDoc(userRef, {
-                    lastLogin: serverTimestamp(),
-                    status: "online"
-                });
+                await updateDoc(userRef, { lastLogin: serverTimestamp() });
             }
         } catch (error) {
             console.error("❌ خطأ في التأكد من بيانات المستخدم:", error);
@@ -566,30 +543,8 @@
      * @param {object} extraData - بيانات إضافية (username, displayName, gender, age)
      */
     async function createUserData(user, extraData = {}) {
-        const userRef = doc(db, "users", user.uid);
-        
-        const userData = {
-            uid:            user.uid,
-            email:          user.email || '',
-            username:       extraData.username || user.email.split('@')[0].toLowerCase(),
-            displayName:    extraData.displayName || user.displayName || user.email.split('@')[0],
-            photoURL:       user.photoURL || '',
-            gender:         extraData.gender || 'male',      // ← جديد
-            age:            parseInt(extraData.age) || 18,    // ← جديد
-            theme:          "dark",
-            bio:            "",
-            status:         "online",
-            createdAt:      serverTimestamp(),
-            lastLogin:      serverTimestamp(),
-            searchKeywords: [
-                (extraData.username || user.email.split('@')[0]).toLowerCase(),
-                (extraData.displayName || user.displayName || user.email.split('@')[0]).toLowerCase()
-            ]
-        };
-
-        await setDoc(userRef, userData);
-        console.log("✅ تم إنشاء بيانات المستخدم:", userData);
-        return userData;
+        // strict: the chosen username must be free, otherwise 'username-taken' is thrown
+        return createUserProfile(user, { ...extraData, strict: true });
     }
 
     // ========== معالجة تسجيل الدخول ==========
@@ -693,6 +648,7 @@
 
         try {
             // 1. إنشاء الحساب في Firebase Auth
+            signupInProgress = true;
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
@@ -702,12 +658,25 @@
             });
 
             // 3. إنشاء بيانات المستخدم في Firestore
-            await createUserData(user, {
-                username: username,
-                displayName: displayName,
-                gender: gender,      // ← جديد
-                age: age             // ← جديد
-            });
+            try {
+                await createUserData(user, {
+                    username: username,
+                    displayName: displayName,
+                    gender: gender,
+                    age: age
+                });
+            } catch (e) {
+                if (e.code === 'username-taken') {
+                    // somebody reserved it between the availability check and now: roll the auth account back
+                    await user.delete().catch(() => {});
+                    signupInProgress = false;
+                    isUsernameAvailable = false;
+                    signupError.textContent = 'That username was just taken. Please choose another.';
+                    checkUsernameAvailability(username);
+                    return;
+                }
+                throw e;
+            }
 
             console.log("✅ تم إنشاء الحساب بنجاح:", {
                 uid: user.uid,
@@ -722,6 +691,7 @@
             window.location.href = "index.html";
 
         } catch (err) {
+            signupInProgress = false;
             console.error("❌ Signup error:", err.code);
             
             switch (err.code) {
